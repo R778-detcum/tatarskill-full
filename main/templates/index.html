@@ -300,7 +300,7 @@
                         <i class="fas fa-chalkboard-teacher fa-4x text-success"></i>
                     </div>
                     <div class="col-md-8">
-                        <h3 class="fw-bold text-dark"> Стань автором!</h3>
+                        <h3 class="fw-bold text-dark">Стань автором!</h3>
                         <p class="text-dark-50 mb-0">Создавайте свои тесты, делитесь знаниями и зарабатывайте монеты за каждый правильный ответ ваших учеников!</p>
                     </div>
                     <div class="col-md-2">
@@ -318,7 +318,7 @@
             </div>
         </div>
 
-        <!-- Блок сообществ с красивым дизайном -->
+        <!-- Блок сообществ с красивым дизайном и защитой от пустого slug -->
         <div class="communities-section">
             <div class="container-custom">
                 <div class="communities-header">
@@ -345,12 +345,20 @@
                         {% for community in communities %}
                         <div class="swiper-slide">
                             <div class="community-card">
-                                <a href="{% url 'community_detail' community.slug %}" style="text-decoration: none; color: inherit; display: block;">
+                                {% if community.slug %}
+                                    <a href="{% url 'community_detail' community.slug %}" style="text-decoration: none; color: inherit; display: block;">
+                                {% else %}
+                                    <div style="text-decoration: none; color: inherit; display: block;">
+                                {% endif %}
                                     <div class="community-icon"><i class="{{ community.icon_class }}"></i></div>
                                     <h5>{{ community.name }}</h5>
                                     <p>{{ community.description|truncatechars:60 }}</p>
                                     <span class="badge bg-dark text-white">{{ community.member_count }} уч.</span>
-                                </a>
+                                {% if community.slug %}
+                                    </a>
+                                {% else %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% empty %}
@@ -408,16 +416,16 @@
                                                 {% elif entry.rank == 2 %}🥈
                                                 {% elif entry.rank == 3 %}🥉
                                                 {% else %}{{ entry.rank }}{% endif %}
-                                             </td>
-                                             <td>
+                                              </td>
+                                              <td>
                                                 <div class="user-cell">
                                                     <div class="user-avatar">{{ entry.username|make_list|first|upper }}</div>
                                                     <span class="username">{{ entry.username }}</span>
                                                 </div>
-                                             </td>
+                                              </td>
                                             <td class="lessons-cell">{{ entry.lessons_completed }}</td>
                                             <td class="xp-cell">{{ entry.course_xp }}</td>
-                                        </tr>
+                                          </tr>
                                         {% endfor %}
                                     {% else %}
                                         <tr><td colspan="4" class="text-center py-4">Нет участников</td></tr>
@@ -458,7 +466,7 @@
                 <div class="col-md-4"><h5><i class="fas fa-crown me-2"></i>TatarSkill</h5><p class="small opacity-75">Образовательная экосистема для изучения татарского языка. AI-репетитор, сообщества, кланы и геймификация.</p></div>
                 <div class="col-md-2"><h6>Обучение</h6><ul class="list-unstyled small"><li><a href="{% url 'all_courses' %}">Курсы</a></li><li><a href="#">AI-репетитор</a></li></ul></div>
                 <div class="col-md-2"><h6>Сообщества</h6><ul class="list-unstyled small"><li><a href="{% url 'all_communities' %}">Все сообщества</a></li></ul></div>
-                <div class="col-md-4"><h6>Контакты</h6><p class="small">Казань, ул. Татарстан, 12<br>support@tatarskill.ru</p><div class="d-flex gap-3"><i class="fab fa-telegram"></i><i class="fab fa-vk"></i></div></div>
+                <div class="col-md-4"><h6>Контакты</h6><p class="small">Казань, Кремлевская 25<br>dzamilanurgalieva1@gmail.com</p><div class="d-flex gap-3"><i class="fab fa-telegram"></i><i class="fab fa-vk"></i></div></div>
             </div>
             <hr class="opacity-25"><div class="text-center small opacity-50">© 2026 TatarSkill. Погрузитесь в мир татарского языка с AI и единомышленниками.</div>
         </div>

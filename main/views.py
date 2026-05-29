@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse
 from django.db.models import Count, Q, Avg
+from django.utils.text import slugify
 from .forms import (
     CourseForm, LessonForm, CommunityForm, CommunityPostForm,
     CommunityCommentForm, CommunityExternalLinkForm
@@ -27,6 +28,9 @@ from .models import (
     CourseReview, CustomTest, CustomQuestion, CustomTestResult
 )
 from .services.mistral_service import MistralService
+
+# Для корректной обработки кириллицы в slug
+slugify.allow_unicode = True
 
 mistral_service = MistralService()
 
@@ -79,8 +83,7 @@ def home(request):
 
     leaderboard = []
     if current_course:
-        enrollments = CourseEnrollment.objects.filter(course=current_course).select_related('user').order_by(
-            '-course_xp')[:3]
+        enrollments = CourseEnrollment.objects.filter(course=current_course).select_related('user').order_by('-course_xp')[:3]
         for idx, enrollment in enumerate(enrollments, start=1):
             leaderboard.append({
                 'rank': idx,
@@ -89,9 +92,10 @@ def home(request):
                 'course_xp': enrollment.course_xp,
             })
 
+    # Исключаем сообщества с пустым slug (защита от ошибок)
     communities = []
     if current_course:
-        communities = current_course.communities.filter(is_active=True).order_by('order', 'name')
+        communities = current_course.communities.filter(is_active=True).exclude(slug__isnull=True).exclude(slug='').order_by('order', 'name')
 
     courses_list = Course.objects.filter(status='published').order_by('order', '-created_at')
     achievements = Achievement.objects.filter(is_active=True)
@@ -209,8 +213,7 @@ def course_detail(request, slug):
     completed_lessons = set()
     if request.user.is_authenticated:
         completed_lessons = set(
-            LessonCompletion.objects.filter(user=request.user, lesson__course=course).values_list('lesson_id',
-                                                                                                  flat=True)
+            LessonCompletion.objects.filter(user=request.user, lesson__course=course).values_list('lesson_id', flat=True)
         )
     unlocked_lessons = set()
     if request.user.is_authenticated:
@@ -391,8 +394,7 @@ def league_table(request):
         messages.info(request, 'Вы ещё не попали в лигу. Пройдите несколько уроков.')
         return redirect('profile')
     league_instance = membership.league_instance
-    all_members = UserLeagueMembership.objects.filter(league_instance=league_instance, week_start=week_start).order_by(
-        '-weekly_xp')
+    all_members = UserLeagueMembership.objects.filter(league_instance=league_instance, week_start=week_start).order_by('-weekly_xp')
     for idx, m in enumerate(all_members, start=1):
         m.rank = idx
     user_rank = next((idx for idx, m in enumerate(all_members, start=1) if m.user == request.user), None)
@@ -510,8 +512,7 @@ def become_author(request):
 def create_test(request):
     profile = request.user.profile
     if not profile.is_author or profile.lessons_completed < 10:
-        messages.error(request,
-                       'Вы не можете создавать тесты. Нужно пройти минимум 10 уроков и получить статус автора.')
+        messages.error(request, 'Вы не можете создавать тесты. Нужно пройти минимум 10 уроков и получить статус автора.')
         return redirect('home')
     if request.method == 'POST':
         test_form = CustomTestForm(request.POST)
@@ -582,8 +583,7 @@ def take_custom_test(request, test_id):
         profile = request.user.profile
         profile.coins += earned_coins
         profile.save()
-        messages.success(request,
-                         f'Вы ответили правильно на {score} из {questions.count()} вопросов и заработали {earned_coins} монет!')
+        messages.success(request, f'Вы ответили правильно на {score} из {questions.count()} вопросов и заработали {earned_coins} монет!')
         return redirect('public_tests')
     return render(request, 'take_custom_test.html', {'test': test, 'questions': questions})
 
@@ -819,8 +819,7 @@ def community_list(request):
     communities = Community.objects.filter(is_active=True)
     query = request.GET.get('q')
     if query:
-        communities = communities.filter(
-            Q(name__icontains=query) | Q(description__icontains=query) | Q(tags__icontains=query))
+        communities = communities.filter(Q(name__icontains=query) | Q(description__icontains=query) | Q(tags__icontains=query))
     sort = request.GET.get('sort', 'members')
     if sort == 'members':
         communities = communities.order_by('-member_count')
@@ -831,7 +830,6 @@ def community_list(request):
     return render(request, 'community_list.html', {'communities': communities})
 
 
-# ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ СОЗДАНИЯ СООБЩЕСТВА ==========
 @login_required
 def community_create(request):
     if request.method == 'POST':
@@ -842,9 +840,10 @@ def community_create(request):
             community.is_active = True
             community.is_approved = True
 
-            # Генерация уникального slug
-            from django.utils.text import slugify
+            # Генерация уникального slug с поддержкой кириллицы
             base_slug = slugify(community.name)
+            if not base_slug:  # если имя состоит только из недопустимых символов
+                base_slug = "community"
             slug = base_slug
             counter = 1
             while Community.objects.filter(slug=slug).exists():
@@ -920,8 +919,7 @@ def community_leave(request, slug):
         community.save()
         messages.success(request, f'Вы покинули сообщество "{community.name}".')
     else:
-        messages.error(request,
-                       'Вы не можете покинуть сообщество, так как являетесь его владельцем или администратором.')
+        messages.error(request, 'Вы не можете покинуть сообщество, так как являетесь его владельцем или администратором.')
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1103,8 +1101,7 @@ def community_search(request):
     query = request.GET.get('q', '')
     communities = Community.objects.filter(is_active=True)
     if query:
-        communities = communities.filter(
-            Q(name__icontains=query) | Q(description__icontains=query) | Q(tags__icontains=query))
+        communities = communities.filter(Q(name__icontains=query) | Q(description__icontains=query) | Q(tags__icontains=query))
     return render(request, 'community_search_results.html', {'communities': communities, 'query': query})
 
 
