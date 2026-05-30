@@ -343,7 +343,10 @@ class Profile(models.Model):
     last_active = models.DateTimeField('Последняя активность', auto_now=True)
     last_selected_course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True,
                                              verbose_name='Последний выбранный курс')
-
+    # Поля для дракона и заморозки
+    dragon_frozen = models.BooleanField('Дракон заморожен', default=False)
+    frozen_since = models.DateTimeField('Заморожен с', null=True, blank=True)
+    missed_days = models.IntegerField('Пропущено дней подряд', default=0)
     class Meta:
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили'

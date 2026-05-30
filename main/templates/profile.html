@@ -38,6 +38,155 @@
 
         <div class="col-md-8">
             <div class="card-glass p-4">
+                <!-- ========== ДРАКОН-ПИТОМЕЦ ========== -->
+                <div class="dragon-pet-card text-center mb-4 p-3" style="background: linear-gradient(145deg, #fff8e7, #ffe0b0); border-radius: 28px;">
+                    <div class="dragon-container position-relative d-inline-block">
+                        <img id="dragon-img"
+                             src="
+                                {% if user.profile.streak_days == 0 %}
+                                    https://i.imgur.com/hZ97NNd.png
+                                {% else %}
+                                    https://i.imgur.com/EXUO1EV.png
+                                {% endif %}
+                             "
+                             class="dragon-pet-img"
+                             style="width: 220px; height: auto; transition: all 0.3s; cursor: pointer;">
+
+                        {% if user.profile.streak_days >= 30 %}
+                        <div class="dragon-glow" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: 0 0 30px gold; pointer-events: none;"></div>
+                        {% endif %}
+                    </div>
+
+                    <div class="dragon-stats mt-3">
+                        <h4 class="mb-2">
+                            {% if user.profile.streak_days == 0 %}
+                                😴 Спящий дракон
+                            {% elif user.profile.streak_days >= 150 %}
+                                🏆 Аждаха
+                            {% elif user.profile.streak_days >= 100 %}
+                                👑 Золотой дракон
+                            {% elif user.profile.streak_days >= 30 %}
+                                🔥 Огненный дракон
+                            {% elif user.profile.streak_days >= 14 %}
+                                🐉 Взрослый дракон
+                            {% elif user.profile.streak_days >= 7 %}
+                                🐣 Юный дракон
+                            {% elif user.profile.streak_days >= 3 %}
+                                🥚 Детёныш
+                            {% else %}
+                                🥚 Яйцо
+                            {% endif %}
+                        </h4>
+
+                        <div class="streak-status">
+                            <span class="badge bg-danger fs-6 p-2">
+                                🔥 Ударный режим: {{ user.profile.streak_days }} дней
+                            </span>
+                        </div>
+
+                        <!-- Прогресс до следующего уровня -->
+                        <div class="mt-3">
+                            <div class="progress" style="height: 10px;">
+                                {% with streak=user.profile.streak_days %}
+                                    {% if streak == 0 %}
+                                        <div class="progress-bar bg-secondary" style="width: 0%"></div>
+                                    {% elif streak < 3 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak 3 100 %}%"></div>
+                                    {% elif streak < 7 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak|add:"-3" 4 100 %}%"></div>
+                                    {% elif streak < 14 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak|add:"-7" 7 100 %}%"></div>
+                                    {% elif streak < 30 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak|add:"-14" 16 100 %}%"></div>
+                                    {% elif streak < 100 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak|add:"-30" 70 100 %}%"></div>
+                                    {% elif streak < 150 %}
+                                        <div class="progress-bar bg-warning" style="width: {% widthratio streak|add:"-100" 50 100 %}%"></div>
+                                    {% else %}
+                                        <div class="progress-bar bg-warning" style="width: 100%"></div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            <small class="text-muted">
+                                {% with streak=user.profile.streak_days %}
+                                    {% if streak == 0 %}
+                                        😴 Зайди на сайт, чтобы разбудить дракона!
+                                    {% elif streak < 3 %}
+                                        До 🔥🔥 осталось: {{ 3|add:"-1"|add:streak }} дня
+                                    {% elif streak < 7 %}
+                                        До 🔥🔥🔥 осталось: {{ 7|add:"-1"|add:streak }} дня
+                                    {% elif streak < 14 %}
+                                        До 🔥🔥🔥🔥 осталось: {{ 14|add:"-1"|add:streak }} дня
+                                    {% elif streak < 30 %}
+                                        До 🐉 Огненного дракона: {{ 30|add:"-1"|add:streak }} дней
+                                    {% elif streak < 100 %}
+                                        До 👑 Золотого дракона: {{ 100|add:"-1"|add:streak }} дней
+                                    {% elif streak < 150 %}
+                                        До 🏆 Аждахи: {{ 150|add:"-1"|add:streak }} дней
+                                    {% else %}
+                                        ✨ Ты достиг максимума! Поддерживай режим ✨
+                                    {% endif %}
+                                {% endwith %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                // Анимация дыхания огнём (только если стрик >= 3)
+                (function() {
+                    const dragonImg = document.getElementById('dragon-img');
+                    if (!dragonImg) return;
+
+                    const streakDays = {{ user.profile.streak_days }};
+
+                    // Если стрик = 0 — показываем спящего дракона, никакой анимации
+                    if (streakDays === 0) {
+                        console.log('Дракон спит (стрик = 0)');
+                        return;
+                    }
+
+                    const noFireUrl = 'https://i.imgur.com/EXUO1EV.png';
+                    const withFireUrl = 'https://i.imgur.com/FGMMDQe.png';
+                    let isExhaling = false;
+                    let intervalId = null;
+                    let hoverTimeout = null;
+
+                    function exhaleFire() {
+                        if (isExhaling) return;
+                        isExhaling = true;
+                        dragonImg.src = withFireUrl;
+                        setTimeout(() => {
+                            dragonImg.src = noFireUrl;
+                            isExhaling = false;
+                        }, 300);
+                    }
+
+                    // Автоматическое дыхание только при стрике >= 3
+                    if (streakDays >= 3) {
+                        intervalId = setInterval(exhaleFire, 3000);
+
+                        dragonImg.addEventListener('mouseenter', () => {
+                            if (hoverTimeout) clearInterval(hoverTimeout);
+                            hoverTimeout = setInterval(exhaleFire, 800);
+                        });
+
+                        dragonImg.addEventListener('mouseleave', () => {
+                            if (hoverTimeout) {
+                                clearInterval(hoverTimeout);
+                                hoverTimeout = null;
+                            }
+                        });
+                    }
+
+                    // Клик всегда работает (даже при стрике 1-2 дня)
+                    dragonImg.addEventListener('click', () => {
+                        exhaleFire();
+                    });
+                })();
+                </script>
+                <!-- ========== КОНЕЦ БЛОКА ДРАКОНА ========== -->
+
                 <h3 class="text-dark mb-4">Статистика обучения</h3>
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -160,4 +309,20 @@
         </div>
     </div>
 </div>
+
+<style>
+@keyframes flamePulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 5px #ff6600); }
+}
+
+.dragon-pet-img {
+    transition: filter 0.3s;
+}
+
+.dragon-pet-img:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+</style>
 {% endblock %}
