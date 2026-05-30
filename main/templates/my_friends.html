@@ -1,10 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Мои друзья — TatarSkill{% endblock %}
+
+{% block content %}
+<div class="container-custom py-5" style="margin-top: 100px;">
+    <div class="card-glass p-4">
+        <h1 class="section-title text-center mb-4">👥 Мои друзья</h1>
+
+        <!-- Входящие заявки -->
+        {% if incoming_requests %}
+        <h4 class="text-dark mt-3">📨 Входящие заявки</h4>
+        <div class="row mb-4">
+            {% for req in incoming_requests %}
+            <div class="col-md-6 mb-2">
+                <div class="bg-light rounded p-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-user-circle fa-2x me-2 text-success"></i>
+                        <strong>{{ req.from_user.username }}</strong>
+                    </div>
+                    <div>
+                        <a href="{% url 'accept_friend' req.id %}" class="btn-primary-custom btn-sm me-2">✅ Принять</a>
+                        <a href="{% url 'remove_friend' req.from_user.username %}" class="btn-outline-custom btn-sm">❌ Отклонить</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Исходящие заявки -->
+        {% if outgoing_requests %}
+        <h4 class="text-dark mt-3">📤 Исходящие заявки</h4>
+        <div class="row mb-4">
+            {% for req in outgoing_requests %}
+            <div class="col-md-6 mb-2">
+                <div class="bg-light rounded p-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-user-circle fa-2x me-2 text-warning"></i>
+                        <strong>{{ req.to_user.username }}</strong>
+                        <span class="badge bg-warning ms-2">ожидает ответа</span>
+                    </div>
+                    <div>
+                        <a href="{% url 'remove_friend' req.to_user.username %}" class="btn-outline-custom btn-sm">❌ Отменить</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Список друзей -->
+        <h4 class="text-dark mt-3">👫 Мои друзья ({{ friends|length }})</h4>
+        <div class="row">
+            {% for friend in friends %}
+            <div class="col-md-4 mb-3">
+                <div class="text-center p-3" style="background:linear-gradient(145deg, #fff8e7, #fff0d0); border-radius:28px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); height: 100%;">
+                    <i class="fas fa-user-circle fa-4x text-success mb-2"></i>
+                    <h5 class="mt-2">{{ friend.username }}</h5>
+                    <div class="mt-3">
+                        <a href="{% url 'user_profile' friend.username %}" class="btn-outline-custom btn-sm me-2">👤 Профиль</a>
+                        <a href="{% url 'remove_friend' friend.username %}" class="btn-outline-custom btn-sm" onclick="return confirm('Удалить {{ friend.username }} из друзей?')">🗑️ Удалить</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                <p class="text-muted">У вас пока нет друзей.</p>
+                <p>Перейдите в <a href="{% url 'clan_leaderboard' %}">рейтинг</a> и добавьте кого-нибудь в друзья!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'profile' %}" class="btn-outline-custom">← Назад в профиль</a>
+            <a href="{% url 'clan_leaderboard' %}" class="btn-primary-custom ms-2">🏆 Найти друзей в рейтинге</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

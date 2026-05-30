@@ -21,7 +21,11 @@
                     {% for entry in leaderboard %}
                     <tr class="{% if entry.username == request.user.username %}table-success fw-bold{% endif %}">
                         <td>{{ entry.rank }}</td>
-                        <td>{{ entry.username }}</td>
+                        <td>
+    <a href="{% url 'user_profile' entry.username %}" class="text-dark text-decoration-none fw-semibold">
+        {{ entry.username }}
+    </a>
+</td>
                         <td>{{ entry.lessons_completed }}</td>
                         <td>{{ entry.course_xp }}</td>
                     </tr>

@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ target_user.username }} — профиль{% endblock %}
+
+{% block content %}
+<div class="container-custom py-5" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card-glass p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-user-circle fa-5x" style="color: var(--brand-gold);"></i>
+                </div>
+                <h3 class="text-dark">{{ target_user.username }}</h3>
+                <p class="text-secondary">{{ target_user.email }}</p>
+                <hr>
+
+                <!-- Кнопка добавления в друзья -->
+                {% if user.is_authenticated and user != target_user %}
+                    {% if are_friends %}
+                        <a href="{% url 'remove_friend' target_user.username %}"
+                           class="btn-outline-custom w-100 mb-2"
+                           onclick="return confirm('Удалить {{ target_user.username }} из друзей?')">
+                            <i class="fas fa-user-minus me-2"></i>Удалить из друзей
+                        </a>
+                    {% elif pending_sent %}
+                        <button class="btn-secondary w-100 mb-2" disabled style="background:#ccc; border:none; padding:10px; border-radius:12px;">
+                            <i class="fas fa-clock me-2"></i>Заявка отправлена
+                        </button>
+                    {% elif pending_received %}
+                        <a href="{% url 'accept_friend' pending_received.id %}"
+                           class="btn-primary-custom w-100 mb-2">
+                            <i class="fas fa-user-plus me-2"></i>Принять заявку
+                        </a>
+                    {% else %}
+                        <a href="{% url 'add_friend' target_user.username %}"
+                           class="btn-primary-custom w-100 mb-2">
+                            <i class="fas fa-user-plus me-2"></i>Добавить в друзья
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-glass p-4">
+                <h3 class="text-dark mb-4">Статистика {{ target_user.username }}</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="bg-light rounded p-3 text-center">
+                            <i class="fas fa-book fa-2x text-success mb-2"></i>
+                            <h4 class="text-dark">{{ profile.lessons_completed|default:0 }}</h4>
+                            <p class="text-secondary">Пройдено уроков</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="bg-light rounded p-3 text-center">
+                            <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                            <h4 class="text-dark">{{ profile.total_points|default:0 }}</h4>
+                            <p class="text-secondary">Всего очков</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="text-dark mt-4 mb-3">🏆 Достижения {{ target_user.username }}</h4>
+                <div class="row">
+                    {% for progress in achievements_progress %}
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="achievement-item unlocked text-center p-4" style="background:linear-gradient(145deg, #fff8e7, #fff0d0); border-radius:28px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.2s; height: 100%;">
+                            {% if progress.achievement.icon_url %}
+                                <img src="{{ progress.achievement.icon_url }}" style="width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));">
+                            {% else %}
+                                <i class="{{ progress.achievement.icon_class }} fa-3x text-warning mb-2"></i>
+                            {% endif %}
+                            <div class="achievement-name fw-bold mt-2 fs-6">{{ progress.achievement.name }}</div>
+                            <div class="small text-success mt-1">
+                                <i class="fas fa-trophy me-1"></i>Уровень {{ progress.current_level }}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-secondary text-center py-3">✨ Пока нет достижений</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

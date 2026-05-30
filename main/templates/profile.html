@@ -30,6 +30,7 @@
                     {% endif %}
                     <a href="{% url 'community_create' %}" class="btn-primary-custom w-100">🌍 Создать сообщество</a>
                     <a href="{% url 'public_tests' %}" class="btn-outline-custom w-100">🌍 Все тесты</a>
+                    <a href="{% url 'my_friends' %}" class="btn-outline-custom w-100">👥 Мои друзья</a>
                     <a href="{% url 'logout' %}" class="btn-outline-custom w-100">Выйти</a>
                 </div>
             </div>
@@ -55,21 +56,51 @@
                     </div>
                 </div>
 
-                <h4 class="text-dark mt-4 mb-3">Достижения</h4>
+                <!-- ПОЛУЧЕННЫЕ ДОСТИЖЕНИЯ -->
+                <h4 class="text-dark mt-4 mb-3">🏆 Мои достижения</h4>
                 <div class="row">
-                    {% for achievement in achievements %}
-                    <div class="col-6 col-md-4 mb-3">
-                        <div class="achievement-item locked text-center p-3">
-                            <i class="{{ achievement.icon_class }} fa-2x text-warning mb-2"></i>
-                            <div class="achievement-name text-secondary">{{ achievement.name }}</div>
+                    {% for progress in user_achievements %}
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="achievement-item unlocked text-center p-4" style="background:linear-gradient(145deg, #fff8e7, #fff0d0); border-radius:28px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.2s; height: 100%;">
+                            {% if progress.achievement.icon_url %}
+                                <img src="{{ progress.achievement.icon_url }}" style="width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));">
+                            {% else %}
+                                <i class="{{ progress.achievement.icon_class }} fa-3x text-warning mb-2"></i>
+                            {% endif %}
+                            <div class="achievement-name fw-bold mt-2 fs-6">{{ progress.achievement.name }}</div>
+                            <div class="small text-success mt-1">
+                                <i class="fas fa-trophy me-1"></i>Уровень {{ progress.current_level }}
+                            </div>
                         </div>
                     </div>
                     {% empty %}
-                    <p class="text-secondary">Выполняйте уроки, чтобы открывать достижения!</p>
+                    <div class="col-12">
+                        <p class="text-secondary text-center py-3">✨ Пока нет достижений. Проходите уроки, чтобы открывать их!</p>
+                    </div>
                     {% endfor %}
                 </div>
 
-                <!-- БЛОК МОИ КУРСЫ (только для авторов) -->
+                <!-- ЕЩЁ НЕ ПОЛУЧЕННЫЕ ДОСТИЖЕНИЯ -->
+                {% if all_achievements %}
+                <h4 class="text-dark mt-4 mb-3">🔒 Ещё не открыто</h4>
+                <div class="row">
+                    {% for ach in all_achievements %}
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="achievement-item locked text-center p-2" style="background:#f5f5f5; border-radius:20px; opacity:0.6;">
+                            {% if ach.icon_url %}
+                                <img src="{{ ach.icon_url }}" style="width: 65px; height: 65px; margin-bottom: 5px; filter: grayscale(1); opacity:0.5;">
+                            {% else %}
+                                <i class="{{ ach.icon_class }} fa-2x text-secondary mb-1"></i>
+                            {% endif %}
+                            <div class="achievement-name small text-muted">{{ ach.name }}</div>
+                            <div class="small text-muted">❓ ???</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- БЛОК МОИ КУРСЫ -->
                 {% if user.profile.is_author %}
                 <h4 class="text-dark mt-4 mb-3">Мои курсы</h4>
                 <div class="row">
@@ -80,7 +111,7 @@
                                 <a href="{% url 'course_detail' course.slug %}" class="text-dark fw-semibold">{{ course.title }}</a>
                             {% else %}
                                 <span class="text-dark fw-semibold">{{ course.title }}</span>
-                                <span class="badge bg-warning">нет slug, обратитесь к администратору</span>
+                                <span class="badge bg-warning">нет slug</span>
                             {% endif %}
                             <span class="badge {% if course.status == 'published' %}bg-success{% else %}bg-secondary{% endif %}">
                                 {{ course.get_status_display }}
@@ -107,7 +138,7 @@
                                 <span class="text-dark fw-semibold">
                                     <i class="{{ community.icon_class }} me-2"></i>{{ community.name }}
                                 </span>
-                                <span class="badge bg-warning">нет slug, исправьте</span>
+                                <span class="badge bg-warning">нет slug</span>
                             {% endif %}
                             <div>
                                 <span class="badge bg-info me-1">{{ community.member_count }} уч.</span>

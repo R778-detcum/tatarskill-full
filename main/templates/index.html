@@ -318,7 +318,7 @@
             </div>
         </div>
 
-        <!-- Блок сообществ с красивым дизайном и защитой от пустого slug -->
+        <!-- Блок сообществ -->
         <div class="communities-section">
             <div class="container-custom">
                 <div class="communities-header">
@@ -383,7 +383,7 @@
             </div>
         </div>
 
-        <!-- Рейтинг курса -->
+        <!-- Рейтинг курса и достижения -->
         <div class="clans-section">
             <div class="row g-4">
                 <div class="col-lg-6">
@@ -417,10 +417,12 @@
                                                 {% elif entry.rank == 3 %}🥉
                                                 {% else %}{{ entry.rank }}{% endif %}
                                               </td>
-                                              <td>
+                                            <td>
                                                 <div class="user-cell">
                                                     <div class="user-avatar">{{ entry.username|make_list|first|upper }}</div>
-                                                    <span class="username">{{ entry.username }}</span>
+                                                    <a href="{% url 'user_profile' entry.username %}" class="username text-dark text-decoration-none">
+                                                        {{ entry.username }}
+                                                    </a>
                                                 </div>
                                               </td>
                                             <td class="lessons-cell">{{ entry.lessons_completed }}</td>
@@ -445,13 +447,43 @@
                         <div class="leaderboard-header" style="background: linear-gradient(135deg, #a87b2e, #e8b830);">
                             <h3><i class="fas fa-medal"></i> Достижения</h3>
                         </div>
-                        <div class="achievements-grid p-4">
-                            <div class="achievement-item unlocked"><div class="achievement-icon"><i class="fas fa-book"></i></div><div class="achievement-name">Первый урок</div></div>
-                            <div class="achievement-item locked"><div class="achievement-icon"><i class="fas fa-comments"></i></div><div class="achievement-name">10 диалогов</div></div>
-                            <div class="achievement-item locked"><div class="achievement-icon"><i class="fas fa-trophy"></i></div><div class="achievement-name">Топ клана</div></div>
-                            <div class="achievement-item locked"><div class="achievement-icon"><i class="fas fa-microphone"></i></div><div class="achievement-name">Идеальное произношение</div></div>
-                            <div class="achievement-item locked"><div class="achievement-icon"><i class="fas fa-users"></i></div><div class="achievement-name">Лидер сообщества</div></div>
-                            <div class="achievement-item locked"><div class="achievement-icon"><i class="fas fa-calendar"></i></div><div class="achievement-name">30 дней подряд</div></div>
+                        <div class="p-4">
+                            <div class="row g-3">
+                                {% if user.is_authenticated and user_achievements_for_home %}
+                                    {% for progress in user_achievements_for_home %}
+                                    <div class="col-4 col-md-2">
+                                        <div class="text-center p-2" style="background:linear-gradient(145deg, #fff8e7, #fff0d0); border-radius:20px; height:100%;">
+                                            {% if progress.achievement.icon_url %}
+                                                <img src="{{ progress.achievement.icon_url }}" style="width: 55px; height: 55px; margin-bottom: 5px;">
+                                            {% else %}
+                                                <i class="{{ progress.achievement.icon_class }} fa-2x text-warning"></i>
+                                            {% endif %}
+                                            <div class="small fw-semibold mt-1">{{ progress.achievement.name|truncatechars:15 }}</div>
+                                            <div class="small text-success">🏅 Ур. {{ progress.current_level }}</div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="col-4 col-md-2">
+                                        <div class="text-center p-2 opacity-50">
+                                            <i class="fas fa-star fa-2x text-secondary"></i>
+                                            <div class="small">Пройдите урок</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="text-center p-2 opacity-50">
+                                            <i class="fas fa-users fa-2x text-secondary"></i>
+                                            <div class="small">Добавьте друга</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-2">
+                                        <div class="text-center p-2 opacity-50">
+                                            <i class="fas fa-calendar fa-2x text-secondary"></i>
+                                            <div class="small">3 дня подряд</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                         <p class="text-center text-dark-50 small pb-3">Выполняйте уроки, чтобы открывать новые достижения</p>
                     </div>

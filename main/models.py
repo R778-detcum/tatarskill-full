@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -231,6 +232,7 @@ class ChatMessage(models.Model):
 class Achievement(models.Model):
     name = models.CharField('Название достижения', max_length=100)
     icon_class = models.CharField('Иконка (Font Awesome)', max_length=50, default='fas fa-medal')
+    icon_url = models.URLField('Ссылка на иконку (Imgur)', blank=True, null=True)
     description = models.CharField('Описание', max_length=200)
     points = models.PositiveIntegerField('Очки', default=10)
     is_active = models.BooleanField('Активно', default=True)
@@ -624,3 +626,60 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+# ========== СИСТЕМА ДРУЗЕЙ ==========
+class Friendship(models.Model):
+    """Модель дружбы между пользователями"""
+    STATUS_CHOICES = [
+        ('pending', 'Ожидает подтверждения'),
+        ('accepted', 'Друзья'),
+        ('rejected', 'Отклонена'),
+        ('blocked', 'Заблокирован'),
+    ]
+
+    from_user = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name='friend_requests_sent',
+        verbose_name='Отправитель'
+    )
+    to_user = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name='friend_requests_received',
+        verbose_name='Получатель'
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES,
+        default='pending', verbose_name='Статус'
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+
+    class Meta:
+        verbose_name = 'Дружба'
+        verbose_name_plural = 'Дружбы'
+        unique_together = ['from_user', 'to_user']
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.from_user.username} → {self.to_user.username} ({self.status})'
+
+    def accept(self):
+        """Принять заявку в друзья"""
+        self.status = 'accepted'
+        self.save()
+
+    def reject(self):
+        """Отклонить заявку"""
+        self.status = 'rejected'
+        self.save()
+
+    @staticmethod
+    def are_friends(user1, user2):
+        """Проверить, являются ли пользователи друзьями"""
+        if user1 == user2:
+            return False
+        return Friendship.objects.filter(
+            Q(from_user=user1, to_user=user2, status='accepted') |
+            Q(from_user=user2, to_user=user1, status='accepted')
+        ).exists()

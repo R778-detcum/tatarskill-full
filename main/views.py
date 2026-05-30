@@ -2,6 +2,7 @@ import json
 from datetime import timedelta
 from django.db import models
 from django import forms
+from .services.achievement_service import AchievementService
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -25,7 +26,7 @@ from .models import (
     League, LeagueInstance, UserLeagueMembership, SeasonalEvent,
     AchievementLevel, AchievementProgress, ShopItem, UserInventory,
     UserSubscription, DailyRewardLog, LEVEL_XP_BOUNDS, CourseEnrollment,
-    CourseReview, CustomTest, CustomQuestion, CustomTestResult
+    CourseReview, CustomTest, CustomQuestion, CustomTestResult , Friendship
 )
 from .services.mistral_service import MistralService
 
@@ -100,6 +101,17 @@ def home(request):
     courses_list = Course.objects.filter(status='published').order_by('order', '-created_at')
     achievements = Achievement.objects.filter(is_active=True)
 
+    # ========== ДОСТИЖЕНИЯ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ==========
+    if request.user.is_authenticated:
+        # Получаем достижения пользователя с уровнем > 0 (только полученные)
+        user_achievements_for_home = AchievementProgress.objects.filter(
+            user=request.user,
+            current_level__gt=0
+        ).select_related('achievement')[:6]  # показываем только 6 последних
+    else:
+        user_achievements_for_home = []
+    # ========== КОНЕЦ ==========
+
     context = {
         'courses': courses_list,
         'communities': communities,
@@ -108,6 +120,7 @@ def home(request):
         'current_course': current_course,
         'available_courses': available_courses,
         'leaderboard': leaderboard,
+        'user_achievements_for_home': user_achievements_for_home,  # <---- ДОБАВЛЕННАЯ СТРОКА
     }
     return render(request, 'index.html', context)
 
@@ -143,6 +156,8 @@ def register_view(request):
             return redirect('register')
         user = User.objects.create_user(username=username, email=email, password=password1)
         login(request, user)
+        # После login(request, user) добавь:
+        AchievementService.check_first_lesson(user)
         messages.success(request, 'Регистрация успешно завершена!')
         return redirect('home')
     return render(request, 'register.html')
@@ -170,13 +185,24 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    achievements = Achievement.objects.filter(is_active=True)
+    user_achievements = AchievementProgress.objects.filter(
+        user=request.user,
+        current_level__gt=0
+    ).select_related('achievement')
+
+    user_achievement_ids = list(user_achievements.values_list('achievement_id', flat=True))
+
+    all_achievements = Achievement.objects.filter(is_active=True).exclude(id__in=user_achievement_ids)
+
     user_communities = Community.objects.filter(owner=request.user).order_by('-created_at')
-    return render(request, 'profile.html', {
+
+    context = {
         'user': request.user,
-        'achievements': achievements,
+        'user_achievements': user_achievements,
+        'all_achievements': all_achievements,
         'user_communities': user_communities,
-    })
+    }
+    return render(request, 'profile.html', context)
 
 
 @csrf_exempt
@@ -314,27 +340,38 @@ def check_answer_ajax(request):
 def submit_test(request, lesson_id):
     if request.method != 'POST':
         return JsonResponse({'error': 'Метод не поддерживается'}, status=405)
+
     lesson = get_object_or_404(Lesson, id=lesson_id)
+
     if not check_lesson_access(request.user, lesson):
         messages.error(request, 'Этот урок ещё не доступен.')
         return redirect('course_detail', slug=lesson.course.slug)
+
     questions = list(lesson.questions.all())
     total_questions = len(questions)
     correct_count = 0
+
+    # Подсчёт правильных ответов
     for question in questions:
         answer_key = f'question_{question.id}'
         selected_option = request.POST.get(answer_key)
         if selected_option and int(selected_option) == question.correct_option:
             correct_count += 1
+
     percentage = (correct_count / total_questions * 100) if total_questions > 0 else 0
+
+    # Сохраняем результат
     completion, created = LessonCompletion.objects.get_or_create(
         user=request.user,
         lesson=lesson,
         defaults={'test_score': percentage}
     )
+
     if not created and completion.test_score < percentage:
         completion.test_score = percentage
         completion.save()
+
+    # Обновляем прогресс курса
     enrollment, _ = CourseEnrollment.objects.get_or_create(
         user=request.user,
         course=lesson.course
@@ -344,20 +381,52 @@ def submit_test(request, lesson_id):
         lesson__course=lesson.course
     ).values('lesson').distinct().count()
     enrollment.lessons_completed = unique_lessons_count
+
     if created:
         enrollment.course_xp += 150
         enrollment.save()
     else:
         enrollment.save()
+
+    # Обновляем профиль пользователя
     if created:
         profile = request.user.profile
         profile.total_points += 150
         profile.coins += 50
         profile.lessons_completed += 1
         profile.save()
+
+        # ========== ПРОВЕРКА ДОСТИЖЕНИЙ ==========
+        from .services.achievement_service import AchievementService
+
+        # За пройденные уроки
+        AchievementService.check_lessons_achievement(request.user, profile.lessons_completed)
+
+        # За общее количество XP
+        AchievementService.check_xp_achievement(request.user, profile.total_points)
+
+        # За стрик дней
+        AchievementService.check_streak_achievement(request.user, profile.streak_days)
+
+        # За время прохождения (Ночная сова / Ранняя пташка)
+        now = timezone.now()
+        AchievementService.check_night_owl(request.user, now)
+        AchievementService.check_early_bird(request.user, now)
+
+        # За идеальное прохождение (Снайпер)
+        if percentage >= 90:
+            perfect_count = LessonCompletion.objects.filter(
+                user=request.user,
+                test_score__gte=90
+            ).count()
+            AchievementService.check_sniper_achievement(request.user, perfect_count)
+        # ========== КОНЕЦ ПРОВЕРКИ ДОСТИЖЕНИЙ ==========
+
         messages.success(request, f'🎉 Урок пройден! +150 очков опыта, +50 монет.')
     else:
         messages.info(request, f'Тест пройден повторно. Результат: {percentage:.0f}%')
+
+    # Проверяем достижения для курса
     achievements = Achievement.objects.filter(course=lesson.course, is_active=True)
     for ach in achievements:
         levels = ach.levels.all()
@@ -368,6 +437,7 @@ def submit_test(request, lesson_id):
                 progress.current_value = new_value
                 progress.save()
                 progress.check_and_update()
+
     return redirect('course_detail', slug=lesson.course.slug)
 
 
@@ -1120,3 +1190,141 @@ def community_chat(request, slug):
         'room_name': community.slug,
     }
     return render(request, 'community_chat.html', context)
+
+
+# ========== СИСТЕМА ДРУЗЕЙ ==========
+
+@login_required
+def user_profile(request, username):
+    """Просмотр профиля другого пользователя"""
+    target_user = get_object_or_404(User, username=username)
+    profile = target_user.profile
+
+    # Проверяем статус дружбы
+    are_friends = Friendship.are_friends(request.user, target_user)
+
+    # Проверяем, есть ли ожидающая заявка от текущего пользователя
+    pending_sent = Friendship.objects.filter(
+        from_user=request.user, to_user=target_user, status='pending'
+    ).exists()
+
+    # Проверяем, есть ли ожидающая заявка к текущему пользователю
+    pending_received_obj = Friendship.objects.filter(
+        from_user=target_user, to_user=request.user, status='pending'
+    ).first()
+
+    # Получаем ID заявки (если есть)
+    pending_received_id = pending_received_obj.id if pending_received_obj else None
+
+    # Достижения пользователя
+    achievements_progress = target_user.achievements_progress.select_related('achievement').all()
+
+    # Пройденные курсы
+    enrolled_courses = CourseEnrollment.objects.filter(user=target_user).select_related('course')
+
+    context = {
+        'target_user': target_user,
+        'profile': profile,
+        'are_friends': are_friends,
+        'pending_sent': pending_sent,
+        'pending_received': pending_received_obj,  # передаём объект целиком
+        'pending_received_id': pending_received_id,  # передаём отдельно ID
+        'achievements_progress': achievements_progress,
+        'enrolled_courses': enrolled_courses,
+    }
+    return render(request, 'user_profile.html', context)
+
+
+@login_required
+def add_friend(request, username):
+    target_user = get_object_or_404(User, username=username)
+
+    if request.user == target_user:
+        messages.error(request, 'Нельзя добавить самого себя в друзья.')
+        return redirect('user_profile', username=username)
+
+    # Проверяем, есть ли входящая заявка (автоматическое принятие)
+    incoming = Friendship.objects.filter(
+        from_user=target_user, to_user=request.user, status='pending'
+    ).first()
+
+    if incoming:
+        incoming.accept()
+
+        # ========== ПРОВЕРКА ДОСТИЖЕНИЯ ЗА ДРУЗЕЙ ==========
+        from .services.achievement_service import AchievementService
+        from django.db.models import Q
+
+        friends_count = Friendship.objects.filter(
+            Q(from_user=request.user, status='accepted') |
+            Q(to_user=request.user, status='accepted')
+        ).count()
+        AchievementService.check_friends_achievement(request.user, friends_count)
+        # ========== КОНЕЦ ==========
+
+        messages.success(request, f'Вы стали друзьями с {target_user.username}!')
+        return redirect('user_profile', username=username)
+
+    # Обычная отправка заявки
+    existing = Friendship.objects.filter(
+        from_user=request.user, to_user=target_user, status='pending'
+    ).first()
+
+    if existing:
+        messages.info(request, 'Заявка уже отправлена.')
+        return redirect('user_profile', username=username)
+
+    Friendship.objects.create(from_user=request.user, to_user=target_user, status='pending')
+    messages.success(request, f'Заявка в друзья отправлена пользователю {target_user.username}.')
+    return redirect('user_profile', username=username)
+
+
+@login_required
+def accept_friend(request, friendship_id):
+    """Принять заявку в друзья"""
+    friendship = get_object_or_404(Friendship, id=friendship_id, to_user=request.user, status='pending')
+    friendship.accept()
+    messages.success(request, f'Вы приняли заявку от {friendship.from_user.username}.')
+    return redirect('profile')
+
+
+@login_required
+def remove_friend(request, username):
+    """Удалить из друзей или отклонить заявку"""
+    target_user = get_object_or_404(User, username=username)
+
+    # Находим дружбу в любом направлении
+    friendship = Friendship.objects.filter(
+        Q(from_user=request.user, to_user=target_user) |
+        Q(from_user=target_user, to_user=request.user)
+    ).first()
+
+    if friendship:
+        friendship.delete()
+        messages.success(request, f'Вы удалили {target_user.username} из друзей.')
+    else:
+        messages.error(request, 'Дружба не найдена.')
+
+    return redirect('user_profile', username=username)
+
+
+@login_required
+def my_friends(request):
+    """Список друзей пользователя"""
+    friends_users = User.objects.filter(
+        Q(friend_requests_sent__to_user=request.user, friend_requests_sent__status='accepted') |
+        Q(friend_requests_received__from_user=request.user, friend_requests_received__status='accepted')
+    ).distinct()
+
+    # Входящие заявки
+    incoming_requests = Friendship.objects.filter(to_user=request.user, status='pending')
+
+    # Исходящие заявки
+    outgoing_requests = Friendship.objects.filter(from_user=request.user, status='pending')
+
+    context = {
+        'friends': friends_users,
+        'incoming_requests': incoming_requests,
+        'outgoing_requests': outgoing_requests,
+    }
+    return render(request, 'my_friends.html', context)

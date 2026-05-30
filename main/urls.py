@@ -59,4 +59,11 @@ urlpatterns = [
     path('community/link/<int:link_id>/delete/', views.community_delete_link, name='community_delete_link'),
     path('community/<slug:slug>/manage/', views.community_manage, name='community_manage'),
     path('communities/search/', views.community_search, name='community_search'),
+# Система друзей
+    path('user/<str:username>/', views.user_profile, name='user_profile'),
+    path('user/<str:username>/add-friend/', views.add_friend, name='add_friend'),
+    path('friend/accept/<int:friendship_id>/', views.accept_friend, name='accept_friend'),
+    path('user/<str:username>/remove-friend/', views.remove_friend, name='remove_friend'),
+    path('my-friends/', views.my_friends, name='my_friends'),
+
 ]
