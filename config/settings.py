@@ -2,6 +2,9 @@
 Django settings for config project.
 """
 
+from dotenv import load_dotenv
+
+load_dotenv()
 from pathlib import Path
 import os
 
@@ -21,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'main',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -94,4 +98,4 @@ CHANNEL_LAYERS = {
     },
 }
 
-MISTRAL_API_KEY = 'ваш_ключ_здесь'
+MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')

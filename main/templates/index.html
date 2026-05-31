@@ -761,36 +761,58 @@
     }
     function removeTypingIndicator(typingDiv) { if (typingDiv && typingDiv.parentNode) typingDiv.remove(); }
     async function getMistralResponse(userMessage) {
-        try {
-            conversationHistory.push({ role: "user", content: userMessage });
-            const response = await fetch('/api/chat/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
-                body: JSON.stringify({ message: userMessage, history: conversationHistory.slice(0, -1) })
-            });
-            if (!response.ok) { const error = await response.json(); throw new Error(error.error || 'Ошибка сервера'); }
-            const data = await response.json();
-            const assistantMessage = data.response;
-            conversationHistory.push({ role: "assistant", content: assistantMessage });
-            return assistantMessage;
-        } catch (error) { return "Кызганыч, хәзер җавап бирә алмыйм. Зинһар, соңрак яңадан тырышыгыз. 😊\n\n(Извините, сейчас не могу ответить. Пожалуйста, попробуйте позже.)"; }
+    try {
+        conversationHistory.push({ role: "user", content: userMessage });
+
+        const response = await fetch(window.location.origin + '/api/chat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                message: userMessage,
+                history: conversationHistory.slice(0, -1)
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Ошибка сервера');
+        }
+
+        const data = await response.json();
+        const assistantMessage = data.response;
+        conversationHistory.push({ role: "assistant", content: assistantMessage });
+        return assistantMessage;
+
+    } catch (error) {
+        console.error('Mistral error:', error);
+        return "Кызганыч, хәзер җавап бирә алмыйм. Зинһар, соңрак яңадан тырышыгыз. 😊";
     }
-    async function sendMessageToAI() {
-        const text = chatInput.value.trim();
-        if (!text || isTyping) return;
-        addMessage(text, true);
-        chatInput.value = '';
-        const typingDiv = showTypingIndicator();
-        isTyping = true;
-        try {
-            const response = await getMistralResponse(text);
-            removeTypingIndicator(typingDiv);
-            addMessage(response, false);
-        } catch (error) {
-            removeTypingIndicator(typingDiv);
-            addMessage("⚠️ Ошибка подключения к AI. Проверьте интернет и попробуйте снова.", false);
-        } finally { isTyping = false; }
+}
+
+async function sendMessageToAI() {
+    const text = chatInput.value.trim();
+    if (!text || isTyping) return;
+
+    addMessage(text, true);
+    chatInput.value = '';
+
+    const typingDiv = showTypingIndicator();
+    isTyping = true;
+
+    try {
+        const response = await getMistralResponse(text);
+        removeTypingIndicator(typingDiv);
+        addMessage(response, false);
+    } catch (error) {
+        removeTypingIndicator(typingDiv);
+        addMessage("⚠️ Ошибка подключения к AI. Проверьте интернет и попробуйте снова.", false);
+    } finally {
+        isTyping = false;
     }
+}
     sendBtn.addEventListener('click', sendMessageToAI);
     chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessageToAI(); });
     dinoBtn.addEventListener('click', () => { chatPopup.style.display = chatPopup.style.display === 'flex' ? 'none' : 'flex'; });
