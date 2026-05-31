@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Регистрация — TatarSkill{% endblock %}
+{% block title %}{% trans "Регистрация" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card-glass p-5">
-                <h2 class="text-center text-warning mb-4">Регистрация</h2>
+                <h2 class="text-center text-warning mb-4">{% trans "Регистрация" %}</h2>
 
                 {% if messages %}
                     {% for message in messages %}
@@ -22,30 +22,30 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="username" class="form-label text-dark fw-semibold">Имя пользователя</label>
+                        <label for="username" class="form-label text-dark fw-semibold">{% trans "Имя пользователя" %}</label>
                         <input type="text" class="form-control bg-light text-dark border-secondary" id="username" name="username" required>
-                        <small class="form-text text-muted">Введите ваше имя пользователя (латиница или кириллица)</small>
+                        <small class="form-text text-muted">{% trans "Введите ваше имя пользователя (латиница или кириллица)" %}</small>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label text-dark fw-semibold">Email</label>
                         <input type="email" class="form-control bg-light text-dark border-secondary" id="email" name="email" required>
-                        <small class="form-text text-muted">Укажите действующий email для восстановления пароля</small>
+                        <small class="form-text text-muted">{% trans "Укажите действующий email для восстановления пароля" %}</small>
                     </div>
                     <div class="mb-3">
-                        <label for="password1" class="form-label text-dark fw-semibold">Пароль</label>
+                        <label for="password1" class="form-label text-dark fw-semibold">{% trans "Пароль" %}</label>
                         <input type="password" class="form-control bg-light text-dark border-secondary" id="password1" name="password1" required>
-                        <small class="form-text text-muted">Пароль должен содержать не менее 8 символов</small>
+                        <small class="form-text text-muted">{% trans "Пароль должен содержать не менее 8 символов" %}</small>
                     </div>
                     <div class="mb-3">
-                        <label for="password2" class="form-label text-dark fw-semibold">Подтверждение пароля</label>
+                        <label for="password2" class="form-label text-dark fw-semibold">{% trans "Подтверждение пароля" %}</label>
                         <input type="password" class="form-control bg-light text-dark border-secondary" id="password2" name="password2" required>
-                        <small class="form-text text-muted">Повторите пароль, чтобы избежать ошибки</small>
+                        <small class="form-text text-muted">{% trans "Повторите пароль, чтобы избежать ошибки" %}</small>
                     </div>
-                    <button type="submit" class="btn-primary-custom w-100">Зарегистрироваться</button>
+                    <button type="submit" class="btn-primary-custom w-100">{% trans "Зарегистрироваться" %}</button>
                 </form>
 
                 <p class="text-center text-dark-50 mt-3">
-                    Уже есть аккаунт? <a href="{% url 'login' %}" class="text-warning">Войти</a>
+                    {% trans "Уже есть аккаунт?" %} <a href="{% url 'login' %}" class="text-warning">{% trans "Войти" %}</a>
                 </p>
             </div>
         </div>

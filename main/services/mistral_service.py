@@ -8,22 +8,11 @@ class MistralService:
     """Сервис для работы с Mistral AI API"""
 
     def __init__(self):
-        # API ключ будет храниться в settings.py
         self.api_key = settings.MISTRAL_API_KEY
         self.api_url = "https://api.mistral.ai/v1/chat/completions"
         self.model = "mistral-tiny"
 
     def get_response(self, user_message, conversation_history=None):
-        """
-        Получить ответ от Mistral AI
-
-        Args:
-            user_message: str - сообщение пользователя
-            conversation_history: list - история диалога
-
-        Returns:
-            dict: {'success': bool, 'response': str, 'history': list}
-        """
         if conversation_history is None:
             conversation_history = [
                 {
@@ -32,7 +21,6 @@ class MistralService:
                 }
             ]
 
-        # Добавляем сообщение пользователя
         conversation_history.append({
             "role": "user",
             "content": user_message

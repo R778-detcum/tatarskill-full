@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 
 class DragonService:
@@ -33,7 +34,7 @@ class DragonService:
         profile = user.profile
 
         if not profile.dragon_frozen:
-            return {'success': False, 'message': 'Дракон не замёрз!'}
+            return {'success': False, 'message': _('Дракон не замёрз!')}
 
         if payment_type == 'coins':
             if profile.coins >= 500:
@@ -42,21 +43,18 @@ class DragonService:
                 profile.frozen_since = None
                 profile.missed_days = 0
                 profile.save()
-                return {'success': True, 'message': 'Дракон разморожен за 500 монет! 🔥'}
+                return {'success': True, 'message': _('Дракон разморожен за 500 монет! 🔥')}
             else:
-                return {'success': False, 'message': f'Не хватает монет! Нужно 500, у вас {profile.coins}'}
+                return {'success': False, 'message': _('Не хватает монет! Нужно 500, у вас {coins}').format(coins=profile.coins)}
 
         elif payment_type == 'money':
-            # Разморозка за 199₽ + БОНУСЫ
             profile.dragon_frozen = False
             profile.frozen_since = None
             profile.missed_days = 0
 
-            # БОНУСЫ:
-            profile.coins += 500  # +500 монет
-            profile.total_points += 1000  # +1000 XP
+            profile.coins += 500
+            profile.total_points += 1000
 
-            # Добавляем Тумар защиты в инвентарь
             talisman = ShopItem.objects.filter(item_type='streak_protect', is_active=True).first()
             if talisman:
                 UserInventory.objects.create(
@@ -68,7 +66,6 @@ class DragonService:
 
             profile.save()
 
-            # Выдаём достижение "Спаситель дракона"
             try:
                 AchievementService.check_and_award(user, 'Спаситель дракона', 1)
             except Exception as e:
@@ -76,7 +73,7 @@ class DragonService:
 
             return {
                 'success': True,
-                'message': '🎉 Дракон разморожен! Ты получил: +500 монет, +1000 XP, 🛡️ Тумар защиты и достижение "Спаситель дракона"!'
+                'message': _('🎉 Дракон разморожен! Ты получил: +500 монет, +1000 XP, 🛡️ Тумар защиты и достижение "Спаситель дракона"!')
             }
 
-        return {'success': False, 'message': 'Неизвестный способ оплаты'}
+        return {'success': False, 'message': _('Неизвестный способ оплаты')}

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Все курсы — TatarSkill{% endblock %}
+{% block title %}{% trans "Все курсы" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5">
-    <h1 class="section-title text-center mb-5">Все курсы</h1>
+    <h1 class="section-title text-center mb-5">{% trans "Все курсы" %}</h1>
     <div class="row g-4">
         {% for course in courses %}
         <div class="col-lg-4 col-md-6">
@@ -15,17 +15,17 @@
                 <p class="text-dark-50 small">{{ course.short_description|default:course.description|truncatechars:100 }}</p>
                 <div class="mt-3 mb-3">
                     {% if course.is_free %}
-                        <span class="badge bg-success">Бесплатно</span>
+                        <span class="badge bg-success">{% trans "Бесплатно" %}</span>
                     {% else %}
                         <span class="badge bg-warning text-dark">{{ course.price }} ₽</span>
                     {% endif %}
                 </div>
-                <a href="{% if course.slug %}{% url 'course_detail' course.slug %}{% else %}#{% endif %}" class="btn-primary-custom w-100 mt-2 text-center" style="margin-top: 0.5rem;">Начать обучение</a>
+                <a href="{% if course.slug %}{% url 'course_detail' course.slug %}{% else %}#{% endif %}" class="btn-primary-custom w-100 mt-2 text-center" style="margin-top: 0.5rem;">{% trans "Начать обучение" %}</a>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center">
-            <p class="text-dark-50">Курсы скоро появятся</p>
+            <p class="text-dark-50">{% trans "Курсы скоро появятся" %}</p>
         </div>
         {% endfor %}
     </div>

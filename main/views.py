@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db import models
 from django import forms
 from .services.achievement_service import AchievementService
-from .services.dragon_service import DragonService  # <-- ДОБАВЛЕНО
+from .services.dragon_service import DragonService
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,12 @@ from django.utils import timezone
 from django.urls import reverse
 from django.db.models import Count, Q, Avg
 from django.utils.text import slugify
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
+from django.utils import translation
+from django.conf import settings
+
+
 from .forms import (
     CourseForm, LessonForm, CommunityForm, CommunityPostForm,
     CommunityCommentForm, CommunityExternalLinkForm
@@ -32,17 +38,22 @@ from .models import (
 from .services.mistral_service import MistralService
 from .services.dragon_service import DragonService
 
-# Для корректной обработки кириллицы в slug
 slugify.allow_unicode = True
 
 mistral_service = MistralService()
 
 
 def home(request):
-    # ========== ПРОВЕРКА СТРИКА ПРИ ВХОДЕ (ДОБАВЛЕНО) ==========
+
+    lang = request.GET.get('lang')
+    if lang and lang in dict(settings.LANGUAGES):
+        translation.activate(lang)
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+        # Перенаправляем на ту же страницу без параметра lang, чтобы он не мешал
+        return redirect(request.path)
+
     if request.user.is_authenticated:
         DragonService.check_streak(request.user)
-    # ========== КОНЕЦ ПРОВЕРКИ СТРИКА ==========
 
     available_courses = []
     current_course = None
@@ -91,8 +102,7 @@ def home(request):
 
     leaderboard = []
     if current_course:
-        enrollments = CourseEnrollment.objects.filter(course=current_course).select_related('user').order_by(
-            '-course_xp')[:3]
+        enrollments = CourseEnrollment.objects.filter(course=current_course).select_related('user').order_by('-course_xp')[:3]
         for idx, enrollment in enumerate(enrollments, start=1):
             leaderboard.append({
                 'rank': idx,
@@ -101,7 +111,6 @@ def home(request):
                 'course_xp': enrollment.course_xp,
             })
 
-    # Исключаем сообщества с пустым slug (защита от ошибок)
     communities = []
     if current_course:
         communities = current_course.communities.filter(is_active=True).exclude(slug__isnull=True).exclude(
@@ -110,16 +119,13 @@ def home(request):
     courses_list = Course.objects.filter(status='published').order_by('order', '-created_at')
     achievements = Achievement.objects.filter(is_active=True)
 
-    # ========== ДОСТИЖЕНИЯ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ==========
     if request.user.is_authenticated:
-        # Получаем достижения пользователя с уровнем > 0 (только полученные)
         user_achievements_for_home = AchievementProgress.objects.filter(
             user=request.user,
             current_level__gt=0
-        ).select_related('achievement')[:6]  # показываем только 6 последних
+        ).select_related('achievement')[:6]
     else:
         user_achievements_for_home = []
-    # ========== КОНЕЦ ==========
 
     context = {
         'courses': courses_list,
@@ -145,7 +151,7 @@ def community(request):
 
 
 def ratings(request):
-    return HttpResponse("Рейтинги учеников - в разработке")
+    return HttpResponse(_("Рейтинги учеников - в разработке"))
 
 
 def register_view(request):
@@ -155,19 +161,18 @@ def register_view(request):
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         if password1 != password2:
-            messages.error(request, 'Пароли не совпадают')
+            messages.error(request, _('Пароли не совпадают'))
             return redirect('register')
         if User.objects.filter(username=username).exists():
-            messages.error(request, 'Пользователь с таким именем уже существует')
+            messages.error(request, _('Пользователь с таким именем уже существует'))
             return redirect('register')
         if User.objects.filter(email=email).exists():
-            messages.error(request, 'Пользователь с таким email уже существует')
+            messages.error(request, _('Пользователь с таким email уже существует'))
             return redirect('register')
         user = User.objects.create_user(username=username, email=email, password=password1)
         login(request, user)
-        # После login(request, user) добавь:
         AchievementService.check_first_lesson(user)
-        messages.success(request, 'Регистрация успешно завершена!')
+        messages.success(request, _('Регистрация успешно завершена!'))
         return redirect('home')
     return render(request, 'register.html')
 
@@ -179,10 +184,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, f'Добро пожаловать, {user.username}!')
+            messages.success(request, _('Добро пожаловать, {username}!').format(username=user.username))
             return redirect('home')
         else:
-            messages.error(request, 'Неверное имя пользователя или пароль')
+            messages.error(request, _('Неверное имя пользователя или пароль'))
     return render(request, 'login.html')
 
 
@@ -222,7 +227,7 @@ def chat_api(request):
         user_message = data.get('message', '').strip()
         conversation_history = data.get('history', [])
         if not user_message:
-            return JsonResponse({'error': 'Сообщение не может быть пустым'}, status=400)
+            return JsonResponse({'error': _('Сообщение не может быть пустым')}, status=400)
         result = mistral_service.get_response(user_message, conversation_history)
         if result['success']:
             return JsonResponse({'response': result['response'], 'history': result['history']})
@@ -300,7 +305,7 @@ def lesson_detail(request, course_slug, order):
     course = get_object_or_404(Course, slug=course_slug, status='published')
     lesson = get_object_or_404(Lesson, course=course, order=order)
     if not check_lesson_access(request.user, lesson):
-        messages.error(request, 'Этот урок ещё не доступен. Пройдите предыдущие уроки.')
+        messages.error(request, _('Этот урок ещё не доступен. Пройдите предыдущие уроки.'))
         return redirect('course_detail', slug=course.slug)
     has_test = lesson.questions.exists()
     is_completed = LessonCompletion.objects.filter(user=request.user, lesson=lesson).exists()
@@ -317,20 +322,19 @@ def lesson_detail(request, course_slug, order):
 def take_test(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     if not check_lesson_access(request.user, lesson):
-        messages.error(request, 'Этот урок ещё не доступен.')
+        messages.error(request, _('Этот урок ещё не доступен.'))
         return redirect('course_detail', slug=lesson.course.slug)
     questions = lesson.questions.all()
     if not questions.exists():
-        messages.error(request, 'Для этого урока ещё нет теста.')
+        messages.error(request, _('Для этого урока ещё нет теста.'))
         return redirect('lesson_detail', course_slug=lesson.course.slug, order=lesson.order)
     context = {'lesson': lesson, 'questions': questions}
     return render(request, 'test_duo.html', context)
 
-
 @login_required
 def check_answer_ajax(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
+        return JsonResponse({'error': _('Метод не поддерживается')}, status=405)
     data = json.loads(request.body)
     question_id = data.get('question_id')
     selected = data.get('selected')
@@ -349,19 +353,18 @@ def check_answer_ajax(request):
 @login_required
 def submit_test(request, lesson_id):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Метод не поддерживается'}, status=405)
+        return JsonResponse({'error': _('Метод не поддерживается')}, status=405)
 
     lesson = get_object_or_404(Lesson, id=lesson_id)
 
     if not check_lesson_access(request.user, lesson):
-        messages.error(request, 'Этот урок ещё не доступен.')
+        messages.error(request, _('Этот урок ещё не доступен.'))
         return redirect('course_detail', slug=lesson.course.slug)
 
     questions = list(lesson.questions.all())
     total_questions = len(questions)
     correct_count = 0
 
-    # Подсчёт правильных ответов
     for question in questions:
         answer_key = f'question_{question.id}'
         selected_option = request.POST.get(answer_key)
@@ -370,7 +373,6 @@ def submit_test(request, lesson_id):
 
     percentage = (correct_count / total_questions * 100) if total_questions > 0 else 0
 
-    # Сохраняем результат
     completion, created = LessonCompletion.objects.get_or_create(
         user=request.user,
         lesson=lesson,
@@ -381,7 +383,6 @@ def submit_test(request, lesson_id):
         completion.test_score = percentage
         completion.save()
 
-    # Обновляем прогресс курса
     enrollment, _ = CourseEnrollment.objects.get_or_create(
         user=request.user,
         course=lesson.course
@@ -398,7 +399,6 @@ def submit_test(request, lesson_id):
     else:
         enrollment.save()
 
-    # Обновляем профиль пользователя
     if created:
         profile = request.user.profile
         profile.total_points += 150
@@ -406,68 +406,46 @@ def submit_test(request, lesson_id):
         profile.lessons_completed += 1
         profile.save()
 
-        # ========== ОБНОВЛЕНИЕ СТРИКА ==========
         today = timezone.now().date()
 
         if profile.last_activity_date:
             days_diff = (today - profile.last_activity_date).days
             if days_diff == 1:
-                # Пользователь занимался вчера и сегодня → увеличиваем стрик
                 profile.streak_days += 1
             elif days_diff > 1:
-                # Пропустил день → стрик сбрасывается
                 profile.streak_days = 1
             else:
-                # Несколько уроков в один день — стрик не увеличиваем
                 pass
         else:
-            # Первая активность пользователя
             profile.streak_days = 1
 
         profile.last_activity_date = today
         profile.save()
-        # ========== КОНЕЦ ОБНОВЛЕНИЯ СТРИКА ==========
 
-        # ========== АВТОРАЗМОРОЗКА ==========
         if profile.dragon_frozen:
             profile.dragon_frozen = False
             profile.frozen_since = None
             profile.missed_days = 0
             profile.save()
-            messages.info(request, '❄️ Твой дракон разморозился! Продолжай заниматься, чтобы он рос! 🔥')
-        # ========== КОНЕЦ АВТОРАЗМОРОЗКИ ==========
+            messages.info(request, _('❄️ Твой дракон разморозился! Продолжай заниматься, чтобы он рос! 🔥'))
 
-        # ========== ПРОВЕРКА ДОСТИЖЕНИЙ ==========
-        from .services.achievement_service import AchievementService
-
-        # За пройденные уроки
         AchievementService.check_lessons_achievement(request.user, profile.lessons_completed)
-
-        # За общее количество XP
         AchievementService.check_xp_achievement(request.user, profile.total_points)
-
-        # За стрик дней
         AchievementService.check_streak_achievement(request.user, profile.streak_days)
-
-        # За время прохождения (Ночная сова / Ранняя пташка)
         now = timezone.now()
         AchievementService.check_night_owl(request.user, now)
         AchievementService.check_early_bird(request.user, now)
-
-        # За идеальное прохождение (Снайпер)
         if percentage >= 90:
             perfect_count = LessonCompletion.objects.filter(
                 user=request.user,
                 test_score__gte=90
             ).count()
             AchievementService.check_sniper_achievement(request.user, perfect_count)
-        # ========== КОНЕЦ ПРОВЕРКИ ДОСТИЖЕНИЙ ==========
 
-        messages.success(request, f'🎉 Урок пройден! +150 очков опыта, +50 монет.')
+        messages.success(request, _('🎉 Урок пройден! +150 очков опыта, +50 монет.'))
     else:
-        messages.info(request, f'Тест пройден повторно. Результат: {percentage:.0f}%')
+        messages.info(request, _('Тест пройден повторно. Результат: {percent:.0f}%').format(percent=percentage))
 
-    # Проверяем достижения для курса
     achievements = Achievement.objects.filter(course=lesson.course, is_active=True)
     for ach in achievements:
         levels = ach.levels.all()
@@ -502,11 +480,10 @@ def league_table(request):
     week_start = today - timedelta(days=today.weekday())
     membership = UserLeagueMembership.objects.filter(user=request.user, week_start=week_start).first()
     if not membership:
-        messages.info(request, 'Вы ещё не попали в лигу. Пройдите несколько уроков.')
+        messages.info(request, _('Вы ещё не попали в лигу. Пройдите несколько уроков.'))
         return redirect('profile')
     league_instance = membership.league_instance
-    all_members = UserLeagueMembership.objects.filter(league_instance=league_instance, week_start=week_start).order_by(
-        '-weekly_xp')
+    all_members = UserLeagueMembership.objects.filter(league_instance=league_instance, week_start=week_start).order_by('-weekly_xp')
     for idx, m in enumerate(all_members, start=1):
         m.rank = idx
     user_rank = next((idx for idx, m in enumerate(all_members, start=1) if m.user == request.user), None)
@@ -542,14 +519,14 @@ def purchase_item(request, item_id):
             quantity=1,
             expires_at=expires_at
         )
-        messages.success(request, f'Вы купили {item.tatar_name}!')
+        messages.success(request, _('Вы купили {item}!').format(item=item.tatar_name))
     elif item.price_tulips > 0 and profile.tulips >= item.price_tulips:
         profile.tulips -= item.price_tulips
         profile.save()
         UserInventory.objects.create(user=request.user, item=item, quantity=1)
-        messages.success(request, f'Вы купили {item.tatar_name}!')
+        messages.success(request, _('Вы купили {item}!').format(item=item.tatar_name))
     else:
-        messages.error(request, 'Недостаточно средств.')
+        messages.error(request, _('Недостаточно средств.'))
     return redirect('shop')
 
 
@@ -559,12 +536,12 @@ def use_item(request, inventory_id):
     item = inv_item.item
     if item.item_type == 'streak_protect':
         request.session['streak_protect_active'] = True
-        messages.success(request, 'Тумар защиты активирован! При пропуске дня стрик не сбросится.')
+        messages.success(request, _('Тумар защиты активирован! При пропуске дня стрик не сбросится.'))
     elif item.item_type == 'xp_boost':
         request.session['xp_boost_until'] = (timezone.now() + timedelta(minutes=item.duration_minutes)).isoformat()
-        messages.success(request, f'Курай-ускоритель активирован на {item.duration_minutes} мин!')
+        messages.success(request, _('Курай-ускоритель активирован на {minutes} мин!').format(minutes=item.duration_minutes))
     else:
-        messages.info(request, 'Этот предмет пока нельзя использовать.')
+        messages.info(request, _('Этот предмет пока нельзя использовать.'))
     inv_item.used_at = timezone.now()
     inv_item.save()
     return redirect('shop')
@@ -599,7 +576,6 @@ def clan_leaderboard(request):
     return render(request, 'clan_leaderboard.html', {'course': course, 'leaderboard': leaderboard})
 
 
-# ========== ПОЛЬЗОВАТЕЛЬСКИЕ ТЕСТЫ ==========
 class CustomTestForm(forms.ModelForm):
     class Meta:
         model = CustomTest
@@ -612,11 +588,11 @@ def become_author(request):
     if profile.lessons_completed >= 10 and not profile.is_author:
         profile.is_author = True
         profile.save()
-        messages.success(request, 'Поздравляем! Вы стали автором. Теперь вы можете создавать тесты.')
+        messages.success(request, _('Поздравляем! Вы стали автором. Теперь вы можете создавать тесты.'))
     elif profile.is_author:
-        messages.info(request, 'Вы уже являетесь автором.')
+        messages.info(request, _('Вы уже являетесь автором.'))
     else:
-        messages.error(request, f'Необходимо пройти не менее 10 уроков. Вы прошли {profile.lessons_completed} из 10.')
+        messages.error(request, _('Необходимо пройти не менее 10 уроков. Вы прошли {count} из 10.').format(count=profile.lessons_completed))
     return redirect('profile')
 
 
@@ -624,8 +600,7 @@ def become_author(request):
 def create_test(request):
     profile = request.user.profile
     if not profile.is_author or profile.lessons_completed < 10:
-        messages.error(request,
-                       'Вы не можете создавать тесты. Нужно пройти минимум 10 уроков и получить статус автора.')
+        messages.error(request, _('Вы не можете создавать тесты. Нужно пройти минимум 10 уроков и получить статус автора.'))
         return redirect('home')
     if request.method == 'POST':
         test_form = CustomTestForm(request.POST)
@@ -656,7 +631,7 @@ def create_test(request):
                     explanation=explanation
                 )
                 q_index += 1
-            messages.success(request, f'Тест "{test.title}" отправлен на модерацию!')
+            messages.success(request, _('Тест "{title}" отправлен на модерацию!').format(title=test.title))
             return redirect('my_tests')
     else:
         test_form = CustomTestForm()
@@ -696,8 +671,7 @@ def take_custom_test(request, test_id):
         profile = request.user.profile
         profile.coins += earned_coins
         profile.save()
-        messages.success(request,
-                         f'Вы ответили правильно на {score} из {questions.count()} вопросов и заработали {earned_coins} монет!')
+        messages.success(request, _('Вы ответили правильно на {score} из {total} вопросов и заработали {coins} монет!').format(score=score, total=questions.count(), coins=earned_coins))
         return redirect('public_tests')
     return render(request, 'take_custom_test.html', {'test': test, 'questions': questions})
 
@@ -706,7 +680,7 @@ def take_custom_test(request, test_id):
 def create_course(request):
     profile = request.user.profile
     if not profile.is_author:
-        messages.error(request, 'Только авторы могут создавать курсы.')
+        messages.error(request, _('Только авторы могут создавать курсы.'))
         return redirect('home')
     if request.method == 'POST':
         form = CourseForm(request.POST)
@@ -716,7 +690,7 @@ def create_course(request):
             course.status = 'draft'
             course.author = request.user
             course.save()
-            messages.success(request, f'Курс "{course.title}" создан и отправлен на модерацию!')
+            messages.success(request, _('Курс "{title}" создан и отправлен на модерацию!').format(title=course.title))
             return redirect('home')
     else:
         form = CourseForm()
@@ -727,13 +701,13 @@ def create_course(request):
 def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if course.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете редактировать этот курс.')
+        messages.error(request, _('Вы не можете редактировать этот курс.'))
         return redirect('course_detail', slug=course.slug)
     if request.method == 'POST':
         form = CourseForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Курс успешно обновлён!')
+            messages.success(request, _('Курс успешно обновлён!'))
             return redirect('course_detail', slug=course.slug)
     else:
         form = CourseForm(instance=course)
@@ -744,7 +718,7 @@ def edit_course(request, course_id):
 def add_lesson(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if not request.user.profile.is_author or course.author != request.user:
-        messages.error(request, 'Вы не можете добавлять уроки в этот курс.')
+        messages.error(request, _('Вы не можете добавлять уроки в этот курс.'))
         return redirect('home')
     user_tests = CustomTest.objects.filter(author=request.user, status='approved')
     if request.method == 'POST':
@@ -777,7 +751,7 @@ def add_lesson(request, course_id):
                         correct_option=correct,
                         explanation=explanation
                     )
-            messages.success(request, f'Урок "{lesson.title}" добавлен!')
+            messages.success(request, _('Урок "{title}" добавлен!').format(title=lesson.title))
             return redirect('course_detail', slug=course.slug)
     else:
         form = LessonForm()
@@ -792,7 +766,7 @@ def add_lesson(request, course_id):
 def edit_custom_test(request, test_id):
     test = get_object_or_404(CustomTest, id=test_id)
     if test.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете редактировать этот тест.')
+        messages.error(request, _('Вы не можете редактировать этот тест.'))
         return redirect('my_tests')
     if request.method == 'POST':
         form = CustomTestForm(request.POST, instance=test)
@@ -821,7 +795,7 @@ def edit_custom_test(request, test_id):
                     explanation=explanation
                 )
                 q_index += 1
-            messages.success(request, f'Тест "{test.title}" успешно обновлён!')
+            messages.success(request, _('Тест "{title}" успешно обновлён!').format(title=test.title))
             return redirect('my_tests')
     else:
         form = CustomTestForm(instance=test)
@@ -833,13 +807,13 @@ def edit_lesson(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     course = lesson.course
     if course.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете редактировать этот урок.')
+        messages.error(request, _('Вы не можете редактировать этот урок.'))
         return redirect('lesson_detail', course_slug=course.slug, order=lesson.order)
     if request.method == 'POST':
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Урок "{lesson.title}" успешно обновлён!')
+            messages.success(request, _('Урок "{title}" успешно обновлён!').format(title=lesson.title))
             return redirect('lesson_detail', course_slug=course.slug, order=lesson.order)
     else:
         form = LessonForm(instance=lesson)
@@ -850,11 +824,11 @@ def edit_lesson(request, lesson_id):
 def delete_custom_test(request, test_id):
     test = get_object_or_404(CustomTest, id=test_id)
     if test.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете удалить этот тест.')
+        messages.error(request, _('Вы не можете удалить этот тест.'))
         return redirect('my_tests')
     test_title = test.title
     test.delete()
-    messages.success(request, f'Тест "{test_title}" успешно удалён!')
+    messages.success(request, _('Тест "{title}" успешно удалён!').format(title=test_title))
     return redirect('my_tests')
 
 
@@ -862,11 +836,11 @@ def delete_custom_test(request, test_id):
 def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if course.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете удалить этот курс.')
+        messages.error(request, _('Вы не можете удалить этот курс.'))
         return redirect('course_detail', slug=course.slug)
     course_title = course.title
     course.delete()
-    messages.success(request, f'Курс "{course_title}" успешно удалён!')
+    messages.success(request, _('Курс "{title}" успешно удалён!').format(title=course_title))
     return redirect('home')
 
 
@@ -875,10 +849,10 @@ def delete_lesson_test(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     course = lesson.course
     if course.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете удалить тест этого урока.')
+        messages.error(request, _('Вы не можете удалить тест этого урока.'))
         return redirect('lesson_detail', course_slug=course.slug, order=lesson.order)
     lesson.questions.all().delete()
-    messages.success(request, f'Тест урока "{lesson.title}" успешно удалён!')
+    messages.success(request, _('Тест урока "{title}" успешно удалён!').format(title=lesson.title))
     return redirect('lesson_detail', course_slug=course.slug, order=lesson.order)
 
 
@@ -886,7 +860,7 @@ def delete_lesson_test(request, lesson_id):
 def attach_test_to_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if course.author != request.user and not request.user.is_superuser:
-        messages.error(request, 'Вы не можете изменять тесты этого курса.')
+        messages.error(request, _('Вы не можете изменять тесты этого курса.'))
         return redirect('course_detail', slug=course.slug)
     user_tests = CustomTest.objects.filter(author=request.user, status='approved').exclude(attached_courses=course)
     if request.method == 'POST':
@@ -894,7 +868,7 @@ def attach_test_to_course(request, course_id):
         if test_id:
             test = get_object_or_404(CustomTest, id=test_id)
             course.additional_tests.add(test)
-            messages.success(request, f'Тест "{test.title}" привязан к курсу!')
+            messages.success(request, _('Тест "{title}" привязан к курсу!').format(title=test.title))
         return redirect('course_detail', slug=course.slug)
     return render(request, 'attach_test_to_course.html', {'course': course, 'user_tests': user_tests})
 
@@ -904,17 +878,17 @@ def add_course_review(request, slug):
     course = get_object_or_404(Course, slug=slug, status='published')
     has_completed = CourseEnrollment.objects.filter(user=request.user, course=course).exists()
     if not has_completed:
-        messages.error(request, 'Вы можете оставить отзыв только после изучения курса.')
+        messages.error(request, _('Вы можете оставить отзыв только после изучения курса.'))
         return redirect('course_detail', slug=course.slug)
     existing_review = CourseReview.objects.filter(user=request.user, course=course).first()
     if existing_review:
-        messages.error(request, 'Вы уже оставили отзыв на этот курс.')
+        messages.error(request, _('Вы уже оставили отзыв на этот курс.'))
         return redirect('course_detail', slug=course.slug)
     if request.method == 'POST':
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
         if not rating or not comment:
-            messages.error(request, 'Пожалуйста, заполните все поля.')
+            messages.error(request, _('Пожалуйста, заполните все поля.'))
             return redirect('add_course_review', slug=course.slug)
         CourseReview.objects.create(
             user=request.user,
@@ -923,12 +897,11 @@ def add_course_review(request, slug):
             comment=comment,
             is_approved=True
         )
-        messages.success(request, 'Спасибо за отзыв! Он появится после проверки модератором.')
+        messages.success(request, _('Спасибо за отзыв! Он появится после проверки модератором.'))
         return redirect('course_detail', slug=course.slug)
     return render(request, 'add_course_review.html', {'course': course})
 
 
-# ========== ПРЕДСТАВЛЕНИЯ ДЛЯ СООБЩЕСТВ ==========
 def community_list(request):
     communities = Community.objects.filter(is_active=True)
     query = request.GET.get('q')
@@ -955,9 +928,8 @@ def community_create(request):
             community.is_active = True
             community.is_approved = True
 
-            # Генерация уникального slug с поддержкой кириллицы
             base_slug = slugify(community.name)
-            if not base_slug:  # если имя состоит только из недопустимых символов
+            if not base_slug:
                 base_slug = "community"
             slug = base_slug
             counter = 1
@@ -972,7 +944,7 @@ def community_create(request):
             community.member_count = 1
             community.save()
 
-            messages.success(request, f'Сообщество "{community.name}" успешно создано!')
+            messages.success(request, _('Сообщество "{name}" успешно создано!').format(name=community.name))
             return redirect('community_detail', slug=community.slug)
     else:
         form = CommunityForm()
@@ -990,7 +962,7 @@ def community_detail(request, slug):
             CommunityMembership.objects.create(community=community, user=user, role='member')
             community.member_count += 1
             community.save()
-            messages.success(request, f'Вы вступили в сообщество "{community.name}"!')
+            messages.success(request, _('Вы вступили в сообщество "{name}"!').format(name=community.name))
             return redirect('community_detail', slug=community.slug)
         return render(request, 'community_private.html', {'community': community})
     posts = community.posts.select_related('author').order_by('-is_pinned', '-created_at')
@@ -1018,9 +990,9 @@ def community_join(request, slug):
         CommunityMembership.objects.create(community=community, user=request.user, role='member')
         community.member_count += 1
         community.save()
-        messages.success(request, f'Вы вступили в сообщество "{community.name}"!')
+        messages.success(request, _('Вы вступили в сообщество "{name}"!').format(name=community.name))
     else:
-        messages.info(request, 'Вы уже состоите в этом сообществе.')
+        messages.info(request, _('Вы уже состоите в этом сообществе.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1032,10 +1004,9 @@ def community_leave(request, slug):
         membership.delete()
         community.member_count -= 1
         community.save()
-        messages.success(request, f'Вы покинули сообщество "{community.name}".')
+        messages.success(request, _('Вы покинули сообщество "{name}".').format(name=community.name))
     else:
-        messages.error(request,
-                       'Вы не можете покинуть сообщество, так как являетесь его владельцем или администратором.')
+        messages.error(request, _('Вы не можете покинуть сообщество, так как являетесь его владельцем или администратором.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1044,7 +1015,7 @@ def community_add_post(request, slug):
     community = get_object_or_404(Community, slug=slug, is_active=True)
     membership = CommunityMembership.objects.filter(community=community, user=request.user).first()
     if not membership:
-        messages.error(request, 'Вы должны состоять в сообществе, чтобы создавать посты.')
+        messages.error(request, _('Вы должны состоять в сообществе, чтобы создавать посты.'))
         return redirect('community_detail', slug=slug)
     if request.method == 'POST':
         form = CommunityPostForm(request.POST)
@@ -1053,7 +1024,7 @@ def community_add_post(request, slug):
             post.community = community
             post.author = request.user
             post.save()
-            messages.success(request, 'Ваш пост опубликован!')
+            messages.success(request, _('Ваш пост опубликован!'))
             return redirect('community_detail', slug=slug)
     else:
         form = CommunityPostForm()
@@ -1065,13 +1036,13 @@ def community_edit_post(request, post_id):
     post = get_object_or_404(CommunityPost, id=post_id)
     community = post.community
     if not (request.user == post.author or community.user_can_manage(request.user)):
-        messages.error(request, 'У вас нет прав на редактирование этого поста.')
+        messages.error(request, _('У вас нет прав на редактирование этого поста.'))
         return redirect('community_detail', slug=community.slug)
     if request.method == 'POST':
         form = CommunityPostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Пост обновлён.')
+            messages.success(request, _('Пост обновлён.'))
             return redirect('community_detail', slug=community.slug)
     else:
         form = CommunityPostForm(instance=post)
@@ -1083,10 +1054,10 @@ def community_delete_post(request, post_id):
     post = get_object_or_404(CommunityPost, id=post_id)
     community = post.community
     if not (request.user == post.author or community.user_can_manage(request.user)):
-        messages.error(request, 'Недостаточно прав.')
+        messages.error(request, _('Недостаточно прав.'))
         return redirect('community_detail', slug=community.slug)
     post.delete()
-    messages.success(request, 'Пост удалён.')
+    messages.success(request, _('Пост удалён.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1106,7 +1077,7 @@ def community_add_comment(request, post_id):
     community = post.community
     membership = CommunityMembership.objects.filter(community=community, user=request.user).first()
     if not membership:
-        messages.error(request, 'Вы должны быть участником сообщества, чтобы комментировать.')
+        messages.error(request, _('Вы должны быть участником сообщества, чтобы комментировать.'))
         return redirect('community_detail', slug=community.slug)
     if request.method == 'POST':
         form = CommunityCommentForm(request.POST)
@@ -1117,7 +1088,7 @@ def community_add_comment(request, post_id):
             comment.save()
             post.comments_count += 1
             post.save()
-            messages.success(request, 'Комментарий добавлен.')
+            messages.success(request, _('Комментарий добавлен.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1126,12 +1097,12 @@ def community_delete_comment(request, comment_id):
     comment = get_object_or_404(CommunityComment, id=comment_id)
     community = comment.post.community
     if not (request.user == comment.author or community.user_can_manage(request.user)):
-        messages.error(request, 'Недостаточно прав.')
+        messages.error(request, _('Недостаточно прав.'))
         return redirect('community_detail', slug=community.slug)
     comment.post.comments_count -= 1
     comment.post.save()
     comment.delete()
-    messages.success(request, 'Комментарий удалён.')
+    messages.success(request, _('Комментарий удалён.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1139,7 +1110,7 @@ def community_delete_comment(request, comment_id):
 def community_add_link(request, slug):
     community = get_object_or_404(Community, slug=slug, is_active=True)
     if not community.user_can_manage(request.user):
-        messages.error(request, 'У вас нет прав на управление ссылками.')
+        messages.error(request, _('У вас нет прав на управление ссылками.'))
         return redirect('community_detail', slug=slug)
     if request.method == 'POST':
         form = CommunityExternalLinkForm(request.POST)
@@ -1147,7 +1118,7 @@ def community_add_link(request, slug):
             link = form.save(commit=False)
             link.community = community
             link.save()
-            messages.success(request, 'Ссылка добавлена.')
+            messages.success(request, _('Ссылка добавлена.'))
             return redirect('community_detail', slug=slug)
     else:
         form = CommunityExternalLinkForm()
@@ -1159,13 +1130,13 @@ def community_edit_link(request, link_id):
     link = get_object_or_404(CommunityExternalLink, id=link_id)
     community = link.community
     if not community.user_can_manage(request.user):
-        messages.error(request, 'Недостаточно прав.')
+        messages.error(request, _('Недостаточно прав.'))
         return redirect('community_detail', slug=community.slug)
     if request.method == 'POST':
         form = CommunityExternalLinkForm(request.POST, instance=link)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Ссылка обновлена.')
+            messages.success(request, _('Ссылка обновлена.'))
             return redirect('community_detail', slug=community.slug)
     else:
         form = CommunityExternalLinkForm(instance=link)
@@ -1177,10 +1148,10 @@ def community_delete_link(request, link_id):
     link = get_object_or_404(CommunityExternalLink, id=link_id)
     community = link.community
     if not community.user_can_manage(request.user):
-        messages.error(request, 'Недостаточно прав.')
+        messages.error(request, _('Недостаточно прав.'))
         return redirect('community_detail', slug=community.slug)
     link.delete()
-    messages.success(request, 'Ссылка удалена.')
+    messages.success(request, _('Ссылка удалена.'))
     return redirect('community_detail', slug=community.slug)
 
 
@@ -1188,7 +1159,7 @@ def community_delete_link(request, link_id):
 def community_manage(request, slug):
     community = get_object_or_404(Community, slug=slug, is_active=True)
     if not community.user_can_manage(request.user):
-        messages.error(request, 'Доступ запрещён.')
+        messages.error(request, _('Доступ запрещён.'))
         return redirect('community_detail', slug=slug)
     members = CommunityMembership.objects.filter(community=community).select_related('user').order_by('-joined_at')
     if request.method == 'POST':
@@ -1200,15 +1171,15 @@ def community_manage(request, slug):
             if action == 'ban':
                 membership.is_banned = True
                 membership.save()
-                messages.success(request, 'Пользователь забанен.')
+                messages.success(request, _('Пользователь забанен.'))
             elif action == 'unban':
                 membership.is_banned = False
                 membership.save()
-                messages.success(request, 'Бан снят.')
+                messages.success(request, _('Бан снят.'))
             elif new_role in dict(CommunityMembership.ROLE_CHOICES):
                 membership.role = new_role
                 membership.save()
-                messages.success(request, 'Роль изменена.')
+                messages.success(request, _('Роль изменена.'))
         return redirect('community_manage', slug=slug)
     return render(request, 'community_manage.html', {'community': community, 'members': members})
 
@@ -1227,7 +1198,7 @@ def community_chat(request, slug):
     community = get_object_or_404(Community, slug=slug, is_active=True, has_chat=True)
     membership = CommunityMembership.objects.filter(community=community, user=request.user).first()
     if not membership and not request.user.is_superuser:
-        messages.error(request, 'Вы должны состоять в сообществе, чтобы пользоваться чатом.')
+        messages.error(request, _('Вы должны состоять в сообществе, чтобы пользоваться чатом.'))
         return redirect('community_detail', slug=slug)
     room, _ = CommunityChatRoom.objects.get_or_create(community=community)
     messages_list = room.messages.all().select_related('user')[:50]
@@ -1239,34 +1210,21 @@ def community_chat(request, slug):
     return render(request, 'community_chat.html', context)
 
 
-# ========== СИСТЕМА ДРУЗЕЙ ==========
-
 @login_required
 def user_profile(request, username):
-    """Просмотр профиля другого пользователя"""
     target_user = get_object_or_404(User, username=username)
     profile = target_user.profile
 
-    # Проверяем статус дружбы
     are_friends = Friendship.are_friends(request.user, target_user)
-
-    # Проверяем, есть ли ожидающая заявка от текущего пользователя
     pending_sent = Friendship.objects.filter(
         from_user=request.user, to_user=target_user, status='pending'
     ).exists()
-
-    # Проверяем, есть ли ожидающая заявка к текущему пользователю
     pending_received_obj = Friendship.objects.filter(
         from_user=target_user, to_user=request.user, status='pending'
     ).first()
-
-    # Получаем ID заявки (если есть)
     pending_received_id = pending_received_obj.id if pending_received_obj else None
 
-    # Достижения пользователя
     achievements_progress = target_user.achievements_progress.select_related('achievement').all()
-
-    # Пройденные курсы
     enrolled_courses = CourseEnrollment.objects.filter(user=target_user).select_related('course')
 
     context = {
@@ -1274,8 +1232,8 @@ def user_profile(request, username):
         'profile': profile,
         'are_friends': are_friends,
         'pending_sent': pending_sent,
-        'pending_received': pending_received_obj,  # передаём объект целиком
-        'pending_received_id': pending_received_id,  # передаём отдельно ID
+        'pending_received': pending_received_obj,
+        'pending_received_id': pending_received_id,
         'achievements_progress': achievements_progress,
         'enrolled_courses': enrolled_courses,
     }
@@ -1287,60 +1245,50 @@ def add_friend(request, username):
     target_user = get_object_or_404(User, username=username)
 
     if request.user == target_user:
-        messages.error(request, 'Нельзя добавить самого себя в друзья.')
+        messages.error(request, _('Нельзя добавить самого себя в друзья.'))
         return redirect('user_profile', username=username)
 
-    # Проверяем, есть ли входящая заявка (автоматическое принятие)
     incoming = Friendship.objects.filter(
         from_user=target_user, to_user=request.user, status='pending'
     ).first()
 
     if incoming:
         incoming.accept()
-
-        # ========== ПРОВЕРКА ДОСТИЖЕНИЯ ЗА ДРУЗЕЙ ==========
         from .services.achievement_service import AchievementService
         from django.db.models import Q
-
         friends_count = Friendship.objects.filter(
             Q(from_user=request.user, status='accepted') |
             Q(to_user=request.user, status='accepted')
         ).count()
         AchievementService.check_friends_achievement(request.user, friends_count)
-        # ========== КОНЕЦ ==========
-
-        messages.success(request, f'Вы стали друзьями с {target_user.username}!')
+        messages.success(request, _('Вы стали друзьями с {username}!').format(username=target_user.username))
         return redirect('user_profile', username=username)
 
-    # Обычная отправка заявки
     existing = Friendship.objects.filter(
         from_user=request.user, to_user=target_user, status='pending'
     ).first()
 
     if existing:
-        messages.info(request, 'Заявка уже отправлена.')
+        messages.info(request, _('Заявка уже отправлена.'))
         return redirect('user_profile', username=username)
 
     Friendship.objects.create(from_user=request.user, to_user=target_user, status='pending')
-    messages.success(request, f'Заявка в друзья отправлена пользователю {target_user.username}.')
+    messages.success(request, _('Заявка в друзья отправлена пользователю {username}.').format(username=target_user.username))
     return redirect('user_profile', username=username)
 
 
 @login_required
 def accept_friend(request, friendship_id):
-    """Принять заявку в друзья"""
     friendship = get_object_or_404(Friendship, id=friendship_id, to_user=request.user, status='pending')
     friendship.accept()
-    messages.success(request, f'Вы приняли заявку от {friendship.from_user.username}.')
+    messages.success(request, _('Вы приняли заявку от {username}.').format(username=friendship.from_user.username))
     return redirect('profile')
 
 
 @login_required
 def remove_friend(request, username):
-    """Удалить из друзей или отклонить заявку"""
     target_user = get_object_or_404(User, username=username)
 
-    # Находим дружбу в любом направлении
     friendship = Friendship.objects.filter(
         Q(from_user=request.user, to_user=target_user) |
         Q(from_user=target_user, to_user=request.user)
@@ -1348,25 +1296,21 @@ def remove_friend(request, username):
 
     if friendship:
         friendship.delete()
-        messages.success(request, f'Вы удалили {target_user.username} из друзей.')
+        messages.success(request, _('Вы удалили {username} из друзей.').format(username=target_user.username))
     else:
-        messages.error(request, 'Дружба не найдена.')
+        messages.error(request, _('Дружба не найдена.'))
 
     return redirect('user_profile', username=username)
 
 
 @login_required
 def my_friends(request):
-    """Список друзей пользователя"""
     friends_users = User.objects.filter(
         Q(friend_requests_sent__to_user=request.user, friend_requests_sent__status='accepted') |
         Q(friend_requests_received__from_user=request.user, friend_requests_received__status='accepted')
     ).distinct()
 
-    # Входящие заявки
     incoming_requests = Friendship.objects.filter(to_user=request.user, status='pending')
-
-    # Исходящие заявки
     outgoing_requests = Friendship.objects.filter(from_user=request.user, status='pending')
 
     context = {

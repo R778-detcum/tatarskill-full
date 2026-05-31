@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Результаты теста: {{ lesson.title }}{% endblock %}
+{% block title %}{% trans "Результаты теста" %}: {{ lesson.title }}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title mb-4">Результаты теста</h1>
+        <h1 class="section-title mb-4">{% trans "Результаты теста" %}</h1>
         <h3 class="text-success mb-4">{{ lesson.title }}</h3>
 
         <div class="alert alert-{% if percentage >= 70 %}success{% else %}warning{% endif %} mb-5">
-            <h4 class="alert-heading">Ваш результат: {{ correct_count }} из {{ total_questions }} ({{ percentage|floatformat:0 }}%)</h4>
+            <h4 class="alert-heading">{% trans "Ваш результат" %}: {{ correct_count }} {% trans "из" %} {{ total_questions }} ({{ percentage|floatformat:0 }}%)</h4>
             {% if percentage >= 70 %}
-                <p class="mb-0">Отлично! Вы успешно прошли тест.</p>
+                <p class="mb-0">{% trans "Отлично! Вы успешно прошли тест." %}</p>
             {% else %}
-                <p class="mb-0">Рекомендуем повторить материал и попробовать снова.</p>
+                <p class="mb-0">{% trans "Рекомендуем повторить материал и попробовать снова." %}</p>
             {% endif %}
         </div>
 
-        <h4 class="mb-3">Детализация ответов:</h4>
+        <h4 class="mb-3">{% trans "Детализация ответов" %}:</h4>
         {% for result in results %}
         <div class="card mb-3 {% if result.is_correct %}border-success{% else %}border-danger{% endif %}">
             <div class="card-body">
@@ -31,18 +31,18 @@
                     {% endif %}
                 </h5>
                 <p class="card-text">
-                    <strong>Ваш ответ:</strong>
+                    <strong>{% trans "Ваш ответ" %}:</strong>
                     {% if result.selected_option %}
                         {% with idx=result.selected_option|add:"-1" %}
                             {{ result.options|slice:idx|first|default:"Не выбрано" }}
                         {% endwith %}
                     {% else %}
-                        Не выбрано
+                        {% trans "Не выбрано" %}
                     {% endif %}
                 </p>
                 {% if not result.is_correct %}
                 <p class="card-text">
-                    <strong>Правильный ответ:</strong>
+                    <strong>{% trans "Правильный ответ" %}:</strong>
                     {% with idx=result.correct_option|add:"-1" %}
                         {{ result.options|slice:idx|first }}
                     {% endwith %}
@@ -56,8 +56,8 @@
         {% endfor %}
 
         <div class="mt-4 d-flex gap-3">
-            <a href="{% url 'lesson_detail' lesson.course.slug lesson.order %}" class="btn-outline-custom">← Вернуться к уроку</a>
-            <a href="{% url 'course_detail' lesson.course.slug %}" class="btn-primary-custom">К списку уроков</a>
+            <a href="{% url 'lesson_detail' lesson.course.slug lesson.order %}" class="btn-outline-custom">← {% trans "Вернуться к уроку" %}</a>
+            <a href="{% url 'course_detail' lesson.course.slug %}" class="btn-primary-custom">{% trans "К списку уроков" %}</a>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Тест: {{ lesson.title }}{% endblock %}
+{% block title %}{% trans "Тест" %}: {{ lesson.title }}{% endblock %}
 
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -114,7 +114,7 @@
         <img src="https://i.imgur.com/mrrNTcQ.png" class="dino-avatar" alt="🦖"
              onerror="this.onerror=null; this.src='https://via.placeholder.com/360/fbbf24/000?text=🦖'">
         <div class="speech-bubble">
-          <p id="question-text">Загрузка вопроса...</p>
+          <p id="question-text">{% trans "Загрузка вопроса..." %}</p>
         </div>
       </div>
       <div class="options-grid" id="options-container"></div>
@@ -198,9 +198,9 @@
     feedbackDiv.style.display = 'block';
     feedbackDiv.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
     if (isCorrect) {
-      feedbackDiv.innerHTML = `<i class="fas fa-check-circle"></i> Правильно! ${explanation ? ' ' + explanation : ''}`;
+      feedbackDiv.innerHTML = `<i class="fas fa-check-circle"></i> {% trans "Правильно!" %} ${explanation ? ' ' + explanation : ''}`;
     } else {
-      feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> Неправильно. ${explanation ? ' ' + explanation : 'Попробуйте ещё раз.'}`;
+      feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> {% trans "Неправильно." %} ${explanation ? ' ' + explanation : '{% trans "Попробуйте ещё раз." %}'}`;
     }
     setTimeout(() => {
       if (feedbackDiv.style.display !== 'none') feedbackDiv.style.display = 'none';
@@ -226,34 +226,22 @@
 
   function loseLife() {
     if (lives <= 0) return;
-
-    // Находим индекс дракончика, который будет потерян (последний активный)
     const activeDragons = document.querySelectorAll('.life-dragon.active');
-    const dragonToRemoveIndex = activeDragons.length - 1;
-
-    // Получаем сам элемент дракончика, который будем анимировать
-    const dragonToAnimate = activeDragons[dragonToRemoveIndex];
-
-    // Уменьшаем жизни и обновляем отображение
+    const dragonToAnimate = activeDragons[activeDragons.length - 1];
     lives--;
     updateDragonLives();
-
-    // Анимация удара
     const quizCard = document.querySelector('.quiz-card');
     if (quizCard) {
       quizCard.classList.add('wrong-shake');
       setTimeout(() => quizCard.classList.remove('wrong-shake'), 400);
     }
-
-    // Анимируем именно тот дракончик, который должен загореться (по индексу)
     if (dragonToAnimate) {
       dragonToAnimate.classList.add('fire');
       setTimeout(() => dragonToAnimate.classList.remove('fire'), 800);
     }
-
     if (lives === 0) {
       setTimeout(() => {
-        alert('💔 Вы проиграли! Начните тест заново.');
+        alert('{% trans "💔 Вы проиграли! Начните тест заново." %}');
         window.location.reload();
       }, 1000);
     }
@@ -277,7 +265,7 @@
       const btn = document.createElement('button');
       btn.id = 'audio-play-btn';
       btn.style.cssText = 'margin-top: 10px; background: #f1f5f9; border: none; border-radius: 40px; padding: 8px 16px; cursor: pointer; font-size: 0.9rem;';
-      btn.innerHTML = '<i class="fas fa-volume-up"></i> Прослушать';
+      btn.innerHTML = '<i class="fas fa-volume-up"></i> {% trans "Прослушать" %}';
       btn.onclick = () => { new Audio(q.audio_url).play(); };
       document.querySelector('.speech-bubble').appendChild(btn);
     }
@@ -297,10 +285,10 @@
     } else if (q.question_type === 'translate') {
       const input = document.createElement('input');
       input.type = 'text';
-      input.placeholder = 'Введите перевод...';
+      input.placeholder = '{% trans "Введите перевод..." %}';
       input.style.cssText = 'width: 100%; padding: 16px; border-radius: 24px; border: 2px solid #e2e8f0; margin-bottom: 16px; font-size: 1rem;';
       const submitBtn = document.createElement('button');
-      submitBtn.textContent = 'Проверить';
+      submitBtn.textContent = '{% trans "Проверить" %}';
       submitBtn.className = 'option-btn';
       submitBtn.style.justifyContent = 'center';
       submitBtn.onclick = () => {
@@ -380,7 +368,7 @@
         if (canAnswer) {
           canAnswer = false;
           loseLife();
-          showFeedback(false, 'Время вышло!');
+          showFeedback(false, '{% trans "Время вышло!" %}');
           if (lives === 0) return;
           setTimeout(() => {
             canAnswer = true;
@@ -414,9 +402,9 @@
     overlay.innerHTML = `
       <div style="background: white; border-radius: 28px; padding: 32px 40px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 25px 50px rgba(0,0,0,0.25); border: 3px solid ${success ? '#10b981' : '#ef4444'};">
         <div style="font-size: 4rem; margin-bottom: 16px;">${success ? '🎉' : '💔'}</div>
-        <h3 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 12px;">${success ? 'Урок пройден!' : 'Попробуйте ещё раз'}</h3>
-        <p style="color: #64748b; margin-bottom: 24px;">${success ? 'Отличная работа!' : 'Не переживайте, практика делает совершенным!'}</p>
-        <button onclick="window.location.href='/course/{{ lesson.course.slug }}/'" style="background: ${success ? '#10b981' : '#ef4444'}; color: white; border: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; cursor: pointer;">${success ? 'Продолжить курс' : 'Вернуться к уроку'}</button>
+        <h3 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 12px;">${success ? '{% trans "Урок пройден!" %}' : '{% trans "Попробуйте ещё раз" %}'}</h3>
+        <p style="color: #64748b; margin-bottom: 24px;">${success ? '{% trans "Отличная работа!" %}' : '{% trans "Не переживайте, практика делает совершенным!" %}'}</p>
+        <button onclick="window.location.href='/course/{{ lesson.course.slug }}/'" style="background: ${success ? '#10b981' : '#ef4444'}; color: white; border: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; cursor: pointer;">${success ? '{% trans "Продолжить курс" %}' : '{% trans "Вернуться к уроку" %}'}</button>
       </div>
     `;
     document.body.appendChild(overlay);

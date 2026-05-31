@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from .models import (
     Course, Lesson, Community, CommunityMembership, CommunityPost, CommunityComment, CommunityExternalLink,
     Achievement, Profile, Question, LessonCompletion, League, LeagueInstance,
@@ -37,10 +38,10 @@ class CommunityAdmin(admin.ModelAdmin):
     list_editable = ['is_active', 'order', 'has_chat']
     inlines = [CommunityMembershipInline, CommunityExternalLinkInline, CommunityPostInline]
     fieldsets = (
-        ('Основное', {'fields': ('name', 'slug', 'description', 'icon_class', 'cover_image')}),
-        ('Доступ', {'fields': ('is_active', 'is_private', 'join_password', 'owner')}),
-        ('Чат', {'fields': ('has_chat',)}),
-        ('Дополнительно', {'fields': ('rules', 'tags', 'order', 'member_count', 'courses')}),
+        (_('Основное'), {'fields': ('name', 'slug', 'description', 'icon_class', 'cover_image')}),
+        (_('Доступ'), {'fields': ('is_active', 'is_private', 'join_password', 'owner')}),
+        (_('Чат'), {'fields': ('has_chat',)}),
+        (_('Дополнительно'), {'fields': ('rules', 'tags', 'order', 'member_count', 'courses')}),
     )
     filter_horizontal = ['courses']
 
@@ -88,30 +89,30 @@ class CourseAdmin(admin.ModelAdmin):
     list_editable = ['status', 'is_official']
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
-        ('Основная информация', {'fields': ('title', 'slug', 'description', 'short_description', 'author')}),
-        ('Детали курса', {'fields': ('level', 'duration_weeks', 'lessons_count')}),
-        ('Цена и акции', {'fields': ('price', 'old_price', 'is_free'), 'classes': ('collapse',)}),
-        ('Визуальное оформление', {'fields': ('icon_class', 'badge_text', 'badge_color'), 'classes': ('collapse',)}),
-        ('Статус и даты', {'fields': ('status', 'order', 'published_at', 'is_official'), 'classes': ('collapse',)}),
+        (_('Основная информация'), {'fields': ('title', 'slug', 'description', 'short_description', 'author')}),
+        (_('Детали курса'), {'fields': ('level', 'duration_weeks', 'lessons_count')}),
+        (_('Цена и акции'), {'fields': ('price', 'old_price', 'is_free'), 'classes': ('collapse',)}),
+        (_('Визуальное оформление'), {'fields': ('icon_class', 'badge_text', 'badge_color'), 'classes': ('collapse',)}),
+        (_('Статус и даты'), {'fields': ('status', 'order', 'published_at', 'is_official'), 'classes': ('collapse',)}),
     )
     actions = ['make_published', 'make_draft', 'make_official', 'make_unofficial']
 
     def make_published(self, request, queryset):
         from django.utils import timezone
         queryset.update(status='published', published_at=timezone.now())
-    make_published.short_description = 'Опубликовать выбранные курсы'
+    make_published.short_description = _('Опубликовать выбранные курсы')
 
     def make_draft(self, request, queryset):
         queryset.update(status='draft')
-    make_draft.short_description = 'Снять с публикации'
+    make_draft.short_description = _('Снять с публикации')
 
     def make_official(self, request, queryset):
         queryset.update(is_official=True)
-    make_official.short_description = 'Сделать официальными'
+    make_official.short_description = _('Сделать официальными')
 
     def make_unofficial(self, request, queryset):
         queryset.update(is_official=False)
-    make_unofficial.short_description = 'Сделать народными'
+    make_unofficial.short_description = _('Сделать народными')
 
 
 @admin.register(Lesson)

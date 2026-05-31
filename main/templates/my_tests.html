@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Мои тесты{% endblock %}
+{% block title %}{% trans "Мои тесты" %}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title">Мои тесты</h1>
+        <h1 class="section-title">{% trans "Мои тесты" %}</h1>
 
         <div class="mb-4">
-            <a href="{% url 'create_test' %}" class="btn-primary-custom">+ Создать новый тест</a>
+            <a href="{% url 'create_test' %}" class="btn-primary-custom">+ {% trans "Создать новый тест" %}</a>
         </div>
 
         {% if tests %}
@@ -17,25 +18,25 @@
                 <div class="col-md-6 mb-3">
                     <div class="card-glass p-3">
                         <h3>{{ test.title }}</h3>
-                        <p>Предмет: {{ test.subject }}</p>
-                        <p>Сложность: {{ test.get_difficulty_display }}</p>
-                        <p>Статус:
-                            {% if test.status == 'draft' %}Черновик
-                            {% elif test.status == 'moderation' %}На модерации
-                            {% elif test.status == 'approved' %}Опубликован
-                            {% elif test.status == 'rejected' %}Отклонён
+                        <p>{% trans "Предмет" %}: {{ test.subject }}</p>
+                        <p>{% trans "Сложность" %}: {{ test.get_difficulty_display }}</p>
+                        <p>{% trans "Статус" %}:
+                            {% if test.status == 'draft' %}{% trans "Черновик" %}
+                            {% elif test.status == 'moderation' %}{% trans "На модерации" %}
+                            {% elif test.status == 'approved' %}{% trans "Опубликован" %}
+                            {% elif test.status == 'rejected' %}{% trans "Отклонён" %}
                             {% endif %}
                         </p>
-                        <p>Вопросов: {{ test.questions.count }}</p>
-                        <p>Награда: {{ test.reward_coins_per_question }} монет за вопрос</p>
-                        <a href="{% url 'edit_custom_test' test.id %}" class="btn-outline-custom btn-sm mt-2">✏️ Редактировать</a>
-                        <a href="{% url 'delete_custom_test' test.id %}" class="btn-outline-custom btn-sm mt-2" onclick="return confirm('Вы уверены, что хотите удалить тест «{{ test.title }}»? Это действие необратимо.');">🗑️ Удалить</a>
+                        <p>{% trans "Вопросов" %}: {{ test.questions.count }}</p>
+                        <p>{% trans "Награда" %}: {{ test.reward_coins_per_question }} {% trans "монет за вопрос" %}</p>
+                        <a href="{% url 'edit_custom_test' test.id %}" class="btn-outline-custom btn-sm mt-2">✏️ {% trans "Редактировать" %}</a>
+                        <a href="{% url 'delete_custom_test' test.id %}" class="btn-outline-custom btn-sm mt-2" onclick="return confirm('{% trans "Вы уверены, что хотите удалить тест" %} «{{ test.title }}»? {% trans "Это действие необратимо." %}');">🗑️ {% trans "Удалить" %}</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-muted">У вас пока нет созданных тестов.</p>
+            <p class="text-muted">{% trans "У вас пока нет созданных тестов." %}</p>
         {% endif %}
     </div>
 </div>

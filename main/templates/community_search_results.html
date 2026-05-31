@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Поиск сообществ{% endblock %}
+{% block title %}{% trans "Поиск сообществ" %}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
-    <h1 class="section-title">Результаты поиска: «{{ query }}»</h1>
+    <h1 class="section-title">{% trans "Результаты поиска" %}: «{{ query }}»</h1>
     <div class="row g-4">
         {% for community in communities %}
         <div class="col-md-4 col-sm-6">
@@ -12,11 +13,11 @@
                 <div class="community-icon mx-auto"><i class="{{ community.icon_class }} fa-2x"></i></div>
                 <h5>{{ community.name }}</h5>
                 <p>{{ community.description|truncatewords:15 }}</p>
-                <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">Перейти</a>
+                <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">{% trans "Перейти" %}</a>
             </div>
         </div>
         {% empty %}
-        <div class="col-12"><p>Ничего не найдено.</p></div>
+        <div class="col-12"><p>{% trans "Ничего не найдено." %}</p></div>
         {% endfor %}
     </div>
 </div>

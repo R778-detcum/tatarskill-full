@@ -1,41 +1,41 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Лиги — TatarSkill{% endblock %}
+{% block title %}{% trans "Лиги" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-4">
         <h1 class="section-title text-center mb-4">{{ league_instance.league.tatar_name }}</h1>
-        <p class="text-center text-muted">Неделя, начавшаяся {{ week_start|date:"d.m.Y" }}</p>
+        <p class="text-center text-muted">{% trans "Неделя, начавшаяся" %} {{ week_start|date:"d.m.Y" }}</p>
 
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Пользователь</th>
-                        <th>XP за неделю</th>
+                        <th>{% trans "Пользователь" %}</th>
+                        <th>{% trans "XP за неделю" %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for member in members %}
                     <tr class="{% if member.user == request.user %}table-success fw-bold{% endif %}">
-                        <td>{{ member.rank }}</td>
+                        <td>{{ member.rank }}</a>
                         <td>
                             {% if member.user == request.user %}
                                 <i class="fas fa-user-astronaut me-2"></i>
                             {% endif %}
                             {{ member.user.username }}
-                        </td>
-                        <td>{{ member.weekly_xp }}</td>
-                    </tr>
+                        </a>
+                        <td>{{ member.weekly_xp }}</a>
+                    </a>
                     {% endfor %}
                 </tbody>
-            </table>
+            </a>
         </div>
         <div class="mt-4 text-center">
-            <p class="text-muted">Каждый понедельник 10 лучших переходят в высшую лигу, 10 худших – понижаются.</p>
+            <p class="text-muted">{% trans "Каждый понедельник 10 лучших переходят в высшую лигу, 10 худших – понижаются." %}</p>
         </div>
     </div>
 </div>

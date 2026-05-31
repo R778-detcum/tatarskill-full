@@ -1,27 +1,29 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Сообщества — TatarSkill{% endblock %}
+{% block title %}{% trans "Сообщества" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
-    <h1 class="section-title text-center mb-5">Сообщества</h1>
+    <h1 class="section-title text-center mb-5">{% trans "Сообщества" %}</h1>
     <div class="row g-4">
         {% for community in communities %}
         <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="community-card text-center p-4">
-                <div class="community-icon mx-auto">
-                    <i class="{{ community.icon_class|default:'fas fa-users' }} fa-2x"></i>
+            <a href="{% url 'community_detail' community.slug %}" style="text-decoration: none; color: inherit;">
+                <div class="community-card text-center p-4">
+                    <div class="community-icon mx-auto">
+                        <i class="{{ community.icon_class|default:'fas fa-users' }} fa-2x"></i>
+                    </div>
+                    <h5 class="mt-3">{{ community.name }}</h5>
+                    <p class="small text-white-50">{{ community.description }}</p>
+                    <span class="badge bg-warning text-dark">{{ community.member_count }} {% trans "участников" %}</span>
+                    <span class="btn-outline-custom w-100 mt-3 d-inline-block text-center">{% trans "Перейти" %}</span>
                 </div>
-                <h5 class="mt-3">{{ community.name }}</h5>
-                <p class="small text-white-50">{{ community.description }}</p>
-                <span class="badge bg-warning text-dark">{{ community.member_count }} участников</span>
-                <button class="btn-outline-custom w-100 mt-3">Присоединиться</button>
-            </div>
+            </a>
         </div>
         {% empty %}
         <div class="col-12 text-center">
-            <p class="text-white-50 fs-4">Сообщества скоро появятся</p>
+            <p class="text-white-50 fs-4">{% trans "Сообщества скоро появятся" %}</p>
         </div>
         {% endfor %}
     </div>

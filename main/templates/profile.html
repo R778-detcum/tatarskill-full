@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Мой профиль — TatarSkill{% endblock %}
+{% block title %}{% trans "Мой профиль" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
@@ -16,22 +16,22 @@
                 <hr class="border-secondary">
                 <p class="text-secondary">
                     <i class="fas fa-calendar me-2"></i>
-                    Зарегистрирован: {{ user.date_joined|date:"d.m.Y" }}
+                    {% trans "Зарегистрирован" %}: {{ user.date_joined|date:"d.m.Y" }}
                 </p>
 
                 <div class="d-flex flex-column gap-2 mt-3">
                     {% if not user.profile.is_author %}
-                        <a href="{% url 'become_author' %}" class="btn-outline-custom w-100">📝 Стать автором</a>
+                        <a href="{% url 'become_author' %}" class="btn-outline-custom w-100">📝 {% trans "Стать автором" %}</a>
                     {% endif %}
                     {% if user.profile.is_author %}
-                        <a href="{% url 'create_course' %}" class="btn-primary-custom w-100">➕ Создать курс</a>
-                        <a href="{% url 'create_test' %}" class="btn-primary-custom w-100">➕ Создать тест</a>
-                        <a href="{% url 'my_tests' %}" class="btn-outline-custom w-100">📋 Мои тесты</a>
+                        <a href="{% url 'create_course' %}" class="btn-primary-custom w-100">➕ {% trans "Создать курс" %}</a>
+                        <a href="{% url 'create_test' %}" class="btn-primary-custom w-100">➕ {% trans "Создать тест" %}</a>
+                        <a href="{% url 'my_tests' %}" class="btn-outline-custom w-100">📋 {% trans "Мои тесты" %}</a>
                     {% endif %}
-                    <a href="{% url 'community_create' %}" class="btn-primary-custom w-100">🌍 Создать сообщество</a>
-                    <a href="{% url 'public_tests' %}" class="btn-outline-custom w-100">🌍 Все тесты</a>
-                    <a href="{% url 'my_friends' %}" class="btn-outline-custom w-100">👥 Мои друзья</a>
-                    <a href="{% url 'logout' %}" class="btn-outline-custom w-100">Выйти</a>
+                    <a href="{% url 'community_create' %}" class="btn-primary-custom w-100">🌍 {% trans "Создать сообщество" %}</a>
+                    <a href="{% url 'public_tests' %}" class="btn-outline-custom w-100">🌍 {% trans "Все тесты" %}</a>
+                    <a href="{% url 'my_friends' %}" class="btn-outline-custom w-100">👥 {% trans "Мои друзья" %}</a>
+                    <a href="{% url 'logout' %}" class="btn-outline-custom w-100">{% trans "Выйти" %}</a>
                 </div>
             </div>
         </div>
@@ -60,27 +60,27 @@
                     <div class="dragon-stats mt-3">
                         <h4 class="mb-2">
                             {% if user.profile.streak_days == 0 %}
-                                😴 Спящий дракон
+                                😴 {% trans "Спящий дракон" %}
                             {% elif user.profile.streak_days >= 150 %}
-                                🏆 Аждаха
+                                🏆 {% trans "Аждаха" %}
                             {% elif user.profile.streak_days >= 100 %}
-                                👑 Золотой дракон
+                                👑 {% trans "Золотой дракон" %}
                             {% elif user.profile.streak_days >= 30 %}
-                                🔥 Огненный дракон
+                                🔥 {% trans "Огненный дракон" %}
                             {% elif user.profile.streak_days >= 14 %}
-                                🐉 Взрослый дракон
+                                🐉 {% trans "Взрослый дракон" %}
                             {% elif user.profile.streak_days >= 7 %}
-                                🐣 Юный дракон
+                                🐣 {% trans "Юный дракон" %}
                             {% elif user.profile.streak_days >= 3 %}
-                                🥚 Детёныш
+                                🥚 {% trans "Детёныш" %}
                             {% else %}
-                                🥚 Яйцо
+                                🥚 {% trans "Яйцо" %}
                             {% endif %}
                         </h4>
 
                         <div class="streak-status">
                             <span class="badge bg-danger fs-6 p-2">
-                                🔥 Ударный режим: {{ user.profile.streak_days }} дней
+                                🔥 {% trans "Ударный режим" %}: {{ user.profile.streak_days }} {% trans "дней" %}
                             </span>
                         </div>
 
@@ -110,21 +110,21 @@
                             <small class="text-muted">
                                 {% with streak=user.profile.streak_days %}
                                     {% if streak == 0 %}
-                                        😴 Зайди на сайт, чтобы разбудить дракона!
+                                        😴 {% trans "Зайди на сайт, чтобы разбудить дракона!" %}
                                     {% elif streak < 3 %}
-                                        До 🔥🔥 осталось: {{ 3|add:"-1"|add:streak }} дня
+                                        {% trans "До 🔥🔥 осталось:" %} {{ 3|add:"-1"|add:streak }} {% trans "дня" %}
                                     {% elif streak < 7 %}
-                                        До 🔥🔥🔥 осталось: {{ 7|add:"-1"|add:streak }} дня
+                                        {% trans "До 🔥🔥🔥 осталось:" %} {{ 7|add:"-1"|add:streak }} {% trans "дня" %}
                                     {% elif streak < 14 %}
-                                        До 🔥🔥🔥🔥 осталось: {{ 14|add:"-1"|add:streak }} дня
+                                        {% trans "До 🔥🔥🔥🔥 осталось:" %} {{ 14|add:"-1"|add:streak }} {% trans "дня" %}
                                     {% elif streak < 30 %}
-                                        До 🐉 Огненного дракона: {{ 30|add:"-1"|add:streak }} дней
+                                        {% trans "До 🐉 Огненного дракона:" %} {{ 30|add:"-1"|add:streak }} {% trans "дней" %}
                                     {% elif streak < 100 %}
-                                        До 👑 Золотого дракона: {{ 100|add:"-1"|add:streak }} дней
+                                        {% trans "До 👑 Золотого дракона:" %} {{ 100|add:"-1"|add:streak }} {% trans "дней" %}
                                     {% elif streak < 150 %}
-                                        До 🏆 Аждахи: {{ 150|add:"-1"|add:streak }} дней
+                                        {% trans "До 🏆 Аждахи:" %} {{ 150|add:"-1"|add:streak }} {% trans "дней" %}
                                     {% else %}
-                                        ✨ Ты достиг максимума! Поддерживай режим ✨
+                                        ✨ {% trans "Ты достиг максимума! Поддерживай режим" %} ✨
                                     {% endif %}
                                 {% endwith %}
                             </small>
@@ -133,25 +133,17 @@
                 </div>
 
                 <script>
-                // Анимация дыхания огнём (только если стрик >= 3)
+                // Анимация дыхания огнём
                 (function() {
                     const dragonImg = document.getElementById('dragon-img');
                     if (!dragonImg) return;
-
                     const streakDays = {{ user.profile.streak_days }};
-
-                    // Если стрик = 0 — показываем спящего дракона, никакой анимации
-                    if (streakDays === 0) {
-                        console.log('Дракон спит (стрик = 0)');
-                        return;
-                    }
-
+                    if (streakDays === 0) return;
                     const noFireUrl = 'https://i.imgur.com/EXUO1EV.png';
                     const withFireUrl = 'https://i.imgur.com/FGMMDQe.png';
                     let isExhaling = false;
                     let intervalId = null;
                     let hoverTimeout = null;
-
                     function exhaleFire() {
                         if (isExhaling) return;
                         isExhaling = true;
@@ -161,16 +153,12 @@
                             isExhaling = false;
                         }, 300);
                     }
-
-                    // Автоматическое дыхание только при стрике >= 3
                     if (streakDays >= 3) {
                         intervalId = setInterval(exhaleFire, 3000);
-
                         dragonImg.addEventListener('mouseenter', () => {
                             if (hoverTimeout) clearInterval(hoverTimeout);
                             hoverTimeout = setInterval(exhaleFire, 800);
                         });
-
                         dragonImg.addEventListener('mouseleave', () => {
                             if (hoverTimeout) {
                                 clearInterval(hoverTimeout);
@@ -178,35 +166,31 @@
                             }
                         });
                     }
-
-                    // Клик всегда работает (даже при стрике 1-2 дня)
-                    dragonImg.addEventListener('click', () => {
-                        exhaleFire();
-                    });
+                    dragonImg.addEventListener('click', () => { exhaleFire(); });
                 })();
                 </script>
                 <!-- ========== КОНЕЦ БЛОКА ДРАКОНА ========== -->
 
-                <h3 class="text-dark mb-4">Статистика обучения</h3>
+                <h3 class="text-dark mb-4">{% trans "Статистика обучения" %}</h3>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div class="bg-light rounded p-3 text-center">
                             <i class="fas fa-book fa-2x text-success mb-2"></i>
                             <h4 class="text-dark">{{ user.profile.lessons_completed|default:0 }}</h4>
-                            <p class="text-secondary">Пройдено уроков</p>
+                            <p class="text-secondary">{% trans "Пройдено уроков" %}</p>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="bg-light rounded p-3 text-center">
                             <i class="fas fa-star fa-2x text-warning mb-2"></i>
                             <h4 class="text-dark">{{ user.profile.total_points|default:0 }}</h4>
-                            <p class="text-secondary">Всего очков</p>
+                            <p class="text-secondary">{% trans "Всего очков" %}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- ПОЛУЧЕННЫЕ ДОСТИЖЕНИЯ -->
-                <h4 class="text-dark mt-4 mb-3">🏆 Мои достижения</h4>
+                <h4 class="text-dark mt-4 mb-3">🏆 {% trans "Мои достижения" %}</h4>
                 <div class="row">
                     {% for progress in user_achievements %}
                     <div class="col-6 col-md-4 mb-4">
@@ -218,20 +202,20 @@
                             {% endif %}
                             <div class="achievement-name fw-bold mt-2 fs-6">{{ progress.achievement.name }}</div>
                             <div class="small text-success mt-1">
-                                <i class="fas fa-trophy me-1"></i>Уровень {{ progress.current_level }}
+                                <i class="fas fa-trophy me-1"></i>{% trans "Уровень" %} {{ progress.current_level }}
                             </div>
                         </div>
                     </div>
                     {% empty %}
                     <div class="col-12">
-                        <p class="text-secondary text-center py-3">✨ Пока нет достижений. Проходите уроки, чтобы открывать их!</p>
+                        <p class="text-secondary text-center py-3">✨ {% trans "Пока нет достижений. Проходите уроки, чтобы открывать их!" %}</p>
                     </div>
                     {% endfor %}
                 </div>
 
                 <!-- ЕЩЁ НЕ ПОЛУЧЕННЫЕ ДОСТИЖЕНИЯ -->
                 {% if all_achievements %}
-                <h4 class="text-dark mt-4 mb-3">🔒 Ещё не открыто</h4>
+                <h4 class="text-dark mt-4 mb-3">🔒 {% trans "Ещё не открыто" %}</h4>
                 <div class="row">
                     {% for ach in all_achievements %}
                     <div class="col-6 col-md-3 mb-3">
@@ -251,7 +235,7 @@
 
                 <!-- БЛОК МОИ КУРСЫ -->
                 {% if user.profile.is_author %}
-                <h4 class="text-dark mt-4 mb-3">Мои курсы</h4>
+                <h4 class="text-dark mt-4 mb-3">{% trans "Мои курсы" %}</h4>
                 <div class="row">
                     {% for course in user.courses.all %}
                     <div class="col-12 mb-2">
@@ -260,7 +244,7 @@
                                 <a href="{% url 'course_detail' course.slug %}" class="text-dark fw-semibold">{{ course.title }}</a>
                             {% else %}
                                 <span class="text-dark fw-semibold">{{ course.title }}</span>
-                                <span class="badge bg-warning">нет slug</span>
+                                <span class="badge bg-warning">{% trans "нет slug" %}</span>
                             {% endif %}
                             <span class="badge {% if course.status == 'published' %}bg-success{% else %}bg-secondary{% endif %}">
                                 {{ course.get_status_display }}
@@ -268,13 +252,13 @@
                         </div>
                     </div>
                     {% empty %}
-                    <p class="text-secondary">Вы ещё не создали ни одного курса.</p>
+                    <p class="text-secondary">{% trans "Вы ещё не создали ни одного курса." %}</p>
                     {% endfor %}
                 </div>
                 {% endif %}
 
                 <!-- БЛОК МОИ СООБЩЕСТВА -->
-                <h4 class="text-dark mt-4 mb-3">Мои сообщества</h4>
+                <h4 class="text-dark mt-4 mb-3">{% trans "Мои сообщества" %}</h4>
                 <div class="row">
                     {% for community in user_communities %}
                     <div class="col-12 mb-2">
@@ -287,21 +271,21 @@
                                 <span class="text-dark fw-semibold">
                                     <i class="{{ community.icon_class }} me-2"></i>{{ community.name }}
                                 </span>
-                                <span class="badge bg-warning">нет slug</span>
+                                <span class="badge bg-warning">{% trans "нет slug" %}</span>
                             {% endif %}
                             <div>
-                                <span class="badge bg-info me-1">{{ community.member_count }} уч.</span>
+                                <span class="badge bg-info me-1">{{ community.member_count }} {% trans "уч." %}</span>
                                 {% if community.is_approved %}
-                                    <span class="badge bg-success">одобрено</span>
+                                    <span class="badge bg-success">{% trans "одобрено" %}</span>
                                 {% else %}
-                                    <span class="badge bg-warning">на модерации</span>
+                                    <span class="badge bg-warning">{% trans "на модерации" %}</span>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                     {% empty %}
-                    <p class="text-secondary">Вы ещё не создали ни одного сообщества.
-                        <a href="{% url 'community_create' %}">Создать сообщество</a>
+                    <p class="text-secondary">{% trans "Вы ещё не создали ни одного сообщества." %}
+                        <a href="{% url 'community_create' %}">{% trans "Создать сообщество" %}</a>
                     </p>
                     {% endfor %}
                 </div>
@@ -315,11 +299,9 @@
     0%, 100% { transform: scale(1); opacity: 0.8; }
     50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 5px #ff6600); }
 }
-
 .dragon-pet-img {
     transition: filter 0.3s;
 }
-
 .dragon-pet-img:hover {
     transform: scale(1.02);
     cursor: pointer;

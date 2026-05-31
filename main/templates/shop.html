@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Магазин — TatarSkill{% endblock %}
+{% block title %}{% trans "Магазин" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
-    <h1 class="section-title text-center mb-4">Магазин</h1>
+    <h1 class="section-title text-center mb-4">{% trans "Магазин" %}</h1>
     <div class="row g-4">
         {% for item in items %}
         <div class="col-md-4">
@@ -20,24 +21,24 @@
                         <span class="badge bg-danger"><i class="fas fa-tulip"></i> {{ item.price_tulips }}</span>
                     {% endif %}
                 </div>
-                <a href="{% url 'purchase_item' item.id %}" class="btn-primary-custom">Купить</a>
+                <a href="{% url 'purchase_item' item.id %}" class="btn-primary-custom">{% trans "Купить" %}</a>
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <h2 class="section-title mt-5 mb-3">Мой инвентарь</h2>
+    <h2 class="section-title mt-5 mb-3">{% trans "Мой инвентарь" %}</h2>
     <div class="row">
         {% for inv in inventory %}
         <div class="col-md-3">
             <div class="card p-2">
                 <i class="{{ inv.item.icon_class }}"></i> {{ inv.item.tatar_name }}
-                <span class="badge bg-secondary">до {{ inv.expires_at|date:"d.m.Y H:i"|default:"навсегда" }}</span>
-                <a href="{% url 'use_item' inv.id %}" class="btn-sm btn-outline-success mt-2">Использовать</a>
+                <span class="badge bg-secondary">{% trans "до" %} {{ inv.expires_at|date:"d.m.Y H:i"|default:"навсегда" }}</span>
+                <a href="{% url 'use_item' inv.id %}" class="btn-sm btn-outline-success mt-2">{% trans "Использовать" %}</a>
             </div>
         </div>
         {% empty %}
-        <p>Пусто.</p>
+        <p>{% trans "Пусто." %}</p>
         {% endfor %}
     </div>
 </div>
