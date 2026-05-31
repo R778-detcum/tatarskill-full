@@ -1,15 +1,16 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{% get_current_language as lang %}{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>TatarSkill — Татарский с AI-репетитором</title>
+    <title>{% trans "TatarSkill — Татарский с AI-репетитором" %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
+        /* ===== ОСНОВНЫЕ СТИЛИ (без изменений) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
@@ -30,8 +31,6 @@
         .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
         .nav-links a { color: #1a3a1a; font-weight: 500; font-size: 1rem; transition: 0.2s; text-decoration: none; white-space: nowrap; }
         .nav-links a:hover { color: #6a8a5a; }
-        .lang-btn { background: transparent; border: 1px solid rgba(80, 110, 70, 0.5); color: #1a3a1a; padding: 4px 10px; border-radius: 40px; font-size: 1rem; font-weight: 500; transition: all 0.2s; cursor: pointer; white-space: nowrap; }
-        .lang-btn.active { background: #6a8a5a; color: white; border-color: #6a8a5a; }
         .btn-outline-light-custom { border: 2px solid #6a8a5a; background: white; color: #1a3a1a; padding: 6px 18px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; transition: 0.2s; text-decoration: none; white-space: nowrap; }
         .btn-outline-light-custom:hover { background: #6a8a5a; color: white; }
         .btn-primary-custom { background: linear-gradient(135deg, #7cb342, #558b2f); border: none; color: white; font-weight: 700; padding: 6px 18px; font-size: 0.9rem; border-radius: 40px; transition: all 0.3s; box-shadow: 0 4px 12px rgba(124,179,66,0.3); text-decoration: none; white-space: nowrap; }
@@ -74,15 +73,6 @@
         .community-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(4px); border-radius: 28px; padding: 24px; text-align: center; transition: all 0.3s; border: 1px solid rgba(100,140,80,0.2); cursor: pointer; height: 100%; }
         .community-card:hover { transform: translateY(-6px); border-color: #8aaa7a; background: rgba(255, 255, 255, 0.95); }
         .community-icon { width: 70px; height: 70px; background: rgba(100, 140, 80, 0.15); border-radius: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #6a8a5a; }
-        .clans-section { background: rgba(200, 230, 180, 0.2); border-radius: 48px; padding: 40px; margin: 40px 0; border: 1px solid rgba(100,140,80,0.2); }
-        .clan-card { background: rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 20px; transition: 0.3s; cursor: pointer; border: 1px solid rgba(100,140,80,0.2); margin-bottom: 12px; }
-        .clan-card:hover { border-color: #8aaa7a; transform: translateY(-4px); background: rgba(255, 255, 255, 0.8); }
-        .clan-rank { font-size: 1.5rem; font-weight: 800; color: #6a8a5a; }
-        .clan-score { font-size: 1.2rem; font-weight: 700; color: #1a3a1a; }
-        .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
-        .achievement-item { background: rgba(255, 255, 255, 0.6); border-radius: 20px; padding: 16px; text-align: center; transition: 0.2s; border: 1px solid rgba(100,140,80,0.2); }
-        .achievement-item.locked { filter: grayscale(0.5); opacity: 0.6; }
-        .achievement-item.unlocked { background: rgba(100, 140, 80, 0.2); border-color: #8aaa7a; }
         .section-title { font-size: 2.3rem; font-weight: 700; margin-bottom: 16px; color: #1a3a1a; }
         .section-subtitle { color: #2a4a2a; font-size: 1.1rem; }
         footer { background: rgba(30, 50, 30, 0.05); color: #2a4a2a; margin-top: 80px; padding: 40px 0 20px; position: relative; z-index: 5; border-top: 1px solid rgba(100,140,80,0.2); }
@@ -171,6 +161,33 @@
             display: inline-block;
             text-align: center;
         }
+        /* Стили для кнопок переключения языка */
+        .lang-switch {
+            display: inline-flex;
+            gap: 6px;
+            margin-right: 12px;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #7cb342;
+            color: #2c5e2e;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #7cb342;
+            color: white;
+            border-color: #558b2f;
+        }
+        .lang-btn:hover {
+            background: #8bc34a;
+            color: white;
+        }
+
         @media (max-width: 992px) { .hero-text-block { max-width: 100%; margin-top: 40px; padding: 24px 28px; margin-left: 20px; } .hero-title { font-size: 2.8rem; } .nav-links { gap: 6px; } .nav-links a { font-size: 0.9rem; } .navbar-brand { font-size: 1.4rem; } .dragon-front { width: 500px; } .dragon-front.small { width: 300px; } .navbar-custom .container-custom { padding-left: 30px; } .content-wrapper { margin-left: 40px; } }
         @media (max-width: 768px) { .dragon-front { width: 400px; right: -30px; } .dragon-front.small { width: 220px; right: -20px; } .hero-text-block { background: transparent; margin: 30px 0; margin-left: 15px; } .hero-title { font-size: 2rem; } .nav-links { display: none; } .navbar-custom .container-custom { padding: 0 16px; padding-left: 20px; flex-wrap: wrap; } .chat-popup { width: 300px; left: 10px; bottom: 80px; } .content-wrapper { margin-left: 20px; } }
         @media (max-width: 550px) { .dragon-front { width: 280px; right: -20px; } .dragon-front.small { width: 160px; } .hero-title { font-size: 1.9rem; } .chat-popup { width: 280px; left: 10px; bottom: 70px; } .content-wrapper { margin-left: 10px; } .navbar-custom .container-custom { padding-left: 15px; } .hero-text-block { margin-left: 10px; } }
@@ -180,11 +197,11 @@
 
 <div class="background-layer">
     <div class="architecture">
-        <img src="https://i.imgur.com/wfepIyq.png" alt="Казанский Кремль">
+        <img src="https://i.imgur.com/wfepIyq.png" alt="{% trans 'Казанский Кремль' %}">
     </div>
 </div>
 
-<img src="https://i.imgur.com/swvWgEt.png" class="dragon-front" id="dinoBtn" alt="Дракон TatarSkill">
+<img src="https://i.imgur.com/swvWgEt.png" class="dragon-front" id="dinoBtn" alt="{% trans 'Дракон TatarSkill' %}">
 
 {% if user.is_authenticated and not user.profile.is_author and user.profile.lessons_completed >= 10 %}
 <div class="notification-bell" id="authorBell" style="position: fixed; bottom: 180px; right: 30px; z-index: 101; cursor: pointer;">
@@ -194,27 +211,27 @@
     </div>
     <div class="notification-text" style="position: absolute; bottom: 60px; right: 0; background: white; border-radius: 12px; padding: 10px 15px; width: 220px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: none; font-size: 0.85rem;">
         <i class="fas fa-graduation-cap text-success me-2"></i>
-        Вы прошли {{ user.profile.lessons_completed }} уроков!<br>
-        <strong>Станьте автором</strong> и создавайте свои тесты →
-        <a href="{% url 'become_author' %}" class="btn-sm btn-success mt-1 d-inline-block">Стать автором</a>
+        {% trans "Вы прошли" %} {{ user.profile.lessons_completed }} {% trans "уроков!" %}<br>
+        <strong>{% trans "Станьте автором" %}</strong> {% trans "и создавайте свои тесты" %} →
+        <a href="{% url 'become_author' %}" class="btn-sm btn-success mt-1 d-inline-block">{% trans "Стать автором" %}</a>
     </div>
 </div>
 {% endif %}
 
 <div class="chat-popup" id="chatPopup">
     <div class="chat-header" id="closeChat">
-        <span><i class="fas fa-robot me-2"></i> ИИ-репетитор · Татарча</span>
+        <span><i class="fas fa-robot me-2"></i> {% trans "ИИ-репетитор · Татарча" %}</span>
         <i class="fas fa-times"></i>
     </div>
     <div class="chat-messages" id="chatMessages">
         <div class="d-flex mb-2 justify-content-start">
             <div class="p-3 rounded-4" style="max-width:85%; background:#e0ecdc; color:#1a3a1a;">
-                ✨ Исәнмесез! Я AI-репетитор. Помогу вам освоить татарский язык, объясню грамматику и помогу с произношением.
+                ✨ {% trans "Исәнмесез! Я AI-репетитор. Помогу вам освоить татарский язык, объясню грамматику и помогу с произношением." %}
             </div>
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Спросите на татарском или русском...">
+        <input type="text" class="chat-input" id="chatInput" placeholder="{% trans 'Спросите на татарском или русском...' %}">
         <button class="btn-primary-custom" style="padding: 8px 20px;" id="sendChat">→</button>
     </div>
 </div>
@@ -223,23 +240,36 @@
     <nav class="navbar-custom" id="navbar">
         <div class="container-custom d-flex justify-content-between align-items-center w-100">
             <a class="navbar-brand" href="/">
-                <img src="https://i.imgur.com/4IICdD4.png" alt="лого">
+                <img src="https://i.imgur.com/4IICdD4.png" alt="{% trans 'лого' %}">
                 TatarSkill
             </a>
             <div class="nav-links">
-                <a href="/">Главная</a>
-                <a href="{% url 'all_communities' %}">Сообщества</a>
-                <a href="{% url 'all_courses' %}">Курсы</a>
-                <a href="#">Квесты</a>
-                <a href="#">Маршруты</a>
-                <a href="#">Культура</a>
+                <a href="/">{% trans "Главная" %}</a>
+                <a href="{% url 'all_communities' %}">{% trans "Сообщества" %}</a>
+                <a href="{% url 'all_courses' %}">{% trans "Курсы" %}</a>
+                <a href="#">{% trans "Квесты" %}</a>
+                <a href="#">{% trans "Маршруты" %}</a>
+                <a href="#">{% trans "Культура" %}</a>
             </div>
             <div class="d-flex gap-2 align-items-center">
-                <button class="lang-btn active" id="langRu">Рус</button>
-                <button class="lang-btn" id="langTt">Тат</button>
+                <div class="lang-switch">
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <input name="language" type="hidden" value="ru">
+                        <button type="submit" class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">Рус</button>
+                    </form>
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <input name="language" type="hidden" value="tt">
+                        <button type="submit" class="lang-btn {% if LANGUAGE_CODE == 'tt' %}active{% endif %}">Тат</button>
+                    </form>
+                </div>
+
                 {% if user.is_authenticated %}
                     <div class="user-stats">
-                        <span class="stat-item streak-item" id="streakIndicator" style="cursor: pointer;" title="Нажми для разморозки">
+                        <span class="stat-item streak-item" id="streakIndicator" style="cursor: pointer;" title="{% trans 'Нажми для разморозки' %}">
                             {% if user.profile.streak_days >= 3 %}
                                 <i class="fas fa-fire" style="color: #ff6600; animation: flameFlicker 0.8s ease-in-out infinite;"></i>
                             {% elif user.profile.streak_days >= 1 %}
@@ -256,8 +286,8 @@
                         <i class="fas fa-user me-1"></i>{{ user.username }}
                     </a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn-outline-light-custom">Войти</a>
-                    <a href="{% url 'register' %}" class="btn-primary-custom">Регистрация</a>
+                    <a href="{% url 'login' %}" class="btn-outline-light-custom">{% trans "Войти" %}</a>
+                    <a href="{% url 'register' %}" class="btn-primary-custom">{% trans "Регистрация" %}</a>
                 {% endif %}
             </div>
         </div>
@@ -265,38 +295,38 @@
 
     <div class="content-wrapper">
         <div class="hero-text-block">
-            <div class="hero-badge">✨ AI-репетитор говорит по-татарски</div>
-            <h1 class="hero-title">Учись <span>на родном языке</span><br>с интеллектуальным помощником 24/7</h1>
-            <p class="hero-text">Искусственный интеллект помогает с произношением, создает персональные заметки, а сообщества и кланы открывают возможности для живого общения и совместного обучения.</p>
+            <div class="hero-badge">✨ {% trans "AI-репетитор говорит по-татарски" %}</div>
+            <h1 class="hero-title">{% trans "Учись" %} <span>{% trans "на родном языке" %}</span><br>{% trans "с интеллектуальным помощником 24/7" %}</h1>
+            <p class="hero-text">{% trans "Искусственный интеллект помогает с произношением, создает персональные заметки, а сообщества и кланы открывают возможности для живого общения и совместного обучения." %}</p>
             <div class="mt-3">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'education' %}" class="btn-hero">Поступить на курсы →</a>
+                    <a href="{% url 'education' %}" class="btn-hero">{% trans "Поступить на курсы" %} →</a>
                 {% else %}
-                    <button class="btn-hero" data-bs-toggle="modal" data-bs-target="#registerModal">Поступить на курсы →</button>
+                    <button class="btn-hero" data-bs-toggle="modal" data-bs-target="#registerModal">{% trans "Поступить на курсы" %} →</button>
                 {% endif %}
             </div>
         </div>
 
         <section id="courses" class="py-5">
             <div class="text-center mb-4">
-                <h2 class="section-title">Наши курсы</h2>
-                <p class="section-subtitle">Начните изучение уже сегодня</p>
+                <h2 class="section-title">{% trans "Наши курсы" %}</h2>
+                <p class="section-subtitle">{% trans "Начните изучение уже сегодня" %}</p>
             </div>
             <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="course-sale p-4">
-                        <div class="sale-badge">🔥 АКЦИЯ -100%</div>
+                        <div class="sale-badge">🔥 {% trans "АКЦИЯ -100%" %}</div>
                         <i class="fas fa-language fa-3x text-dark mb-3"></i>
-                        <h3 class="fw-bold">Татарский язык с нуля</h3>
-                        <p>Полный курс: алфавит, грамматика, разговорная практика с AI-репетитором</p>
+                        <h3 class="fw-bold">{% trans "Татарский язык с нуля" %}</h3>
+                        <p>{% trans "Полный курс: алфавит, грамматика, разговорная практика с AI-репетитором" %}</p>
                         <div class="mt-2">
                             <span class="old-price">10 000 ₽</span>
-                            <span class="new-price ms-3">Бесплатно</span>
+                            <span class="new-price ms-3">{% trans "Бесплатно" %}</span>
                         </div>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'course_detail' 'tatarskii-yazyk-s-nulya' %}" class="btn-primary-custom mt-3 w-100 text-center d-block">Начать обучение →</a>
+                            <a href="{% url 'course_detail' 'tatarskii-yazyk-s-nulya' %}" class="btn-primary-custom mt-3 w-100 text-center d-block">{% trans "Начать обучение" %} →</a>
                         {% else %}
-                            <button class="btn-primary-custom mt-3 w-100" data-bs-toggle="modal" data-bs-target="#registerModal">Начать обучение →</button>
+                            <button class="btn-primary-custom mt-3 w-100" data-bs-toggle="modal" data-bs-target="#registerModal">{% trans "Начать обучение" %} →</button>
                         {% endif %}
                     </div>
                 </div>
@@ -305,24 +335,24 @@
                         <div class="col-12">
                             <div class="card-glass p-4">
                                 <i class="fas fa-microphone-alt text-dark fa-2x mb-2"></i>
-                                <h5>Разговорный татарский</h5>
-                                <p>Практика устной речи</p>
-                                <span class="badge bg-secondary">Скоро</span>
+                                <h5>{% trans "Разговорный татарский" %}</h5>
+                                <p>{% trans "Практика устной речи" %}</p>
+                                <span class="badge bg-secondary">{% trans "Скоро" %}</span>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="card-glass p-4">
                                 <i class="fas fa-pen-fancy text-dark fa-2x mb-2"></i>
-                                <h5>Татарская литература</h5>
-                                <p>Произведения классиков</p>
-                                <span class="badge bg-secondary">Скоро</span>
+                                <h5>{% trans "Татарская литература" %}</h5>
+                                <p>{% trans "Произведения классиков" %}</p>
+                                <span class="badge bg-secondary">{% trans "Скоро" %}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-5">
-                <a href="{% url 'all_courses' %}" class="btn-outline-custom">Все курсы →</a>
+                <a href="{% url 'all_courses' %}" class="btn-outline-custom">{% trans "Все курсы" %} →</a>
             </div>
         </section>
 
@@ -333,18 +363,18 @@
                         <i class="fas fa-chalkboard-teacher fa-4x text-success"></i>
                     </div>
                     <div class="col-md-8">
-                        <h3 class="fw-bold text-dark">Стань автором!</h3>
-                        <p class="text-dark-50 mb-0">Создавайте свои тесты, делитесь знаниями и зарабатывайте монеты за каждый правильный ответ ваших учеников!</p>
+                        <h3 class="fw-bold text-dark">{% trans "Стань автором!" %}</h3>
+                        <p class="text-dark-50 mb-0">{% trans "Создавайте свои тесты, делитесь знаниями и зарабатывайте монеты за каждый правильный ответ ваших учеников!" %}</p>
                     </div>
                     <div class="col-md-2">
                         {% if user.is_authenticated %}
                             {% if user.profile.is_author %}
-                                <a href="{% url 'create_test' %}" class="btn-primary-custom">➕ Создать тест</a>
+                                <a href="{% url 'create_test' %}" class="btn-primary-custom">➕ {% trans "Создать тест" %}</a>
                             {% else %}
-                                <a href="{% url 'become_author' %}" class="btn-primary-custom">📝 Стать автором</a>
+                                <a href="{% url 'become_author' %}" class="btn-primary-custom">📝 {% trans "Стать автором" %}</a>
                             {% endif %}
                         {% else %}
-                            <a href="{% url 'register' %}" class="btn-primary-custom">Зарегистрироваться</a>
+                            <a href="{% url 'register' %}" class="btn-primary-custom">{% trans "Зарегистрироваться" %}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -356,8 +386,8 @@
             <div class="container-custom">
                 <div class="communities-header">
                     <div>
-                        <div class="communities-title">Сообщества по теме</div>
-                        <div class="communities-subtitle">Листайте → присоединяйтесь к единомышленникам</div>
+                        <div class="communities-title">{% trans "Сообщества по теме" %}</div>
+                        <div class="communities-subtitle">{% trans "Листайте → присоединяйтесь к единомышленникам" %}</div>
                     </div>
                     <div class="course-switch-wrapper">
                         <form method="get" id="course-switch-comm">
@@ -386,7 +416,7 @@
                                     <div class="community-icon"><i class="{{ community.icon_class }}"></i></div>
                                     <h5>{{ community.name }}</h5>
                                     <p>{{ community.description|truncatechars:60 }}</p>
-                                    <span class="badge bg-dark text-white">{{ community.member_count }} уч.</span>
+                                    <span class="badge bg-dark text-white">{{ community.member_count }} {% trans "уч." %}</span>
                                 {% if community.slug %}
                                     </a>
                                 {% else %}
@@ -398,10 +428,10 @@
                         <div class="swiper-slide">
                             <div class="community-card">
                                 <div class="community-icon"><i class="fas fa-users-slash"></i></div>
-                                <h5>Нет сообществ</h5>
-                                <p>Для этого курса пока нет сообществ. Создайте своё!</p>
+                                <h5>{% trans "Нет сообществ" %}</h5>
+                                <p>{% trans "Для этого курса пока нет сообществ. Создайте своё!" %}</p>
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'community_create' %}" class="btn-outline-custom btn-sm mt-2">Создать сообщество</a>
+                                    <a href="{% url 'community_create' %}" class="btn-outline-custom btn-sm mt-2">{% trans "Создать сообщество" %}</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -412,150 +442,144 @@
                 <div class="swiper-button-next-comm"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="text-center mt-4">
-                <a href="{% url 'all_communities' %}" class="btn-outline-custom">Все сообщества →</a>
+                <a href="{% url 'all_communities' %}" class="btn-outline-custom">{% trans "Все сообщества" %} →</a>
             </div>
         </div>
-    <div class="clans-section">
-    <div class="row g-4">
-        <div class="col-lg-6">
-            <div class="leaderboard-card">
-                <div class="leaderboard-header">
-                    <h3><i class="fas fa-trophy"></i> Рейтинг курса</h3>
-                    {% if available_courses %}
-                    <form method="get" id="course-switch-form" class="d-inline">
-                        <select name="course_id" class="course-selector" onchange="this.form.submit()">
-                            {% for course in available_courses %}
-                            <option value="{{ course.slug }}" {% if current_course and current_course.id == course.id %}selected{% endif %}>
-                                {{ course.title }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                    {% endif %}
-                </div>
-                <div class="table-responsive">
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr><th>#</th><th>Пользователь</th><th>Уроков</th><th>Опыт</th></tr>
-                        </thead>
-                        <tbody>
-                            {% if leaderboard %}
-                                {% for entry in leaderboard %}
-                                <tr class="{% if entry.username == request.user.username %}table-success fw-bold{% endif %}">
-                                    <td class="rank-cell">
-                                        {% if entry.rank == 1 %}🥇
-                                        {% elif entry.rank == 2 %}🥈
-                                        {% elif entry.rank == 3 %}🥉
-                                        {% else %}{{ entry.rank }}{% endif %}
-                                    </td>
-                                    <td>
-                                        <div class="user-cell">
-                                            <div class="user-avatar">{{ entry.username|make_list|first|upper }}</div>
-                                            <a href="{% url 'user_profile' entry.username %}" class="username text-dark text-decoration-none">
-                                                {{ entry.username }}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="lessons-cell">{{ entry.lessons_completed }}</td>
-                                    <td class="xp-cell">{{ entry.course_xp }}</td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr><td colspan="4" class="text-center py-4">Нет участников</td></tr>
+
+        <!-- ========== НОВЫЙ БЛОК С FLEX-КОНТЕЙНЕРОМ (ГАРАНТИРОВАННО ДВЕ КОЛОНКИ) ========== -->
+        <div style="background: rgba(200, 230, 180, 0.2); border-radius: 48px; padding: 40px; margin: 40px 0;">
+            <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                <!-- ЛЕВАЯ КОЛОНКА: Рейтинг курса -->
+                <div style="flex: 1; min-width: 280px;">
+                    <div class="leaderboard-card">
+                        <div class="leaderboard-header">
+                            <h3><i class="fas fa-trophy"></i> {% trans "Рейтинг курса" %}</h3>
+                            {% if available_courses %}
+                            <form method="get" id="course-switch-form" class="d-inline">
+                                <select name="course_id" class="course-selector" onchange="this.form.submit()">
+                                    {% for course in available_courses %}
+                                    <option value="{{ course.slug }}" {% if current_course and current_course.id == course.id %}selected{% endif %}>
+                                        {{ course.title }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
                             {% endif %}
-                        </tbody>
-                    </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="leaderboard-table">
+                                <thead>
+                                    <tr><th>#</th><th>{% trans "Пользователь" %}</th><th>{% trans "Уроков" %}</th><th>{% trans "Опыт" %}</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% if leaderboard %}
+                                        {% for entry in leaderboard %}
+                                        <tr class="{% if entry.username == request.user.username %}table-success fw-bold{% endif %}">
+                                            <td class="rank-cell">
+                                                {% if entry.rank == 1 %}🥇
+                                                {% elif entry.rank == 2 %}🥈
+                                                {% elif entry.rank == 3 %}🥉
+                                                {% else %}{{ entry.rank }}{% endif %}
+                                              </a>
+                                            <td>
+                                                <div class="user-cell">
+                                                    <div class="user-avatar">{{ entry.username|make_list|first|upper }}</div>
+                                                    <a href="{% url 'user_profile' entry.username %}" class="username text-dark text-decoration-none">
+                                                        {{ entry.username }}
+                                                    </a>
+                                                </div>
+                                             </a>
+                                            <td class="lessons-cell">{{ entry.lessons_completed }}</a>
+                                            <td class="xp-cell">{{ entry.course_xp }}</a>
+                                        </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr><td colspan="4" class="text-center py-4">{% trans "Нет участников" %}</a></tr>
+                                    {% endif %}
+                                </tbody>
+                             </a>
+                        </div>
+                        <div class="text-center p-4">
+                            <a href="{% url 'clan_leaderboard' %}?course_id={{ current_course.slug }}" class="btn-leaderboard">
+                                {% trans "Смотреть полный рейтинг" %} <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center p-4">
-                    <a href="{% url 'clan_leaderboard' %}?course_id={{ current_course.slug }}" class="btn-leaderboard">
-                        Смотреть полный рейтинг <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-    <div class="leaderboard-card h-100">
-        <div class="leaderboard-header" style="background: linear-gradient(135deg, #a87b2e, #e8b830);">
-            <h3><i class="fas fa-medal"></i> Достижения</h3>
-        </div>
-        <div class="p-4">
-            <div class="row g-3">
-                {% if user.is_authenticated and user_achievements_for_home %}
-                    {% for progress in user_achievements_for_home %}
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; height: 100%;">
-                            <div class="achievement-icon mb-2">
-                                {% if progress.achievement.icon_url %}
-                                    <img src="{{ progress.achievement.icon_url }}" style="width: 65px; height: 65px; object-fit: contain;">
+
+                <!-- ПРАВАЯ КОЛОНКА: Достижения -->
+                <div style="flex: 1; min-width: 280px;">
+                    <div class="leaderboard-card h-100">
+                        <div class="leaderboard-header" style="background: linear-gradient(135deg, #a87b2e, #e8b830);">
+                            <h3><i class="fas fa-medal"></i> {% trans "Достижения" %}</h3>
+                        </div>
+                        <div class="p-4">
+                            <div class="row g-3">
+                                {% if user.is_authenticated and user_achievements_for_home %}
+                                    {% for progress in user_achievements_for_home %}
+                                    <div class="col-6 col-sm-4 col-md-3">
+                                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; height: 100%;">
+                                            <div class="achievement-icon mb-2">
+                                                {% if progress.achievement.icon_url %}
+                                                    <img src="{{ progress.achievement.icon_url }}" style="width: 65px; height: 65px; object-fit: contain;">
+                                                {% else %}
+                                                    <i class="{{ progress.achievement.icon_class }} fa-3x text-warning"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="achievement-name fw-semibold small mb-1">{{ progress.achievement.name|truncatechars:20 }}</div>
+                                            <div class="achievement-level">
+                                                <span class="badge bg-success bg-opacity-25 text-success px-2 py-1 rounded-pill" style="font-size: 0.7rem;">
+                                                    <i class="fas fa-trophy me-1"></i>{% trans "Уровень" %} {{ progress.current_level }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
                                 {% else %}
-                                    <i class="{{ progress.achievement.icon_class }} fa-3x text-warning"></i>
+                                    <div class="col-6 col-sm-4 col-md-3">
+                                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
+                                            <div class="achievement-icon mb-2"><i class="fas fa-star fa-3x text-secondary"></i></div>
+                                            <div class="achievement-name small text-muted">{% trans "Пройдите урок" %}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-md-3">
+                                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
+                                            <div class="achievement-icon mb-2"><i class="fas fa-users fa-3x text-secondary"></i></div>
+                                            <div class="achievement-name small text-muted">{% trans "Добавьте друга" %}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-md-3">
+                                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
+                                            <div class="achievement-icon mb-2"><i class="fas fa-calendar fa-3x text-secondary"></i></div>
+                                            <div class="achievement-name small text-muted">{% trans "3 дня подряд" %}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-md-3">
+                                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
+                                            <div class="achievement-icon mb-2"><i class="fas fa-comments fa-3x text-secondary"></i></div>
+                                            <div class="achievement-name small text-muted">{% trans "10 диалогов" %}</div>
+                                        </div>
+                                    </div>
                                 {% endif %}
                             </div>
-                            <div class="achievement-name fw-semibold small mb-1">{{ progress.achievement.name|truncatechars:20 }}</div>
-                            <div class="achievement-level">
-                                <span class="badge bg-success bg-opacity-25 text-success px-2 py-1 rounded-pill" style="font-size: 0.7rem;">
-                                    <i class="fas fa-trophy me-1"></i>Уровень {{ progress.current_level }}
-                                </span>
-                            </div>
+                            <p class="text-center text-muted small mt-3 mb-0">{% trans "Выполняйте уроки, чтобы открывать новые достижения" %}</p>
                         </div>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
-                            <div class="achievement-icon mb-2">
-                                <i class="fas fa-star fa-3x text-secondary"></i>
-                            </div>
-                            <div class="achievement-name small text-muted">Пройдите урок</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
-                            <div class="achievement-icon mb-2">
-                                <i class="fas fa-users fa-3x text-secondary"></i>
-                            </div>
-                            <div class="achievement-name small text-muted">Добавьте друга</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
-                            <div class="achievement-icon mb-2">
-                                <i class="fas fa-calendar fa-3x text-secondary"></i>
-                            </div>
-                            <div class="achievement-name small text-muted">3 дня подряд</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="achievement-card text-center p-3" style="background: #ffffff; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); opacity: 0.6;">
-                            <div class="achievement-icon mb-2">
-                                <i class="fas fa-comments fa-3x text-secondary"></i>
-                            </div>
-                            <div class="achievement-name small text-muted">10 диалогов</div>
-                        </div>
-                    </div>
-                {% endif %}
+                </div>
             </div>
-            <p class="text-center text-muted small mt-3 mb-0">Выполняйте уроки, чтобы открывать новые достижения</p>
         </div>
-    </div>
-</div>
-
-</div>
-
-
-
-
+        <!-- ========== КОНЕЦ БЛОКА ========== -->
     </div>
 
     <footer>
         <div class="container-custom">
             <div class="row">
-                <div class="col-md-4"><h5><i class="fas fa-crown me-2"></i>TatarSkill</h5><p class="small opacity-75">Образовательная экосистема для изучения татарского языка. AI-репетитор, сообщества, кланы и геймификация.</p></div>
-                <div class="col-md-2"><h6>Обучение</h6><ul class="list-unstyled small"><li><a href="{% url 'all_courses' %}">Курсы</a></li><li><a href="#">AI-репетитор</a></li></ul></div>
-                <div class="col-md-2"><h6>Сообщества</h6><ul class="list-unstyled small"><li><a href="{% url 'all_communities' %}">Все сообщества</a></li></ul></div>
-                <div class="col-md-4"><h6>Контакты</h6><p class="small">Казань, Кремлевская 25<br>dzamilanurgalieva1@gmail.com</p><div class="d-flex gap-3"><i class="fab fa-telegram"></i><i class="fab fa-vk"></i></div></div>
+                <div class="col-md-4"><h5><i class="fas fa-crown me-2"></i>TatarSkill</h5><p class="small opacity-75">{% trans "Образовательная экосистема для изучения татарского языка. AI-репетитор, сообщества, кланы и геймификация." %}</p></div>
+                <div class="col-md-2"><h6>{% trans "Обучение" %}</h6><ul class="list-unstyled small"><li><a href="{% url 'all_courses' %}">{% trans "Курсы" %}</a></li><li><a href="#">{% trans "AI-репетитор" %}</a></li></ul></div>
+                <div class="col-md-2"><h6>{% trans "Сообщества" %}</h6><ul class="list-unstyled small"><li><a href="{% url 'all_communities' %}">{% trans "Все сообщества" %}</a></li></ul></div>
+                <div class="col-md-4"><h6>{% trans "Контакты" %}</h6><p class="small">{% trans "Казань, Кремлевская 25" %}<br>dzamilanurgalieva1@gmail.com</p><div class="d-flex gap-3"><i class="fab fa-telegram"></i><i class="fab fa-vk"></i></div></div>
             </div>
-            <hr class="opacity-25"><div class="text-center small opacity-50">© 2026 TatarSkill. Погрузитесь в мир татарского языка с AI и единомышленниками.</div>
+            <hr class="opacity-25"><div class="text-center small opacity-50">© 2026 TatarSkill. {% trans "Погрузитесь в мир татарского языка с AI и единомышленниками." %}</div>
         </div>
     </footer>
 </div>
@@ -564,16 +588,16 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-white text-dark rounded-4">
             <div class="modal-header border-0">
-                <h5 class="fw-bold text-success">Вход</h5>
+                <h5 class="fw-bold text-success">{% trans "Вход" %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <input type="text" name="username" class="form-control mb-3 bg-light border-success" placeholder="Имя пользователя" required>
-                    <input type="password" name="password" class="form-control mb-3 bg-light border-success" placeholder="Пароль" required>
-                    <button type="submit" class="btn-primary-custom w-100">Войти</button>
-                    <p class="text-center mt-3">Нет аккаунта? <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</a></p>
+                    <input type="text" name="username" class="form-control mb-3 bg-light border-success" placeholder="{% trans 'Имя пользователя' %}" required>
+                    <input type="password" name="password" class="form-control mb-3 bg-light border-success" placeholder="{% trans 'Пароль' %}" required>
+                    <button type="submit" class="btn-primary-custom w-100">{% trans "Войти" %}</button>
+                    <p class="text-center mt-3">{% trans "Нет аккаунта?" %} <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#registerModal">{% trans "Регистрация" %}</a></p>
                 </div>
             </form>
         </div>
@@ -584,17 +608,17 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-white text-dark rounded-4">
             <div class="modal-header border-0">
-                <h5 class="fw-bold text-success">Регистрация</h5>
+                <h5 class="fw-bold text-success">{% trans "Регистрация" %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="post" action="{% url 'register' %}">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <input type="text" name="username" class="form-control mb-3 bg-light border-success" placeholder="Имя пользователя" required>
+                    <input type="text" name="username" class="form-control mb-3 bg-light border-success" placeholder="{% trans 'Имя пользователя' %}" required>
                     <input type="email" name="email" class="form-control mb-3 bg-light border-success" placeholder="Email" required>
-                    <input type="password" name="password1" class="form-control mb-3 bg-light border-success" placeholder="Пароль" required>
-                    <input type="password" name="password2" class="form-control mb-3 bg-light border-success" placeholder="Подтверждение пароля" required>
-                    <button type="submit" class="btn-primary-custom w-100">Создать аккаунт</button>
+                    <input type="password" name="password1" class="form-control mb-3 bg-light border-success" placeholder="{% trans 'Пароль' %}" required>
+                    <input type="password" name="password2" class="form-control mb-3 bg-light border-success" placeholder="{% trans 'Подтверждение пароля' %}" required>
+                    <button type="submit" class="btn-primary-custom w-100">{% trans "Создать аккаунт" %}</button>
                 </div>
             </form>
         </div>
@@ -623,11 +647,6 @@
         if (window.scrollY > 150) navbar.classList.add('scrolled');
         else navbar.classList.remove('scrolled');
     });
-
-    const langRu = document.getElementById('langRu');
-    const langTt = document.getElementById('langTt');
-    langRu.addEventListener('click', () => { langRu.classList.add('active'); langTt.classList.remove('active'); });
-    langTt.addEventListener('click', () => { langTt.classList.add('active'); langRu.classList.remove('active'); });
 
     const dragon = document.querySelector('.dragon-front');
     const coursesSection = document.getElementById('courses');
@@ -666,68 +685,6 @@
             }
         }
         return cookieValue;
-    }
-
-    // Обработчик клика по огоньку (открывает модальное окно ТОЛЬКО если дракон замёрз)
-    const streakIndicator = document.getElementById('streakIndicator');
-    if (streakIndicator) {
-        streakIndicator.addEventListener('click', function() {
-            // Проверяем, замёрз ли дракон через переменную из шаблона
-            {% if user.profile.dragon_frozen %}
-                const modal = new bootstrap.Modal(document.getElementById('unfreezeModal'));
-                modal.show();
-            {% else %}
-                alert('🔥 Твой дракон в порядке! Продолжай заниматься, чтобы он рос.');
-            {% endif %}
-        });
-    }
-
-    // Разморозка за монеты
-    const unfreezeCoinsCard = document.getElementById('unfreezeCoinsCard');
-    if (unfreezeCoinsCard) {
-        unfreezeCoinsCard.addEventListener('click', function() {
-            fetch('/api/unfreeze-dragon/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ type: 'coins' })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) window.location.reload();
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Ошибка при разморозке. Попробуйте позже.');
-            });
-        });
-    }
-
-    // Разморозка за деньги
-    const unfreezeMoneyCard = document.getElementById('unfreezeMoneyCard');
-    if (unfreezeMoneyCard) {
-        unfreezeMoneyCard.addEventListener('click', function() {
-            fetch('/api/unfreeze-dragon/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ type: 'money' })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) window.location.reload();
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Ошибка при разморозке. Попробуйте позже.');
-            });
-        });
     }
 
     let conversationHistory = [{ role: "system", content: "Ты — дружелюбный ИИ-репетитор. Если пользователь пишет на татарском, отвечай на татарском. Если пользователь разговаривает с тобой на русском — отвечай на русском. Используй приветствия на татарском: 'Исәнмесез!', 'Рәхим итегез!' и т.д. Не используй markdown, только обычный текст." }];
@@ -790,50 +747,5 @@
     dinoBtn.addEventListener('click', () => { chatPopup.style.display = chatPopup.style.display === 'flex' ? 'none' : 'flex'; });
     closeChat.addEventListener('click', () => { chatPopup.style.display = 'none'; });
 </script>
-<!-- ========== МОДАЛЬНОЕ ОКНО РАЗМОРОЗКИ ========== -->
-<div class="modal fade" id="unfreezeModal" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 28px; overflow: hidden;">
-            <div class="modal-header border-0" style="background: linear-gradient(135deg, #1a1a2e, #16213e); color: white;">
-                <h5 class="modal-title fw-bold">
-                    <i class="fas fa-dragon me-2"></i> Спаси дракона!
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center p-4" style="background: #0f0f1a;">
-                <div class="mb-3">
-                    <img src="https://i.imgur.com/hZ97NNd.png" style="width: 120px; height: auto; filter: drop-shadow(0 0 15px #ff6600);">
-                </div>
-                <p class="text-white-50 mb-3">Твой дракон замёрз! Выбери способ разморозки:</p>
-
-                <div class="row g-3 mt-2">
-                    <div class="col-6">
-                        <div class="card h-100 border-0 text-center p-3" style="background: #1a1a2e; border-radius: 20px; cursor: pointer;" id="unfreezeCoinsCard">
-                            <div class="mb-2"><i class="fas fa-coins fa-3x text-warning"></i></div>
-                            <h5 class="text-warning fw-bold mb-1">500 монет</h5>
-                            <p class="text-white-50 small mb-0">Только разморозка</p>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100 border-0 text-center p-3" style="background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 20px; cursor: pointer;" id="unfreezeMoneyCard">
-                            <div class="mb-2"><i class="fas fa-gem fa-3x text-white"></i></div>
-                            <h5 class="text-white fw-bold mb-1">199 ₽</h5>
-                            <p class="text-white-50 small mb-0">
-                                +500 монет<br>+1000 XP<br>+🛡️ Тумар защиты<br>+🏆 Достижение
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-info mt-3 mb-0 py-2" style="background: rgba(255,255,255,0.1); border: none; color: #ffd700; font-size: 0.8rem;">
-                    <i class="fas fa-gift me-1"></i> При покупке за 199₽ — эксклюзивные бонусы!
-                </div>
-            </div>
-            <div class="modal-footer border-0 justify-content-center" style="background: #0f0f1a;">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>

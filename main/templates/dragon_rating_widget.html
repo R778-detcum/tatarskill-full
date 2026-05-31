@@ -1,9 +1,10 @@
+{% load i18n %}
 <div class="dragon-rating">
     {% for group, options, index in widget.optgroups %}
         {% for option in options %}
             <label class="dragon-option" for="{{ option.attrs.id }}">
                 <input type="radio" name="{{ widget.name }}" value="{{ option.value }}" id="{{ option.attrs.id }}" {% if option.selected %}checked{% endif %}>
-                <img src="https://i.imgur.com/swvWgEt.png" class="dragon-icon" data-value="{{ option.value }}" alt="Дракончик {{ option.value }}">
+                <img src="https://i.imgur.com/swvWgEt.png" class="dragon-icon" data-value="{{ option.value }}" alt="{% trans 'Дракончик' %} {{ option.value }}">
                 <span class="dragon-label">{{ option.label }}</span>
             </label>
         {% endfor %}

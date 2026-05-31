@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Рейтинг курса «{{ course.title }}»{% endblock %}
+{% block title %}{% trans "Рейтинг курса" %} «{{ course.title }}»{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-4">
-        <h1 class="section-title text-center mb-4">🏆 Рейтинг курса<br>{{ course.title }}</h1>
+        <h1 class="section-title text-center mb-4">🏆 {% trans "Рейтинг курса" %}<br>{{ course.title }}</h1>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Пользователь</th>
-                        <th>Пройдено уроков</th>
-                        <th>Опыт в курсе</th>
+                        <th>{% trans "Пользователь" %}</th>
+                        <th>{% trans "Пройдено уроков" %}</th>
+                        <th>{% trans "Опыт в курсе" %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for entry in leaderboard %}
                     <tr class="{% if entry.username == request.user.username %}table-success fw-bold{% endif %}">
-                        <td>{{ entry.rank }}</td>
+                        <td>{{ entry.rank }}</a>
                         <td>
                             <a href="{% url 'user_profile' entry.username %}" class="text-dark text-decoration-none fw-semibold">
                                 {{ entry.username }}
                             </a>
                         </a>
-                        </td>
                         <td>{{ entry.lessons_completed }}</a>
-                        <tr>{{ entry.course_xp }}</a>
+                        <td>{{ entry.course_xp }}</a>
                     </a>
                     {% empty %}
-                    <tr><td colspan="4" class="text-center">Пока никто не записан на курс</a></tr>
+                    <tr><td colspan="4" class="text-center">{% trans "Пока никто не записан на курс" %}</a></tr>
                     {% endfor %}
                 </tbody>
             </a>
         </div>
         <div class="mt-3 text-center">
-            <a href="{% url 'course_detail' course.slug %}" class="btn-outline-custom">← Назад к курсу</a>
+            <a href="{% url 'course_detail' course.slug %}" class="btn-outline-custom">← {% trans "Назад к курсу" %}</a>
         </div>
     </div>
 </div>

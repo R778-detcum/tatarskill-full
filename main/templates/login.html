@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Вход — TatarSkill{% endblock %}
+{% block title %}{% trans "Вход" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card-glass p-5">
-                <h2 class="text-center text-warning mb-4">Вход в аккаунт</h2>
+                <h2 class="text-center text-warning mb-4">{% trans "Вход в аккаунт" %}</h2>
 
                 {% if messages %}
                     {% for message in messages %}
@@ -22,20 +22,20 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="username" class="form-label text-dark fw-semibold">Имя пользователя</label>
+                        <label for="username" class="form-label text-dark fw-semibold">{% trans "Имя пользователя" %}</label>
                         <input type="text" class="form-control bg-light text-dark border-secondary" id="username" name="username" required>
-                        <small class="form-text text-muted">Введите имя, которое указали при регистрации</small>
+                        <small class="form-text text-muted">{% trans "Введите имя, которое указали при регистрации" %}</small>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label text-dark fw-semibold">Пароль</label>
+                        <label for="password" class="form-label text-dark fw-semibold">{% trans "Пароль" %}</label>
                         <input type="password" class="form-control bg-light text-dark border-secondary" id="password" name="password" required>
-                        <small class="form-text text-muted">Пароль должен содержать не менее 8 символов</small>
+                        <small class="form-text text-muted">{% trans "Пароль должен содержать не менее 8 символов" %}</small>
                     </div>
-                    <button type="submit" class="btn-primary-custom w-100">Войти</button>
+                    <button type="submit" class="btn-primary-custom w-100">{% trans "Войти" %}</button>
                 </form>
 
                 <p class="text-center text-dark-50 mt-3">
-                    Нет аккаунта? <a href="{% url 'register' %}" class="text-warning">Зарегистрироваться</a>
+                    {% trans "Нет аккаунта?" %} <a href="{% url 'register' %}" class="text-warning">{% trans "Зарегистрироваться" %}</a>
                 </p>
             </div>
         </div>

@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Мои друзья — TatarSkill{% endblock %}
+{% block title %}{% trans "Мои друзья" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-4">
-        <h1 class="section-title text-center mb-4">👥 Мои друзья</h1>
+        <h1 class="section-title text-center mb-4">👥 {% trans "Мои друзья" %}</h1>
 
         <!-- Входящие заявки -->
         {% if incoming_requests %}
-        <h4 class="text-dark mt-3">📨 Входящие заявки</h4>
+        <h4 class="text-dark mt-3">📨 {% trans "Входящие заявки" %}</h4>
         <div class="row mb-4">
             {% for req in incoming_requests %}
             <div class="col-md-6 mb-2">
@@ -20,8 +20,8 @@
                         <strong>{{ req.from_user.username }}</strong>
                     </div>
                     <div>
-                        <a href="{% url 'accept_friend' req.id %}" class="btn-primary-custom btn-sm me-2">✅ Принять</a>
-                        <a href="{% url 'remove_friend' req.from_user.username %}" class="btn-outline-custom btn-sm">❌ Отклонить</a>
+                        <a href="{% url 'accept_friend' req.id %}" class="btn-primary-custom btn-sm me-2">✅ {% trans "Принять" %}</a>
+                        <a href="{% url 'remove_friend' req.from_user.username %}" class="btn-outline-custom btn-sm">❌ {% trans "Отклонить" %}</a>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
 
         <!-- Исходящие заявки -->
         {% if outgoing_requests %}
-        <h4 class="text-dark mt-3">📤 Исходящие заявки</h4>
+        <h4 class="text-dark mt-3">📤 {% trans "Исходящие заявки" %}</h4>
         <div class="row mb-4">
             {% for req in outgoing_requests %}
             <div class="col-md-6 mb-2">
@@ -39,10 +39,10 @@
                     <div>
                         <i class="fas fa-user-circle fa-2x me-2 text-warning"></i>
                         <strong>{{ req.to_user.username }}</strong>
-                        <span class="badge bg-warning ms-2">ожидает ответа</span>
+                        <span class="badge bg-warning ms-2">{% trans "ожидает ответа" %}</span>
                     </div>
                     <div>
-                        <a href="{% url 'remove_friend' req.to_user.username %}" class="btn-outline-custom btn-sm">❌ Отменить</a>
+                        <a href="{% url 'remove_friend' req.to_user.username %}" class="btn-outline-custom btn-sm">❌ {% trans "Отменить" %}</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
         {% endif %}
 
         <!-- Список друзей -->
-        <h4 class="text-dark mt-3">👫 Мои друзья ({{ friends|length }})</h4>
+        <h4 class="text-dark mt-3">👫 {% trans "Мои друзья" %} ({{ friends|length }})</h4>
         <div class="row">
             {% for friend in friends %}
             <div class="col-md-4 mb-3">
@@ -59,23 +59,23 @@
                     <i class="fas fa-user-circle fa-4x text-success mb-2"></i>
                     <h5 class="mt-2">{{ friend.username }}</h5>
                     <div class="mt-3">
-                        <a href="{% url 'user_profile' friend.username %}" class="btn-outline-custom btn-sm me-2">👤 Профиль</a>
-                        <a href="{% url 'remove_friend' friend.username %}" class="btn-outline-custom btn-sm" onclick="return confirm('Удалить {{ friend.username }} из друзей?')">🗑️ Удалить</a>
+                        <a href="{% url 'user_profile' friend.username %}" class="btn-outline-custom btn-sm me-2">👤 {% trans "Профиль" %}</a>
+                        <a href="{% url 'remove_friend' friend.username %}" class="btn-outline-custom btn-sm" onclick="return confirm('{% trans "Удалить" %} {{ friend.username }} {% trans "из друзей?" %}')">🗑️ {% trans "Удалить" %}</a>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center py-5">
                 <i class="fas fa-users fa-4x text-muted mb-3"></i>
-                <p class="text-muted">У вас пока нет друзей.</p>
-                <p>Перейдите в <a href="{% url 'clan_leaderboard' %}">рейтинг</a> и добавьте кого-нибудь в друзья!</p>
+                <p class="text-muted">{% trans "У вас пока нет друзей." %}</p>
+                <p>{% trans "Перейдите в" %} <a href="{% url 'clan_leaderboard' %}">{% trans "рейтинг" %}</a> {% trans "и добавьте кого-нибудь в друзья!" %}</p>
             </div>
             {% endfor %}
         </div>
 
         <div class="mt-4 text-center">
-            <a href="{% url 'profile' %}" class="btn-outline-custom">← Назад в профиль</a>
-            <a href="{% url 'clan_leaderboard' %}" class="btn-primary-custom ms-2">🏆 Найти друзей в рейтинге</a>
+            <a href="{% url 'profile' %}" class="btn-outline-custom">← {% trans "Назад в профиль" %}</a>
+            <a href="{% url 'clan_leaderboard' %}" class="btn-primary-custom ms-2">🏆 {% trans "Найти друзей в рейтинге" %}</a>
         </div>
     </div>
 </div>

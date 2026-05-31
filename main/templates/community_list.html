@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Все сообщества{% endblock %}
+{% block title %}{% trans "Все сообщества" %}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="section-title">Все сообщества</h1>
+        <h1 class="section-title">{% trans "Все сообщества" %}</h1>
         {% if user.is_authenticated %}
-            <a href="{% url 'community_create' %}" class="btn-primary-custom">➕ Создать сообщество</a>
+            <a href="{% url 'community_create' %}" class="btn-primary-custom">➕ {% trans "Создать сообщество" %}</a>
         {% endif %}
     </div>
 
@@ -16,15 +16,15 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <form method="get" class="d-flex gap-2">
-                <input type="text" name="q" class="form-control" placeholder="Поиск по названию или описанию..." value="{{ request.GET.q }}">
-                <button type="submit" class="btn-primary-custom">Найти</button>
+                <input type="text" name="q" class="form-control" placeholder="{% trans 'Поиск по названию или описанию...' %}" value="{{ request.GET.q }}">
+                <button type="submit" class="btn-primary-custom">{% trans "Найти" %}</button>
             </form>
         </div>
         <div class="col-md-6 text-end">
             <div class="btn-group">
-                <a href="?sort=members" class="btn btn-outline-success">По популярности</a>
-                <a href="?sort=new" class="btn btn-outline-success">Новые</a>
-                <a href="?" class="btn btn-outline-success">По умолчанию</a>
+                <a href="?sort=members" class="btn btn-outline-success">{% trans "По популярности" %}</a>
+                <a href="?sort=new" class="btn btn-outline-success">{% trans "Новые" %}</a>
+                <a href="?" class="btn btn-outline-success">{% trans "По умолчанию" %}</a>
             </div>
         </div>
     </div>
@@ -38,13 +38,13 @@
                 </div>
                 <h5 class="mt-3">{{ community.name }}</h5>
                 <p class="small text-muted">{{ community.description|truncatewords:15 }}</p>
-                <span class="badge bg-secondary">{{ community.member_count }} участников</span>
-                <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom w-100 mt-3">Перейти</a>
+                <span class="badge bg-secondary">{{ community.member_count }} {% trans "участников" %}</span>
+                <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom w-100 mt-3">{% trans "Перейти" %}</a>
             </div>
         </div>
         {% empty %}
         <div class="col-12 text-center">
-            <p class="text-muted">Сообществ не найдено.</p>
+            <p class="text-muted">{% trans "Сообществ не найдено." %}</p>
         </div>
         {% endfor %}
     </div>

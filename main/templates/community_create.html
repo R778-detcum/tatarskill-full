@@ -1,74 +1,73 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Создать сообщество{% endblock %}
+{% block title %}{% trans "Создать сообщество" %}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title">Создать новое сообщество</h1>
+        <h1 class="section-title">{% trans "Создать новое сообщество" %}</h1>
         <form method="post">
             {% csrf_token %}
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Название сообщества</label>
+                <label class="form-label fw-bold">{% trans "Название сообщества" %}</label>
                 {{ form.name }}
                 {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Краткое описание</label>
+                <label class="form-label fw-bold">{% trans "Краткое описание" %}</label>
                 {{ form.description }}
                 {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Иконка (Font Awesome)</label>
+                <label class="form-label fw-bold">{% trans "Иконка (Font Awesome)" %}</label>
                 {{ form.icon_class }}
-                <small class="text-muted">Например: fas fa-users, fab fa-vk, fas fa-book</small>
+                <small class="text-muted">{% trans "Например: fas fa-users, fab fa-vk, fas fa-book" %}</small>
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Обложка (URL)</label>
+                <label class="form-label fw-bold">{% trans "Обложка (URL)" %}</label>
                 {{ form.cover_image }}
             </div>
 
             <div class="mb-3">
                 <label class="form-label fw-bold">
-                    {{ form.is_private }} Закрытое сообщество (требуется пароль для вступления)
+                    {{ form.is_private }} {% trans "Закрытое сообщество (требуется пароль для вступления)" %}
                 </label>
             </div>
 
             <div class="mb-3" id="password-field" style="display: none;">
-                <label class="form-label fw-bold">Пароль для вступления</label>
+                <label class="form-label fw-bold">{% trans "Пароль для вступления" %}</label>
                 {{ form.join_password }}
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Правила сообщества</label>
+                <label class="form-label fw-bold">{% trans "Правила сообщества" %}</label>
                 {{ form.rules }}
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Теги (через запятую)</label>
+                <label class="form-label fw-bold">{% trans "Теги (через запятую)" %}</label>
                 {{ form.tags }}
-                <small class="text-muted">Пример: татарский, изучение, общение</small>
+                <small class="text-muted">{% trans "Пример: татарский, изучение, общение" %}</small>
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Привязать к курсам</label>
+                <label class="form-label fw-bold">{% trans "Привязать к курсам" %}</label>
                 {{ form.courses }}
-                <small class="text-muted">После одобрения сообщество будет отображаться только для выбранных курсов.</small>
+                <small class="text-muted">{% trans "После одобрения сообщество будет отображаться только для выбранных курсов." %}</small>
             </div>
 
-            <button type="submit" class="btn-primary-custom">Создать сообщество</button>
-            <a href="{% url 'community_list' %}" class="btn-outline-custom">Отмена</a>
+            <button type="submit" class="btn-primary-custom">{% trans "Создать сообщество" %}</button>
+            <a href="{% url 'community_list' %}" class="btn-outline-custom">{% trans "Отмена" %}</a>
         </form>
     </div>
 </div>
 
 <script>
-    // Показывать/скрывать поле пароля в зависимости от чекбокса is_private
     const privateCheckbox = document.querySelector('#id_is_private');
     const passwordField = document.getElementById('password-field');
 

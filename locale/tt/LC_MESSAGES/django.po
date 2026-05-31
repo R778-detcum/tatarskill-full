@@ -1,0 +1,2597 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 02:00+0300\n"
+"PO-Revision-Date: 2026-05-31 12:00+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: tt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\main\admin.py:41
+msgid "Основное"
+msgstr "Төп"
+
+#: .\main\admin.py:42
+msgid "Доступ"
+msgstr "Керү мөмкинлеге"
+
+#: .\main\admin.py:43
+msgid "Чат"
+msgstr "Чат"
+
+#: .\main\admin.py:44
+msgid "Дополнительно"
+msgstr "Өстәмә"
+
+#: .\main\admin.py:92
+msgid "Основная информация"
+msgstr "Төп мәгълүмат"
+
+#: .\main\admin.py:93
+msgid "Детали курса"
+msgstr "Курс детальләре"
+
+#: .\main\admin.py:94
+msgid "Цена и акции"
+msgstr "Бәя һәм акцияләр"
+
+#: .\main\admin.py:95
+msgid "Визуальное оформление"
+msgstr "Визуаль бизәкләү"
+
+#: .\main\admin.py:96
+msgid "Статус и даты"
+msgstr "Статус һәм даталар"
+
+#: .\main\admin.py:103
+msgid "Опубликовать выбранные курсы"
+msgstr "Сайланган курсларны бастырып чыгару"
+
+#: .\main\admin.py:107
+msgid "Снять с публикации"
+msgstr "Бастырып чыгарудан алу"
+
+#: .\main\admin.py:111
+msgid "Сделать официальными"
+msgstr "Рәсми итү"
+
+#: .\main\admin.py:115
+msgid "Сделать народными"
+msgstr "Халык итү"
+
+#: .\main\forms.py:28
+msgid "Поделитесь впечатлениями о курсе..."
+msgstr "Курс турында тәэсиратларыгыз белән уртаклашыгыз..."
+
+#: .\main\forms.py:38
+msgid "Правила сообщества..."
+msgstr "Берләшмә кагыйдәләре..."
+
+#: .\main\forms.py:39
+msgid "например: кулинария, рецепты"
+msgstr "мәсәлән: кулинария, рецептлар"
+
+#: .\main\forms.py:54
+msgid "Заголовок поста"
+msgstr "Пост исеме"
+
+#: .\main\forms.py:55
+msgid "Текст поста..."
+msgstr "Пост тексты..."
+
+#: .\main\forms.py:64
+msgid "Ваш комментарий..."
+msgstr "Сезнең комментарий..."
+
+#: .\main\forms.py:74
+msgid "Название (опционально)"
+msgstr "Исем (өстәмә)"
+
+#: .\main\forms.py:84
+msgid "Ссылка должна вести на домен vk.com"
+msgstr "Сылтама vk.com доменына күрсәтергә тиеш"
+
+#: .\main\forms.py:87
+msgid "Ссылка должна вести на домен rutube.ru"
+msgstr "Сылтама rutube.ru доменына күрсәтергә тиеш"
+
+#: .\main\models.py:13
+msgid "Начинающий"
+msgstr "Башлап йөрүче"
+
+#: .\main\models.py:14 .\main\models.py:566
+msgid "Средний"
+msgstr "Урта"
+
+#: .\main\models.py:15
+msgid "Продвинутый"
+msgstr "Алдынгы"
+
+#: .\main\models.py:18 .\main\models.py:559 .\main\templates\my_tests.html:24
+msgid "Черновик"
+msgstr "Каралама"
+
+#: .\main\models.py:19 .\main\models.py:39 .\main\models.py:561
+#: .\main\templates\my_tests.html:26
+msgid "Опубликован"
+msgstr "Бастырылган"
+
+#: .\main\models.py:20
+msgid "В архиве"
+msgstr "Архивта"
+
+#: .\main\models.py:23
+msgid "Название курса"
+msgstr "Курс исеме"
+
+#: .\main\models.py:24 .\main\models.py:97
+msgid "URL-идентификатор"
+msgstr "URL-идентификатор"
+
+#: .\main\models.py:25
+msgid "Описание курса"
+msgstr "Курс тасвирламасы"
+
+#: .\main\models.py:26 .\main\models.py:99
+#: .\main\templates\community_create.html:20
+msgid "Краткое описание"
+msgstr "Кыскача тасвирлама"
+
+#: .\main\models.py:27 .\main\models.py:335
+#: .\main\templates\achievements.html:25 .\main\templates\course_detail.html:73
+#: .\main\templates\index.html:498 .\main\templates\profile.html:205
+#: .\main\templates\user_profile.html:77
+msgid "Уровень"
+msgstr "Дәрәҗә"
+
+#: .\main\models.py:28
+msgid "Длительность (недель)"
+msgstr "Озынлык (атна)"
+
+#: .\main\models.py:29
+msgid "Количество уроков"
+msgstr "Дәресләр саны"
+
+#: .\main\models.py:30
+msgid "Цена (₽)"
+msgstr "Бәя (₽)"
+
+#: .\main\models.py:31
+msgid "Старая цена (₽)"
+msgstr "Иске бәя (₽)"
+
+#: .\main\models.py:32
+msgid "Бесплатный"
+msgstr "Бушлай"
+
+#: .\main\models.py:33 .\main\models.py:98 .\main\models.py:201
+#: .\main\models.py:235 .\main\templates\community_create.html:26
+msgid "Иконка (Font Awesome)"
+msgstr "Иконка (Font Awesome)"
+
+#: .\main\models.py:34
+msgid "Текст бейджа"
+msgstr "Бейдж тексты"
+
+#: .\main\models.py:34
+msgid "Например: \"🔥 АКЦИЯ\""
+msgstr "Мәсәлән: \"🔥 АКЦИЯ\""
+
+#: .\main\models.py:35
+msgid "Цвет бейджа"
+msgstr "Бейдж төсе"
+
+#: .\main\models.py:36 .\main\models.py:576 .\main\models.py:654
+#: .\main\templates\my_tests.html:23
+msgid "Статус"
+msgstr "Статус"
+
+#: .\main\models.py:37
+msgid "Создан"
+msgstr "Булдырылган"
+
+#: .\main\models.py:38
+msgid "Обновлен"
+msgstr "Яңартылган"
+
+#: .\main\models.py:40 .\main\models.py:77 .\main\models.py:103
+#: .\main\models.py:202
+msgid "Порядок"
+msgstr "Тәртип"
+
+#: .\main\models.py:41
+msgid "Официальный курс"
+msgstr "Рәсми курс"
+
+#: .\main\models.py:43
+msgid "Автор курса"
+msgstr "Курс авторы"
+
+#: .\main\models.py:45
+msgid "Дополнительные тесты"
+msgstr "Өстәмә тестлар"
+
+#: .\main\models.py:48 .\main\models.py:75 .\main\models.py:540
+msgid "Курс"
+msgstr "Курс"
+
+#: .\main\models.py:49 .\main\templates\index.html:232
+#: .\main\templates\index.html:543
+msgid "Курсы"
+msgstr "Курслар"
+
+#: .\main\models.py:66 .\main\templates\course_detail.html:76
+#: .\main\templates\courses.html:18 .\main\templates\education.html:18
+#: .\main\templates\index.html:294
+msgid "Бесплатно"
+msgstr "Бушлай"
+
+#: .\main\models.py:76
+msgid "Название урока"
+msgstr "Дәрес исеме"
+
+#: .\main\models.py:78
+msgid "Раздел"
+msgstr "Бүлек"
+
+#: .\main\models.py:78
+msgid "Например: Основы, Повседневная речь"
+msgstr "Мәсәлән: Нигезләр, Көнкүреш сөйләме"
+
+#: .\main\models.py:79
+msgid "Ссылка на видео"
+msgstr "Видео сылтамасы"
+
+#: .\main\models.py:80
+msgid "Содержание урока"
+msgstr "Дәрес эчтәлеге"
+
+#: .\main\models.py:80
+msgid "HTML формат"
+msgstr "HTML формат"
+
+#: .\main\models.py:81
+msgid "Длительность (минут)"
+msgstr "Озынлык (минут)"
+
+#: .\main\models.py:82
+msgid "Бесплатный просмотр"
+msgstr "Бушлай карау"
+
+#: .\main\models.py:84
+msgid "Тест к уроку"
+msgstr "Дәрескә тест"
+
+#: .\main\models.py:87 .\main\models.py:258
+msgid "Урок"
+msgstr "Дәрес"
+
+#: .\main\models.py:88
+msgid "Уроки"
+msgstr "Дәресләр"
+
+#: .\main\models.py:96 .\main\templates\community_create.html:14
+msgid "Название сообщества"
+msgstr "Берләшмә исеме"
+
+#: .\main\models.py:100
+msgid "Количество участников"
+msgstr "Катнашучылар саны"
+
+#: .\main\models.py:101 .\main\models.py:239
+msgid "Активно"
+msgstr "Актив"
+
+#: .\main\models.py:102
+msgid "Одобрено модератором"
+msgstr "Модератор тарафыннан расланган"
+
+#: .\main\models.py:104
+msgid "Связанные курсы"
+msgstr "Бәйләнешле курслар"
+
+#: .\main\models.py:106
+msgid "Создатель"
+msgstr "Булдыручы"
+
+#: .\main\models.py:107 .\main\models.py:656
+msgid "Дата создания"
+msgstr "Булдыру датасы"
+
+#: .\main\models.py:108
+msgid "Закрытое сообщество"
+msgstr "Ябык берләшмә"
+
+#: .\main\models.py:109
+msgid "Пароль для входа"
+msgstr "Керү өчен пароль"
+
+#: .\main\models.py:109
+msgid "Для закрытых сообществ"
+msgstr "Ябык берләшмәләр өчен"
+
+#: .\main\models.py:110 .\main\templates\community_create.html:48
+msgid "Правила сообщества"
+msgstr "Берләшмә кагыйдәләре"
+
+#: .\main\models.py:111
+msgid "Ссылка на обложку"
+msgstr "Обложка сылтамасы"
+
+#: .\main\models.py:112 .\main\templates\community_create.html:53
+msgid "Теги (через запятую)"
+msgstr "Теглар (өтер аша)"
+
+#: .\main\models.py:113
+msgid "Чат реального времени"
+msgstr "Реаль вакыттагы чат"
+
+#: .\main\models.py:116
+msgid "Сообщество"
+msgstr "Берләшмә"
+
+#: .\main\models.py:117 .\main\templates\index.html:231
+#: .\main\templates\index.html:544
+msgid "Сообщества"
+msgstr "Берләшмәләр"
+
+#: .\main\models.py:145 .\main\templates\community_manage.html:29
+msgid "Участник"
+msgstr "Катнашучы"
+
+#: .\main\models.py:146 .\main\templates\community_manage.html:30
+msgid "Модератор"
+msgstr "Модератор"
+
+#: .\main\models.py:147 .\main\templates\community_manage.html:31
+msgid "Администратор"
+msgstr "Администратор"
+
+#: .\main\models.py:162
+msgid "Заголовок"
+msgstr "Башлык"
+
+#: .\main\models.py:163
+msgid "Текст поста"
+msgstr "Пост тексты"
+
+#: .\main\models.py:166
+msgid "Закреплён"
+msgstr "Беркетелгән"
+
+#: .\main\models.py:180
+msgid "Текст комментария"
+msgstr "Комментарий тексты"
+
+#: .\main\models.py:191
+msgid "ВКонтакте (группа/паблик)"
+msgstr "ВКонтакте (төркем/паблик)"
+
+#: .\main\models.py:192
+msgid "ВКонтакте видео"
+msgstr "ВКонтакте видео"
+
+#: .\main\models.py:193
+msgid "RUTUBE (канал)"
+msgstr "RUTUBE (канал)"
+
+#: .\main\models.py:194
+msgid "Веб-сайт"
+msgstr "Веб-сайт"
+
+#: .\main\models.py:195
+msgid "Другое"
+msgstr "Башка"
+
+#: .\main\models.py:198
+msgid "Тип ресурса"
+msgstr "Ресурс төре"
+
+#: .\main\models.py:199
+msgid "Ссылка"
+msgstr "Сылтама"
+
+#: .\main\models.py:200 .\main\models.py:415 .\main\models.py:485
+msgid "Название"
+msgstr "Исем"
+
+#: .\main\models.py:203 .\main\models.py:514
+msgid "Активна"
+msgstr "Актив"
+
+#: .\main\models.py:206
+msgid "Внешняя ссылка"
+msgstr "Тышкы сылтама"
+
+#: .\main\models.py:207
+msgid "Внешние ссылки"
+msgstr "Тышкы сылтамалар"
+
+#: .\main\models.py:234
+msgid "Название достижения"
+msgstr "Казаныш исеме"
+
+#: .\main\models.py:236
+msgid "Ссылка на иконку (Imgur)"
+msgstr "Иконка сылтамасы (Imgur)"
+
+#: .\main\models.py:237
+msgid "Описание"
+msgstr "Тасвирлама"
+
+#: .\main\models.py:238
+msgid "Очки"
+msgstr "Очколар"
+
+#: .\main\models.py:240
+msgid "Привязанный курс"
+msgstr "Бәйләнгән курс"
+
+#: .\main\models.py:243 .\main\templates\base.html:199
+#: .\main\templates\index.html:791
+msgid "Достижение"
+msgstr "Казаныш"
+
+#: .\main\models.py:244 .\main\templates\achievements.html:4
+#: .\main\templates\achievements.html:8 .\main\templates\index.html:480
+#: .\main\templates\user_profile.html:65
+msgid "Достижения"
+msgstr "Казанышлар"
+
+#: .\main\models.py:252
+msgid "Выбор правильного варианта"
+msgstr "Дөрес вариант сайлау"
+
+#: .\main\models.py:253
+msgid "Перевод слова/фразы"
+msgstr "Сүз/тезмә тәрҗемәсе"
+
+#: .\main\models.py:254
+msgid "Прослушать и выбрать перевод"
+msgstr "Тыңлап һәм тәрҗемәне сайлау"
+
+#: .\main\models.py:255
+msgid "Сопоставление"
+msgstr "Тиңдәшлек"
+
+#: .\main\models.py:259 .\main\models.py:593
+msgid "Текст вопроса"
+msgstr "Сорав тексты"
+
+#: .\main\models.py:260
+msgid "Вариант 1"
+msgstr "1 вариант"
+
+#: .\main\models.py:261
+msgid "Вариант 2"
+msgstr "2 вариант"
+
+#: .\main\models.py:262
+msgid "Вариант 3"
+msgstr "3 вариант"
+
+#: .\main\models.py:263
+msgid "Вариант 4"
+msgstr "4 вариант"
+
+#: .\main\models.py:264
+msgid "Номер правильного ответа (1-4)"
+msgstr "Дөрес җавап номере (1-4)"
+
+#: .\main\models.py:266
+msgid "Пояснение к ответу"
+msgstr "Җавапка аңлатма"
+
+#: .\main\models.py:268
+msgid "Тип вопроса"
+msgstr "Сорав төре"
+
+#: .\main\models.py:269
+msgid "Ссылка на аудиофайл"
+msgstr "Аудиофайл сылтамасы"
+
+#: .\main\models.py:269
+msgid "Для типа \"audio_choice\""
+msgstr "\"audio_choice\" төре өчен"
+
+#: .\main\models.py:272
+msgid "Вопрос теста"
+msgstr "Тест соравы"
+
+#: .\main\models.py:273
+msgid "Вопросы тестов"
+msgstr "Тест сораулары"
+
+#: .\main\models.py:292
+msgid "Результат теста (%)"
+msgstr "Тест нәтиҗәсе (%)"
+
+#: .\main\models.py:295
+msgid "Пройденный урок"
+msgstr "Үтелгән дәрес"
+
+#: .\main\models.py:296
+msgid "Пройденные уроки"
+msgstr "Үтелгән дәресләр"
+
+#: .\main\models.py:328
+msgid "О себе"
+msgstr "Үзем турында"
+
+#: .\main\models.py:329
+msgid "Телефон"
+msgstr "Телефон"
+
+#: .\main\models.py:330
+msgid "Город"
+msgstr "Шәһәр"
+
+#: .\main\models.py:331
+msgid "Всего очков (XP)"
+msgstr "Барлык очколар (XP)"
+
+#: .\main\models.py:332
+msgid "Монеты"
+msgstr "Акчалар"
+
+#: .\main\models.py:333
+msgid "Тюльпаны (премиум валюта)"
+msgstr "Төлпаннар (премиум валюта)"
+
+#: .\main\models.py:334 .\main\templates\clan_leaderboard.html:16
+#: .\main\templates\course_leaderboard.html:16
+#: .\main\templates\profile.html:180 .\main\templates\user_profile.html:53
+msgid "Пройдено уроков"
+msgstr "Үтелгән дәресләр"
+
+#: .\main\models.py:336
+msgid "Дней подряд"
+msgstr "Көннәр рәттән"
+
+#: .\main\models.py:337
+msgid "Дата последней активности"
+msgstr "Соңгы активлык датасы"
+
+#: .\main\models.py:338
+msgid "XP за текущую неделю"
+msgstr "Агымдагы атнадагы XP"
+
+#: .\main\models.py:339
+msgid "Максимум XP за день"
+msgstr "Көнлек максимум XP"
+
+#: .\main\models.py:340
+msgid "Лучший результат в лиге (место)"
+msgstr "Лигадагы иң яхшы нәтиҗә (урын)"
+
+#: .\main\models.py:341
+msgid "Автор (может создавать тесты)"
+msgstr "Автор (тестлар булдыра ала)"
+
+#: .\main\models.py:342
+msgid "Дата регистрации"
+msgstr "Теркәлү датасы"
+
+#: .\main\models.py:343
+msgid "Последняя активность"
+msgstr "Соңгы активлык"
+
+#: .\main\models.py:345
+msgid "Последний выбранный курс"
+msgstr "Соңгы сайланган курс"
+
+#: .\main\models.py:346
+msgid "Дракон заморожен"
+msgstr "Аждаһа туңдырылган"
+
+#: .\main\models.py:347
+msgid "Заморожен с"
+msgstr "Туңдырылган вакыт"
+
+#: .\main\models.py:348
+msgid "Пропущено дней подряд"
+msgstr "Рәттән калдырылган көннәр"
+
+#: .\main\models.py:351 .\main\templates\base.html:137
+#: .\main\templates\my_friends.html:62
+msgid "Профиль"
+msgstr "Профиль"
+
+#: .\main\models.py:352
+msgid "Профили"
+msgstr "Профильләр"
+
+#: .\main\models.py:371
+msgid "Название лиги"
+msgstr "Лига исеме"
+
+#: .\main\models.py:372 .\main\models.py:416 .\main\models.py:486
+msgid "Название на татарском"
+msgstr "Татарча исеме"
+
+#: .\main\models.py:373
+msgid "Порядок (1 - низшая)"
+msgstr "Тәртип (1 - түбәнрәк)"
+
+#: .\main\models.py:374
+msgid "Минимум пользователей для создания"
+msgstr "Булдыру өчен минималь кулланучылар"
+
+#: .\main\models.py:375
+msgid "Максимум пользователей"
+msgstr "Максималь кулланучылар"
+
+#: .\main\models.py:386
+msgid "Номер копии"
+msgstr "Күчермә номеры"
+
+#: .\main\models.py:387
+msgid "Начало текущей недели"
+msgstr "Агымдагы атна башы"
+
+#: .\main\models.py:400 .\main\templates\league.html:18
+msgid "XP за неделю"
+msgstr "Атнадагы XP"
+
+#: .\main\models.py:401
+msgid "Место в лиге"
+msgstr "Лигадагы урын"
+
+#: .\main\models.py:420
+msgid "Бонус XP за урок"
+msgstr "Дәрес өчен бонус XP"
+
+#: .\main\models.py:421
+msgid "Бонус монет"
+msgstr "Бонус акчалар"
+
+#: .\main\models.py:429
+msgid "Номер уровня"
+msgstr "Дәрәҗә номеры"
+
+#: .\main\models.py:430
+msgid "Необходимое значение"
+msgstr "Кирәкле күрсәткеч"
+
+#: .\main\models.py:431
+msgid "Награда XP"
+msgstr "XP бүләге"
+
+#: .\main\models.py:432
+msgid "Награда монет"
+msgstr "Акчалар бүләге"
+
+#: .\main\models.py:433
+msgid "Награда тюльпанов"
+msgstr "Төлпаннар бүләге"
+
+#: .\main\models.py:434 .\main\models.py:492
+msgid "Иконка"
+msgstr "Иконка"
+
+#: .\main\models.py:447
+msgid "Текущее значение"
+msgstr "Агымдагы күрсәткеч"
+
+#: .\main\models.py:448
+msgid "Достигнутый уровень"
+msgstr "Ирешелгән дәрәҗә"
+
+#: .\main\models.py:449
+msgid "Дата последнего получения"
+msgstr "Соңгы алу датасы"
+
+#: .\main\models.py:479
+msgid "Тумар защиты (защита ударного темпа)"
+msgstr "Сақлау тумары (ударлы темпны саклау)"
+
+#: .\main\models.py:480
+msgid "Курай-ускоритель (удвоение XP на 10 минут)"
+msgstr "Курай-тизләткеч (10 минутка XP икеләтә)"
+
+#: .\main\models.py:481
+msgid "Чак-чак энергии (восстановление попыток теста)"
+msgstr "Чәк-чәк энергиясе (омтылышларны торгызу)"
+
+#: .\main\models.py:482
+msgid "Золотая тюбетейка (доступ к супер-тесту)"
+msgstr "Алтын түбәтәй (супер-тестка керү)"
+
+#: .\main\models.py:483
+msgid "Спор батыра (удвоение монет за 7 дней)"
+msgstr "Батыр бәхәсе (7 көнгә акчалар икеләтә)"
+
+#: .\main\models.py:487
+msgid "Тип"
+msgstr "Төр"
+
+#: .\main\models.py:488
+msgid "Цена (монеты)"
+msgstr "Бәя (акчалар)"
+
+#: .\main\models.py:489
+msgid "Цена (тюльпаны)"
+msgstr "Бәя (төлпаннар)"
+
+#: .\main\models.py:490
+msgid "Длительность эффекта (мин)"
+msgstr "Эффект озынлыгы (мин)"
+
+#: .\main\models.py:491
+msgid "Активен"
+msgstr "Актив"
+
+#: .\main\models.py:501
+msgid "Количество"
+msgstr "Сан"
+
+#: .\main\models.py:502
+msgid "Действителен до"
+msgstr "Төпле вакытка кадәр"
+
+#: .\main\models.py:503
+msgid "Активирован"
+msgstr "Активацияланган"
+
+#: .\main\models.py:511
+msgid "Дата начала"
+msgstr "Башлану датасы"
+
+#: .\main\models.py:512
+msgid "Дата окончания"
+msgstr "Тәмамлану датасы"
+
+#: .\main\models.py:513
+msgid "Автопродление"
+msgstr "Автоматик озайту"
+
+#: .\main\models.py:522 .\main\models.py:544
+msgid "Дата"
+msgstr "Дата"
+
+#: .\main\models.py:523
+msgid "Выдано"
+msgstr "Берелгән"
+
+#: .\main\models.py:524
+msgid "Бонус за стрик"
+msgstr "Стрик өчен бонус"
+
+#: .\main\models.py:539 .\main\templates\clan_leaderboard.html:15
+#: .\main\templates\community_manage.html:14
+#: .\main\templates\course_leaderboard.html:15 .\main\templates\index.html:440
+#: .\main\templates\league.html:17
+msgid "Пользователь"
+msgstr "Кулланучы"
+
+#: .\main\models.py:541
+msgid "Оценка"
+msgstr "Бәя"
+
+#: .\main\models.py:542
+msgid "Текст отзыва"
+msgstr "Фикер тексты"
+
+#: .\main\models.py:543
+msgid "Одобрен"
+msgstr "Расланган"
+
+#: .\main\models.py:545
+msgid "Обновлён"
+msgstr "Яңартылган"
+
+#: .\main\models.py:548
+msgid "Отзыв на курс"
+msgstr "Курска фикер"
+
+#: .\main\models.py:549
+msgid "Отзывы на курсы"
+msgstr "Курсларга фикерләр"
+
+#: .\main\models.py:560 .\main\templates\my_tests.html:25
+msgid "На модерации"
+msgstr "Модерациядә"
+
+#: .\main\models.py:562 .\main\templates\my_tests.html:27
+msgid "Отклонён"
+msgstr "Кире кагылган"
+
+#: .\main\models.py:565
+msgid "Лёгкий"
+msgstr "Җиңел"
+
+#: .\main\models.py:567
+msgid "Сложный"
+msgstr "Кыен"
+
+#: .\main\models.py:570 .\main\templates\public_tests.html:17
+#: .\main\templates\take_custom_test.html:10
+msgid "Автор"
+msgstr "Автор"
+
+#: .\main\models.py:571
+msgid "Название теста"
+msgstr "Тест исеме"
+
+#: .\main\models.py:572 .\main\templates\my_tests.html:21
+#: .\main\templates\public_tests.html:18
+msgid "Предмет"
+msgstr "Предмет"
+
+#: .\main\models.py:573 .\main\templates\my_tests.html:22
+#: .\main\templates\public_tests.html:19
+#: .\main\templates\take_custom_test.html:10
+msgid "Сложность"
+msgstr "Катлаулылык"
+
+#: .\main\models.py:575
+msgid "Привязанный курс (опционально)"
+msgstr "Бәйләнгән курс (өстәмә)"
+
+#: .\main\models.py:578
+msgid "Награда (монет) за 1 правильный ответ"
+msgstr "1 дөрес җавап өчен бүләк (акчалар)"
+
+#: .\main\models.py:586
+msgid "Пользовательский тест"
+msgstr "Кулланучы тесты"
+
+#: .\main\models.py:587
+msgid "Пользовательские тесты"
+msgstr "Кулланучы тестлары"
+
+#: .\main\models.py:592 .\main\templates\test_duo.html:4
+msgid "Тест"
+msgstr "Тест"
+
+#: .\main\models.py:599
+msgid "Правильный ответ (1-4)"
+msgstr "Дөрес җавап (1-4)"
+
+#: .\main\models.py:600
+msgid "Пояснение"
+msgstr "Аңлатма"
+
+#: .\main\models.py:609
+msgid "Правильных ответов"
+msgstr "Дөрес җаваплар"
+
+#: .\main\models.py:610
+msgid "Всего вопросов"
+msgstr "Барлык сораулар"
+
+#: .\main\models.py:611
+msgid "Заработано монет"
+msgstr "Табылган акчалар"
+
+#: .\main\models.py:618
+msgid "Результат теста"
+msgstr "Тест нәтиҗәсе"
+
+#: .\main\models.py:619
+msgid "Результаты тестов"
+msgstr "Тестлар нәтиҗәләре"
+
+#: .\main\models.py:636
+msgid "Ожидает подтверждения"
+msgstr "Раслау көтә"
+
+#: .\main\models.py:637
+msgid "Друзья"
+msgstr "Дуслар"
+
+#: .\main\models.py:638
+msgid "Отклонена"
+msgstr "Кире кагылган"
+
+#: .\main\models.py:639
+msgid "Заблокирован"
+msgstr "Блокланган"
+
+#: .\main\models.py:645
+msgid "Отправитель"
+msgstr "Җибәрүче"
+
+#: .\main\models.py:650
+msgid "Получатель"
+msgstr "Алучы"
+
+#: .\main\models.py:657
+msgid "Дата обновления"
+msgstr "Яңарту датасы"
+
+#: .\main\models.py:660
+msgid "Дружба"
+msgstr "Дуслык"
+
+#: .\main\models.py:661
+msgid "Дружбы"
+msgstr "Дуслыклар"
+
+#: .\main\services\dragon_service.py:37
+msgid "Дракон не замёрз!"
+msgstr "Аждаһа туңмаган!"
+
+#: .\main\services\dragon_service.py:46
+msgid "Дракон разморожен за 500 монет! 🔥"
+msgstr "Аждаһа 500 акчага туңдырылмаган! 🔥"
+
+#: .\main\services\dragon_service.py:48
+#, python-brace-format
+msgid "Не хватает монет! Нужно 500, у вас {coins}"
+msgstr "Акчалар җитми! 500 кирәк, сездә {coins}"
+
+#: .\main\services\dragon_service.py:76
+msgid ""
+"🎉 Дракон разморожен! Ты получил: +500 монет, +1000 XP, 🛡️ Тумар защиты и "
+"достижение \"Спаситель дракона\"!"
+msgstr ""
+"🎉 Аждаһа туңдырылмаган! Син алдың: +500 акча, +1000 XP, 🛡️ Сақлау тумары һәм "
+"\"Аждаһа коткаручы\" казанышы!"
+
+#: .\main\services\dragon_service.py:79
+msgid "Неизвестный способ оплаты"
+msgstr "Беленмәгән түләү ысулы"
+
+#: .\main\templates\achievements.html:27
+msgid "Не начато"
+msgstr "Башланмаган"
+
+#: .\main\templates\base.html:117
+msgid "Логотип"
+msgstr "Логотип"
+
+#: .\main\templates\base.html:123 .\main\templates\index.html:242
+msgid "Нажми для разморозки"
+msgstr "Туңдыруны бетерү өчен бас"
+
+#: .\main\templates\base.html:138 .\main\templates\profile.html:34
+msgid "Выйти"
+msgstr "Чыгу"
+
+#: .\main\templates\base.html:140 .\main\templates\index.html:259
+#: .\main\templates\index.html:564 .\main\templates\login.html:34
+#: .\main\templates\register.html:48
+msgid "Войти"
+msgstr "Керү"
+
+#: .\main\templates\base.html:141 .\main\templates\index.html:260
+#: .\main\templates\index.html:565 .\main\templates\index.html:576
+#: .\main\templates\register.html:4 .\main\templates\register.html:11
+msgid "Регистрация"
+msgstr "Теркәлү"
+
+#: .\main\templates\base.html:167
+msgid "учи татарский с драконом"
+msgstr "татарчаны аждаһа белән өйрән"
+
+#: .\main\templates\base.html:177 .\main\templates\index.html:783
+msgid "Спаси дракона!"
+msgstr "Аждаһаны коткар!"
+
+#: .\main\templates\base.html:185 .\main\templates\index.html:788
+msgid "Твой дракон замёрз! Выбери способ разморозки:"
+msgstr "Синең аждаһаң туңды! Туңдыруны бетерү ысулын сайла:"
+
+#: .\main\templates\base.html:190 .\main\templates\base.html:199
+#: .\main\templates\index.html:790 .\main\templates\index.html:791
+msgid "монет"
+msgstr "акча"
+
+#: .\main\templates\base.html:191 .\main\templates\index.html:790
+msgid "Только разморозка"
+msgstr "Бары тик туңдыруны бетерү"
+
+#: .\main\templates\base.html:199 .\main\templates\index.html:791
+msgid "Тумар защиты"
+msgstr "Сақлау тумары"
+
+#: .\main\templates\base.html:205 .\main\templates\index.html:793
+msgid "При покупке за 199₽ — эксклюзивные бонусы!"
+msgstr "199 ₽ сатып алганда — эксклюзив бонуслар!"
+
+#: .\main\templates\base.html:209 .\main\templates\index.html:795
+msgid "Закрыть"
+msgstr "Ябу"
+
+#: .\main\templates\base.html:240 .\main\templates\index.html:667
+msgid "🔥 Твой дракон в порядке! Продолжай заниматься, чтобы он рос."
+msgstr "🔥 Синең аждаһаң тәртиптә! Үсүе өчен дәресләрне дәвам ит."
+
+#: .\main\templates\base.html:263 .\main\templates\base.html:286
+#: .\main\templates\index.html:690 .\main\templates\index.html:713
+msgid "Ошибка при разморозке. Попробуйте позже."
+msgstr "Туңдыруны бетерү хатасы. Соңрак яңадан тырышыгыз."
+
+#: .\main\templates\clan_leaderboard.html:4
+msgid "Рейтинг клана"
+msgstr "Клан рейтингы"
+
+#: .\main\templates\clan_leaderboard.html:9
+msgid "Рейтинг начального клана"
+msgstr "Башлангыч клан рейтингы"
+
+#: .\main\templates\clan_leaderboard.html:17
+#: .\main\templates\course_leaderboard.html:17
+msgid "Опыт в курсе"
+msgstr "Курстагы тәҗрибә"
+
+#: .\main\templates\clan_leaderboard.html:33
+#: .\main\templates\course_leaderboard.html:33
+msgid "Пока никто не записан на курс"
+msgstr "Әле курска беркем дә язылмаган"
+
+#: .\main\templates\clan_leaderboard.html:39
+msgid "На главную"
+msgstr "Баш биткә"
+
+#: .\main\templates\community_add_link.html:4
+#: .\main\templates\community_detail.html:113
+#: .\main\templates\community_detail.html:120
+msgid "Добавить ссылку"
+msgstr "Сылтама өстәү"
+
+#: .\main\templates\community_add_link.html:9
+msgid "Добавить ссылку в"
+msgstr "Сылтама өстәү (кайсы берләшмәгә)"
+
+#: .\main\templates\community_add_link.html:13
+msgid "Добавить"
+msgstr "Өстәү"
+
+#: .\main\templates\community_add_link.html:14
+#: .\main\templates\community_add_post.html:14
+#: .\main\templates\community_create.html:65
+#: .\main\templates\community_edit_link.html:14
+#: .\main\templates\community_edit_post.html:14
+msgid "Отмена"
+msgstr "Кире кагу"
+
+#: .\main\templates\community_add_post.html:4
+msgid "Создать пост в"
+msgstr "Пост булдыру (кайсы берләшмәдә)"
+
+#: .\main\templates\community_add_post.html:9
+msgid "Новый пост в"
+msgstr "Яңа пост (кайсы берләшмәдә)"
+
+#: .\main\templates\community_add_post.html:13
+msgid "Опубликовать"
+msgstr "Бастырып чыгару"
+
+#: .\main\templates\community_chat.html:4
+#: .\main\templates\community_chat.html:9
+msgid "Чат сообщества"
+msgstr "Берләшмә чаты"
+
+#: .\main\templates\community_chat.html:16
+msgid "Ваше сообщение..."
+msgstr "Сезнең хәбәрегез..."
+
+#: .\main\templates\community_chat.html:17
+#: .\main\templates\community_detail.html:77
+msgid "Отправить"
+msgstr "Җибәрү"
+
+#: .\main\templates\community_create.html:4
+#: .\main\templates\community_create.html:64
+#: .\main\templates\community_list.html:11 .\main\templates\index.html:404
+#: .\main\templates\profile.html:31 .\main\templates\profile.html:288
+msgid "Создать сообщество"
+msgstr "Берләшмә булдыру"
+
+#: .\main\templates\community_create.html:9
+msgid "Создать новое сообщество"
+msgstr "Яңа берләшмә булдыру"
+
+#: .\main\templates\community_create.html:28
+msgid "Например: fas fa-users, fab fa-vk, fas fa-book"
+msgstr "Мәсәлән: fas fa-users, fab fa-vk, fas fa-book"
+
+#: .\main\templates\community_create.html:32
+msgid "Обложка (URL)"
+msgstr "Обложка (URL)"
+
+#: .\main\templates\community_create.html:38
+msgid "Закрытое сообщество (требуется пароль для вступления)"
+msgstr "Ябык берләшмә (керү өчен пароль кирәк)"
+
+#: .\main\templates\community_create.html:43
+msgid "Пароль для вступления"
+msgstr "Керү өчен пароль"
+
+#: .\main\templates\community_create.html:55
+msgid "Пример: татарский, изучение, общение"
+msgstr "Мисал: татар теле, өйрәнү, аралашу"
+
+#: .\main\templates\community_create.html:59
+msgid "Привязать к курсам"
+msgstr "Курсларга бәйләү"
+
+#: .\main\templates\community_create.html:61
+msgid ""
+"После одобрения сообщество будет отображаться только для выбранных курсов."
+msgstr ""
+"Расланганнан соң берләшмә бары тик сайланган курслар өчен күрсәтеләчәк."
+
+#: .\main\templates\community_detail.html:17
+msgid "Вы уверены, что хотите покинуть сообщество?"
+msgstr "Берләшмәдән чыгарга телисезме?"
+
+#: .\main\templates\community_detail.html:17
+msgid "Покинуть"
+msgstr "Чыгу"
+
+#: .\main\templates\community_detail.html:20
+#: .\main\templates\community_detail.html:22
+#: .\main\templates\community_detail.html:164
+#: .\main\templates\community_private.html:15
+msgid "Вступить"
+msgstr "Керү"
+
+#: .\main\templates\community_detail.html:28
+msgid "Правила"
+msgstr "Кагыйдәләр"
+
+#: .\main\templates\community_detail.html:35
+msgid "Создать пост"
+msgstr "Пост булдыру"
+
+#: .\main\templates\community_detail.html:54
+msgid "Удалить пост?"
+msgstr "Постны бетерү?"
+
+#: .\main\templates\community_detail.html:61
+msgid "Комментарии"
+msgstr "Комментарийлар"
+
+#: .\main\templates\community_detail.html:67
+msgid "Удалить комментарий?"
+msgstr "Комментарийны бетерү?"
+
+#: .\main\templates\community_detail.html:67
+#: .\main\templates\my_friends.html:63 .\main\templates\my_tests.html:33
+#: .\main\templates\user_profile.html:23
+msgid "Удалить"
+msgstr "Бетерү"
+
+#: .\main\templates\community_detail.html:71
+msgid "Нет комментариев. Будьте первым!"
+msgstr "Комментарийлар юк. Беренче булыгыз!"
+
+#: .\main\templates\community_detail.html:76
+msgid "Написать комментарий..."
+msgstr "Комментарий язу..."
+
+#: .\main\templates\community_detail.html:84
+msgid "В сообществе пока нет постов. Будьте первым, кто поделится мыслями!"
+msgstr "Берләшмәдә әле постлар юк. Фикерләрегез белән уртаклашучы беренче булыгыз!"
+
+#: .\main\templates\community_detail.html:93
+msgid "Чат в реальном времени"
+msgstr "Реаль вакытта чат"
+
+#: .\main\templates\community_detail.html:94
+msgid "Общайтесь с участниками прямо сейчас!"
+msgstr "Катнашучылар белән хәзер үк аралашыгыз!"
+
+#: .\main\templates\community_detail.html:95
+msgid "Перейти в чат"
+msgstr "Чатка күчү"
+
+#: .\main\templates\community_detail.html:101
+msgid "Мы в соцсетях"
+msgstr "Без социаль челтәрләрдә"
+
+#: .\main\templates\community_detail.html:119
+msgid "Добавьте ссылки на соцсети (ВК, RUTUBE)"
+msgstr "Социаль челтәрләргә сылтамалар өстәгез (ВК, RUTUBE)"
+
+#: .\main\templates\community_detail.html:126
+#: .\main\templates\user_profile.html:47
+msgid "Статистика"
+msgstr "Статистика"
+
+#: .\main\templates\community_detail.html:127
+msgid "Участников"
+msgstr "Катнашучылар"
+
+#: .\main\templates\community_detail.html:128
+msgid "Создано"
+msgstr "Булдырылган"
+
+#: .\main\templates\community_detail.html:129
+msgid "Теги"
+msgstr "Теглар"
+
+#: .\main\templates\community_detail.html:133
+msgid "Активные участники (неделя)"
+msgstr "Актив катнашучылар (атна)"
+
+#: .\main\templates\community_detail.html:136
+msgid "постов"
+msgstr "постлар"
+
+#: .\main\templates\community_detail.html:138
+msgid "Нет активности за неделю"
+msgstr "Атна дәвамында активлык юк"
+
+#: .\main\templates\community_detail.html:142
+msgid "Управление участниками"
+msgstr "Катнашучылар белән идарә итү"
+
+#: .\main\templates\community_detail.html:154
+msgid "Вступление в сообщество"
+msgstr "Берләшмәгә керү"
+
+#: .\main\templates\community_detail.html:160
+msgid "Это закрытое сообщество. Введите пароль для вступления:"
+msgstr "Бу ябык берләшмә. Керү өчен парольне языгыз:"
+
+#: .\main\templates\community_edit_link.html:4
+#: .\main\templates\community_edit_link.html:9
+msgid "Редактировать ссылку"
+msgstr "Сылтаманы төзәтү"
+
+#: .\main\templates\community_edit_link.html:13
+#: .\main\templates\community_edit_post.html:13
+#: .\main\templates\community_manage.html:33
+msgid "Сохранить"
+msgstr "Саклау"
+
+#: .\main\templates\community_edit_post.html:4
+#: .\main\templates\community_edit_post.html:9
+msgid "Редактировать пост"
+msgstr "Постны төзәтү"
+
+#: .\main\templates\community_list.html:4
+#: .\main\templates\community_list.html:9 .\main\templates\index.html:415
+#: .\main\templates\index.html:544
+msgid "Все сообщества"
+msgstr "Барлык берләшмәләр"
+
+#: .\main\templates\community_list.html:19
+msgid "Поиск по названию или описанию..."
+msgstr "Исеме яки тасвирламасы буенча эзләү..."
+
+#: .\main\templates\community_list.html:20
+msgid "Найти"
+msgstr "Табу"
+
+#: .\main\templates\community_list.html:25
+msgid "По популярности"
+msgstr "Популярлык буенча"
+
+#: .\main\templates\community_list.html:26
+msgid "Новые"
+msgstr "Яңалар"
+
+#: .\main\templates\community_list.html:27
+msgid "По умолчанию"
+msgstr "Килешү буенча"
+
+#: .\main\templates\community_list.html:41
+msgid "участников"
+msgstr "катнашучылар"
+
+#: .\main\templates\community_list.html:42
+#: .\main\templates\community_search_results.html:16
+msgid "Перейти"
+msgstr "Күчү"
+
+#: .\main\templates\community_list.html:47
+msgid "Сообществ не найдено."
+msgstr "Берләшмәләр табылмады."
+
+#: .\main\templates\community_manage.html:4
+#: .\main\templates\community_manage.html:9
+msgid "Управление сообществом"
+msgstr "Берләшмә белән идарә итү"
+
+#: .\main\templates\community_manage.html:15
+msgid "Роль"
+msgstr "Роль"
+
+#: .\main\templates\community_manage.html:16
+msgid "Дата вступления"
+msgstr "Керү датасы"
+
+#: .\main\templates\community_manage.html:17
+msgid "Действия"
+msgstr "Гамәлләр"
+
+#: .\main\templates\community_manage.html:43
+msgid "Забанить"
+msgstr "Банлау"
+
+#: .\main\templates\community_manage.html:50
+msgid "Разбанить"
+msgstr "Банны алу"
+
+#: .\main\templates\community_manage.html:59
+msgid "Назад"
+msgstr "Артка"
+
+#: .\main\templates\community_private.html:4
+msgid "закрытое сообщество"
+msgstr "ябык берләшмә"
+
+#: .\main\templates\community_private.html:11
+msgid "Это закрытое сообщество. Для вступления введите пароль."
+msgstr "Бу ябык берләшмә. Керү өчен парольне языгыз."
+
+#: .\main\templates\community_private.html:14 .\main\templates\index.html:563
+#: .\main\templates\index.html:584 .\main\templates\login.html:30
+#: .\main\templates\register.html:35
+msgid "Пароль"
+msgstr "Пароль"
+
+#: .\main\templates\community_search_results.html:4
+msgid "Поиск сообществ"
+msgstr "Берләшмәләр эзләү"
+
+#: .\main\templates\community_search_results.html:8
+msgid "Результаты поиска"
+msgstr "Эзләү нәтиҗәләре"
+
+#: .\main\templates\community_search_results.html:20
+msgid "Ничего не найдено."
+msgstr "Бернәрсә дә табылмады."
+
+#: .\main\templates\course_detail.html:17
+msgid "Прогресс курса"
+msgstr "Курс прогрессы"
+
+#: .\main\templates\course_detail.html:28
+#: .\main\templates\lesson_detail.html:365
+msgid "Пройдено"
+msgstr "Үтелгән"
+
+#: .\main\templates\course_detail.html:28 .\main\templates\test_result.html:13
+msgid "из"
+msgstr "дан"
+
+#: .\main\templates\course_detail.html:28
+msgid "уроков"
+msgstr "дәрес"
+
+#: .\main\templates\course_detail.html:53
+#: .\main\templates\lesson_detail.html:330
+msgid "мин"
+msgstr "мин"
+
+#: .\main\templates\course_detail.html:57
+#: .\main\templates\course_detail.html:62
+msgid "Начать"
+msgstr "Башлау"
+
+#: .\main\templates\course_detail.html:59
+msgid "Заблокировано"
+msgstr "Блокланган"
+
+#: .\main\templates\course_detail.html:71
+msgid "О курсе"
+msgstr "Курс турында"
+
+#: .\main\templates\course_detail.html:74
+msgid "Длительность"
+msgstr "Озынлык"
+
+#: .\main\templates\course_detail.html:74
+msgid "нед"
+msgstr "атна"
+
+#: .\main\templates\course_detail.html:75 .\main\templates\index.html:440
+msgid "Уроков"
+msgstr "Дәрес"
+
+#: .\main\templates\course_detail.html:76
+msgid "Цена"
+msgstr "Бәя"
+
+#: .\main\templates\course_detail.html:81
+#: .\main\templates\course_leaderboard.html:4
+#: .\main\templates\course_leaderboard.html:9 .\main\templates\index.html:424
+msgid "Рейтинг курса"
+msgstr "Курс рейтингы"
+
+#: .\main\templates\course_detail.html:86
+msgid "Добавить урок"
+msgstr "Дәрес өстәү"
+
+#: .\main\templates\course_detail.html:87
+msgid "Редактировать курс"
+msgstr "Курсны төзәтү"
+
+#: .\main\templates\course_detail.html:88
+msgid "Вы уверены, что хотите удалить курс"
+msgstr "Курсны бетерүгә ышанасызмы"
+
+#: .\main\templates\course_detail.html:88
+msgid "Все уроки и тесты будут удалены безвозвратно."
+msgstr "Барлык дәресләр һәм тестлар эзсез юк ителәчәк."
+
+#: .\main\templates\course_detail.html:88
+msgid "Удалить курс"
+msgstr "Курсны бетерү"
+
+#: .\main\templates\course_detail.html:89
+msgid "Привязать тест к курсу"
+msgstr "Тестны курсқа бәйләү"
+
+#: .\main\templates\course_detail.html:93
+msgid "Отзывы"
+msgstr "Фикерләр"
+
+#: .\main\templates\course_detail.html:95
+msgid "Средняя оценка:"
+msgstr "Уртача бәя:"
+
+#: .\main\templates\course_detail.html:100
+msgid "Нет оценок"
+msgstr "Бәяләр юк"
+
+#: .\main\templates\course_detail.html:121
+msgid "Показать все"
+msgstr "Барысын да күрсәтү"
+
+#: .\main\templates\course_detail.html:121
+msgid "отзыва"
+msgstr "фикер"
+
+#: .\main\templates\course_detail.html:124
+msgid "Пока нет отзывов. Будьте первым!"
+msgstr "Әле фикерләр юк. Беренче булыгыз!"
+
+#: .\main\templates\course_detail.html:130
+msgid "Оставить отзыв"
+msgstr "Фикер калдыру"
+
+#: .\main\templates\course_detail.html:136
+msgid "Тесты к курсу"
+msgstr "Курска тестлар"
+
+#: .\main\templates\course_detail.html:142
+msgid "монет/вопрос"
+msgstr "акча/сорав"
+
+#: .\main\templates\course_leaderboard.html:39
+msgid "Назад к курсу"
+msgstr "Курска кире кайту"
+
+#: .\main\templates\courses.html:4 .\main\templates\courses.html:8
+#: .\main\templates\index.html:325
+msgid "Все курсы"
+msgstr "Барлык курслар"
+
+#: .\main\templates\courses.html:23 .\main\templates\education.html:23
+#: .\main\templates\index.html:297 .\main\templates\index.html:299
+msgid "Начать обучение"
+msgstr "Укуны башлау"
+
+#: .\main\templates\courses.html:28 .\main\templates\education.html:28
+msgid "Курсы скоро появятся"
+msgstr "Курслар тиздән барлыкка киләчәк"
+
+#: .\main\templates\dragon_rating_widget.html:7
+msgid "Дракончик"
+msgstr "Аждаһа"
+
+#: .\main\templates\education.html:4 .\main\templates\education.html:8
+#: .\main\templates\index.html:543
+msgid "Обучение"
+msgstr "Уку"
+
+#: .\main\templates\index.html:7
+msgid "TatarSkill — Татарский с AI-репетитором"
+msgstr "TatarSkill — Татар теле AI-репетитор белән"
+
+#: .\main\templates\index.html:183
+msgid "Казанский Кремль"
+msgstr "Казан Кремле"
+
+#: .\main\templates\index.html:187
+msgid "Дракон TatarSkill"
+msgstr "TatarSkill аждаһасы"
+
+#: .\main\templates\index.html:197
+msgid "Вы прошли"
+msgstr "Сез үттегез"
+
+#: .\main\templates\index.html:197
+msgid "уроков!"
+msgstr "дәрес!"
+
+#: .\main\templates\index.html:198
+msgid "Станьте автором"
+msgstr "Автор булыгыз"
+
+#: .\main\templates\index.html:198
+msgid "и создавайте свои тесты"
+msgstr "һәм үз тестларыгызны булдырыгыз"
+
+#: .\main\templates\index.html:199 .\main\templates\index.html:344
+#: .\main\templates\profile.html:24
+msgid "Стать автором"
+msgstr "Автор булу"
+
+#: .\main\templates\index.html:206
+msgid "ИИ-репетитор · Татарча"
+msgstr "AI-репетитор · Татарча"
+
+#: .\main\templates\index.html:212
+msgid ""
+"Исәнмесез! Я AI-репетитор. Помогу вам освоить татарский язык, объясню "
+"грамматику и помогу с произношением."
+msgstr ""
+"Исәнмесез! Мин AI-репетитор. Татар телен үзләштерүдә, грамматиканы аңлатуда "
+"һәм әйтелеш белән ярдәм итәчәкмен."
+
+#: .\main\templates\index.html:217
+msgid "Спросите на татарском или русском..."
+msgstr "Татарча яки русча сорагыз..."
+
+#: .\main\templates\index.html:226
+msgid "лого"
+msgstr "лого"
+
+#: .\main\templates\index.html:230 .\main\templates\lesson_detail.html:315
+msgid "Главная"
+msgstr "Баш бит"
+
+#: .\main\templates\index.html:233
+msgid "Квесты"
+msgstr "Квестлар"
+
+#: .\main\templates\index.html:234
+msgid "Маршруты"
+msgstr "Маршрутлар"
+
+#: .\main\templates\index.html:235
+msgid "Культура"
+msgstr "Мәдәният"
+
+#: .\main\templates\index.html:238
+msgid "Рус"
+msgstr "Рус"
+
+#: .\main\templates\index.html:239
+msgid "Тат"
+msgstr "Тат"
+
+#: .\main\templates\index.html:268
+msgid "AI-репетитор говорит по-татарски"
+msgstr "AI-репетитор татарча сөйләшә"
+
+#: .\main\templates\index.html:269
+msgid "Учись"
+msgstr "Өйрән"
+
+#: .\main\templates\index.html:269
+msgid "на родном языке"
+msgstr "туган телдә"
+
+#: .\main\templates\index.html:269
+msgid "с интеллектуальным помощником 24/7"
+msgstr "интеллектуаль ярдәмче белән 24/7"
+
+#: .\main\templates\index.html:270
+msgid ""
+"Искусственный интеллект помогает с произношением, создает персональные "
+"заметки, а сообщества и кланы открывают возможности для живого общения и "
+"совместного обучения."
+msgstr ""
+"Ясалма интеллект әйтелештә ярдәм итә, шәхси язмалар булдыра, ә берләшмәләр "
+"һәм кланнар теләп аралашу һәм бергәләп өйрәнү мөмкинлекләрен ача."
+
+#: .\main\templates\index.html:273 .\main\templates\index.html:275
+msgid "Поступить на курсы"
+msgstr "Курсларга керү"
+
+#: .\main\templates\index.html:282
+msgid "Наши курсы"
+msgstr "Безнең курслар"
+
+#: .\main\templates\index.html:283
+msgid "Начните изучение уже сегодня"
+msgstr "Өйрәнүне бүген үк башлагыз"
+
+#: .\main\templates\index.html:288
+#, python-format
+msgid "АКЦИЯ -100%%"
+msgstr "АКЦИЯ -100%%"
+
+#: .\main\templates\index.html:290
+msgid "Татарский язык с нуля"
+msgstr "Татар теле нульдән башлап"
+
+#: .\main\templates\index.html:291
+msgid "Полный курс: алфавит, грамматика, разговорная практика с AI-репетитором"
+msgstr "Тулы курс: әлифба, грамматика, AI-репетитор белән сөйләшү практикасы"
+
+#: .\main\templates\index.html:308
+msgid "Разговорный татарский"
+msgstr "Сөйләшү татар теле"
+
+#: .\main\templates\index.html:309
+msgid "Практика устной речи"
+msgstr "Сөйләм практикасы"
+
+#: .\main\templates\index.html:310 .\main\templates\index.html:318
+msgid "Скоро"
+msgstr "Тиздән"
+
+#: .\main\templates\index.html:316
+msgid "Татарская литература"
+msgstr "Татар әдәбияты"
+
+#: .\main\templates\index.html:317
+msgid "Произведения классиков"
+msgstr "Классик әсәрләр"
+
+#: .\main\templates\index.html:336
+msgid "Стань автором!"
+msgstr "Автор бул!"
+
+#: .\main\templates\index.html:337
+msgid ""
+"Создавайте свои тесты, делитесь знаниями и зарабатывайте монеты за каждый "
+"правильный ответ ваших учеников!"
+msgstr ""
+"Үз тестларыгызны булдырыгыз, белемегез белән уртаклашыгыз һәм укучыларыгызның "
+"һәр дөрес җавабы өчен акчалар эшләгез!"
+
+#: .\main\templates\index.html:342 .\main\templates\profile.html:28
+msgid "Создать тест"
+msgstr "Тест булдыру"
+
+#: .\main\templates\index.html:347 .\main\templates\login.html:38
+#: .\main\templates\register.html:44
+msgid "Зарегистрироваться"
+msgstr "Теркәлү"
+
+#: .\main\templates\index.html:359
+msgid "Сообщества по теме"
+msgstr "Тема буенча берләшмәләр"
+
+#: .\main\templates\index.html:360
+msgid "Листайте → присоединяйтесь к единомышленникам"
+msgstr "Шуып уз → фикердәшләргә кушылыгыз"
+
+#: .\main\templates\index.html:389 .\main\templates\profile.html:277
+msgid "уч."
+msgstr "катнаш."
+
+#: .\main\templates\index.html:401
+msgid "Нет сообществ"
+msgstr "Берләшмәләр юк"
+
+#: .\main\templates\index.html:402
+msgid "Для этого курса пока нет сообществ. Создайте своё!"
+msgstr "Бу курс өчен әле берләшмәләр юк. Үзегез булдырыгыз!"
+
+#: .\main\templates\index.html:440
+msgid "Опыт"
+msgstr "Тәҗрибә"
+
+#: .\main\templates\index.html:465
+msgid "Нет участников"
+msgstr "Катнашучылар юк"
+
+#: .\main\templates\index.html:472
+msgid "Смотреть полный рейтинг"
+msgstr "Тулы рейтингны карау"
+
+#: .\main\templates\index.html:508
+msgid "Пройдите урок"
+msgstr "Дәрес үтегез"
+
+#: .\main\templates\index.html:514
+msgid "Добавьте друга"
+msgstr "Дус өстәгез"
+
+#: .\main\templates\index.html:520
+msgid "3 дня подряд"
+msgstr "3 көн рәттән"
+
+#: .\main\templates\index.html:526
+msgid "10 диалогов"
+msgstr "10 диалог"
+
+#: .\main\templates\index.html:531
+msgid "Выполняйте уроки, чтобы открывать новые достижения"
+msgstr "Яңа казанышлар ачу өчен дәресләрне үтегез"
+
+#: .\main\templates\index.html:542
+msgid ""
+"Образовательная экосистема для изучения татарского языка. AI-репетитор, "
+"сообщества, кланы и геймификация."
+msgstr ""
+"Татар телен өйрәнү өчен белем бирү экосистемасы. AI-репетитор, берләшмәләр, "
+"кланнар һәм геймификация."
+
+#: .\main\templates\index.html:543
+msgid "AI-репетитор"
+msgstr "AI-репетитор"
+
+#: .\main\templates\index.html:545
+msgid "Контакты"
+msgstr "Бәйләнеш"
+
+#: .\main\templates\index.html:545
+msgid "Казань, Кремлевская 25"
+msgstr "Казан, Кремль урамы 25"
+
+#: .\main\templates\index.html:547
+msgid "Погрузитесь в мир татарского языка с AI и единомышленниками."
+msgstr "Татар теле дөньясына AI һәм фикердәшләр белән чумыгыз."
+
+#: .\main\templates\index.html:556 .\main\templates\login.html:4
+msgid "Вход"
+msgstr "Керү"
+
+#: .\main\templates\index.html:562 .\main\templates\index.html:582
+#: .\main\templates\login.html:25 .\main\templates\register.html:25
+msgid "Имя пользователя"
+msgstr "Кулланучы исеме"
+
+#: .\main\templates\index.html:565 .\main\templates\login.html:38
+msgid "Нет аккаунта?"
+msgstr "Аккаунт юкмы?"
+
+#: .\main\templates\index.html:585 .\main\templates\register.html:40
+msgid "Подтверждение пароля"
+msgstr "Парольне раслау"
+
+#: .\main\templates\index.html:586
+msgid "Создать аккаунт"
+msgstr "Аккаунт булдыру"
+
+#: .\main\templates\league.html:4
+msgid "Лиги"
+msgstr "Лигалар"
+
+#: .\main\templates\league.html:10
+msgid "Неделя, начавшаяся"
+msgstr "Атна, башланган"
+
+#: .\main\templates\league.html:38
+msgid ""
+"Каждый понедельник 10 лучших переходят в высшую лигу, 10 худших – понижаются."
+msgstr ""
+"Һәр дүшәмбе 10 иң яхшысы югары лигага күчә, 10 иң начары түбәнрәк лигага төшә."
+
+#: .\main\templates\lesson_detail.html:333
+msgid "Пройдено (можно пересдать)"
+msgstr "Үтелгән (кабат тапшырып була)"
+
+#: .\main\templates\lesson_detail.html:348
+msgid "Если видео не загружается, нажмите на кнопку ниже:"
+msgstr "Видео йөкләнмәсә, астагы төймәгә басыгыз:"
+
+#: .\main\templates\lesson_detail.html:350
+msgid "Смотреть видео на YouTube"
+msgstr "Видеоны YouTube'да карау"
+
+#: .\main\templates\lesson_detail.html:360
+msgid "Прогресс урока"
+msgstr "Дәрес прогрессы"
+
+#: .\main\templates\lesson_detail.html:365
+msgid "Не начат"
+msgstr "Башланмаган"
+
+#: .\main\templates\lesson_detail.html:372
+msgid "Предыдущий урок"
+msgstr "Алдагы дәрес"
+
+#: .\main\templates\lesson_detail.html:379
+#: .\main\templates\public_tests.html:22
+#: .\main\templates\take_custom_test.html:4
+msgid "Пройти тест"
+msgstr "Тест узу"
+
+#: .\main\templates\lesson_detail.html:382
+msgid "Тест отсутствует"
+msgstr "Тест юк"
+
+#: .\main\templates\lesson_detail.html:390
+msgid "Редактировать урок"
+msgstr "Дәресне төзәтү"
+
+#: .\main\templates\lesson_detail.html:391
+msgid ""
+"Вы уверены, что хотите удалить тест этого урока? Все вопросы будут удалены."
+msgstr "Бу дәреснең тестын бетерүгә ышанасызмы? Барлык сораулар бетереләчәк."
+
+#: .\main\templates\lesson_detail.html:391
+msgid "Удалить тест"
+msgstr "Тестны бетерү"
+
+#: .\main\templates\login.html:11
+msgid "Вход в аккаунт"
+msgstr "Аккаунтка керү"
+
+#: .\main\templates\login.html:27
+msgid "Введите имя, которое указали при регистрации"
+msgstr "Теркәлгәндә күрсәткән исемне языгыз"
+
+#: .\main\templates\login.html:32 .\main\templates\register.html:37
+msgid "Пароль должен содержать не менее 8 символов"
+msgstr "Пароль ким дигәндә 8 символдан торырга тиеш"
+
+#: .\main\templates\my_friends.html:4 .\main\templates\my_friends.html:9
+#: .\main\templates\my_friends.html:54 .\main\templates\profile.html:33
+msgid "Мои друзья"
+msgstr "Минем дусларым"
+
+#: .\main\templates\my_friends.html:13
+msgid "Входящие заявки"
+msgstr "Керүче гаризалар"
+
+#: .\main\templates\my_friends.html:23
+msgid "Принять"
+msgstr "Кабул итү"
+
+#: .\main\templates\my_friends.html:24
+msgid "Отклонить"
+msgstr "Кире кагу"
+
+#: .\main\templates\my_friends.html:34
+msgid "Исходящие заявки"
+msgstr "Чыгучы гаризалар"
+
+#: .\main\templates\my_friends.html:42
+msgid "ожидает ответа"
+msgstr "җавап көтә"
+
+#: .\main\templates\my_friends.html:45
+msgid "Отменить"
+msgstr "Кире алу"
+
+#: .\main\templates\my_friends.html:63 .\main\templates\user_profile.html:23
+msgid "из друзей?"
+msgstr "дуслардан?"
+
+#: .\main\templates\my_friends.html:70
+msgid "У вас пока нет друзей."
+msgstr "Сезнең әле дусларыгыз юк."
+
+#: .\main\templates\my_friends.html:71
+msgid "Перейдите в"
+msgstr "Күчегез"
+
+#: .\main\templates\my_friends.html:71
+msgid "рейтинг"
+msgstr "рейтинг"
+
+#: .\main\templates\my_friends.html:71
+msgid "и добавьте кого-нибудь в друзья!"
+msgstr "һәм берәүне дусларга өстәгез!"
+
+#: .\main\templates\my_friends.html:77
+msgid "Назад в профиль"
+msgstr "Профильгә кире"
+
+#: .\main\templates\my_friends.html:78
+msgid "Найти друзей в рейтинге"
+msgstr "Рейтингта дуслар табу"
+
+#: .\main\templates\my_tests.html:4 .\main\templates\my_tests.html:9
+#: .\main\templates\profile.html:29
+msgid "Мои тесты"
+msgstr "Минем тестларым"
+
+#: .\main\templates\my_tests.html:12
+msgid "Создать новый тест"
+msgstr "Яңа тест булдыру"
+
+#: .\main\templates\my_tests.html:30 .\main\templates\public_tests.html:20
+msgid "Вопросов"
+msgstr "Сораулар"
+
+#: .\main\templates\my_tests.html:31 .\main\templates\public_tests.html:21
+msgid "Награда"
+msgstr "Бүләк"
+
+#: .\main\templates\my_tests.html:31 .\main\templates\public_tests.html:21
+msgid "монет за вопрос"
+msgstr "акча сорав өчен"
+
+#: .\main\templates\my_tests.html:32
+msgid "Редактировать"
+msgstr "Төзәтү"
+
+#: .\main\templates\my_tests.html:33
+msgid "Вы уверены, что хотите удалить тест"
+msgstr "Тестны бетерүгә ышанасызмы"
+
+#: .\main\templates\my_tests.html:33
+msgid "Это действие необратимо."
+msgstr "Бу гамәл кире кайтарылмый."
+
+#: .\main\templates\my_tests.html:39
+msgid "У вас пока нет созданных тестов."
+msgstr "Сезнең әле булдырылган тестларыгыз юк."
+
+#: .\main\templates\profile.html:4
+msgid "Мой профиль"
+msgstr "Минем профиль"
+
+#: .\main\templates\profile.html:19
+msgid "Зарегистрирован"
+msgstr "Теркәлгән"
+
+#: .\main\templates\profile.html:27
+msgid "Создать курс"
+msgstr "Курс булдыру"
+
+#: .\main\templates\profile.html:32 .\main\templates\public_tests.html:4
+msgid "Все тесты"
+msgstr "Барлык тестлар"
+
+#: .\main\templates\profile.html:63
+msgid "Спящий дракон"
+msgstr "Йокылы аждаһа"
+
+#: .\main\templates\profile.html:65
+msgid "Аждаха"
+msgstr "Аждаһа"
+
+#: .\main\templates\profile.html:67
+msgid "Золотой дракон"
+msgstr "Алтын аждаһа"
+
+#: .\main\templates\profile.html:69
+msgid "Огненный дракон"
+msgstr "Утлы аждаһа"
+
+#: .\main\templates\profile.html:71
+msgid "Взрослый дракон"
+msgstr "Өлкән аждаһа"
+
+#: .\main\templates\profile.html:73
+msgid "Юный дракон"
+msgstr "Яшь аждаһа"
+
+#: .\main\templates\profile.html:75
+msgid "Детёныш"
+msgstr "Бала"
+
+#: .\main\templates\profile.html:77
+msgid "Яйцо"
+msgstr "Йомырка"
+
+#: .\main\templates\profile.html:83
+msgid "Ударный режим"
+msgstr "Ударлы режим"
+
+#: .\main\templates\profile.html:83 .\main\templates\profile.html:121
+#: .\main\templates\profile.html:123 .\main\templates\profile.html:125
+msgid "дней"
+msgstr "көн"
+
+#: .\main\templates\profile.html:113
+msgid "Зайди на сайт, чтобы разбудить дракона!"
+msgstr "Аждаһаны уяту өчен сайтка кер!"
+
+#: .\main\templates\profile.html:115
+msgid "До 🔥🔥 осталось:"
+msgstr "🔥🔥 кадәр калды:"
+
+#: .\main\templates\profile.html:115 .\main\templates\profile.html:117
+#: .\main\templates\profile.html:119
+msgid "дня"
+msgstr "көн"
+
+#: .\main\templates\profile.html:117
+msgid "До 🔥🔥🔥 осталось:"
+msgstr "🔥🔥🔥 кадәр калды:"
+
+#: .\main\templates\profile.html:119
+msgid "До 🔥🔥🔥🔥 осталось:"
+msgstr "🔥🔥🔥🔥 кадәр калды:"
+
+#: .\main\templates\profile.html:121
+msgid "До 🐉 Огненного дракона:"
+msgstr "🐉 Утлы аждаһага кадәр:"
+
+#: .\main\templates\profile.html:123
+msgid "До 👑 Золотого дракона:"
+msgstr "👑 Алтын аждаһага кадәр:"
+
+#: .\main\templates\profile.html:125
+msgid "До 🏆 Аждахи:"
+msgstr "🏆 Аждаһага кадәр:"
+
+#: .\main\templates\profile.html:127
+msgid "Ты достиг максимума! Поддерживай режим"
+msgstr "Син максимумга ирештең! Режимны сакла"
+
+#: .\main\templates\profile.html:174
+msgid "Статистика обучения"
+msgstr "Уку статистикасы"
+
+#: .\main\templates\profile.html:187 .\main\templates\user_profile.html:60
+msgid "Всего очков"
+msgstr "Барлык очколар"
+
+#: .\main\templates\profile.html:193
+msgid "Мои достижения"
+msgstr "Минем казанышларым"
+
+#: .\main\templates\profile.html:211
+msgid "Пока нет достижений. Проходите уроки, чтобы открывать их!"
+msgstr "Әле казанышлар юк. Аларны ачу өчен дәресләр үтегез!"
+
+#: .\main\templates\profile.html:218
+msgid "Ещё не открыто"
+msgstr "Әле ачылмаган"
+
+#: .\main\templates\profile.html:238
+msgid "Мои курсы"
+msgstr "Минем курсларым"
+
+#: .\main\templates\profile.html:247 .\main\templates\profile.html:274
+msgid "нет slug"
+msgstr "slug юк"
+
+#: .\main\templates\profile.html:255
+msgid "Вы ещё не создали ни одного курса."
+msgstr "Сез әле бер генә курс та булдырмадыгыз."
+
+#: .\main\templates\profile.html:261
+msgid "Мои сообщества"
+msgstr "Минем берләшмәләрем"
+
+#: .\main\templates\profile.html:279
+msgid "одобрено"
+msgstr "расланган"
+
+#: .\main\templates\profile.html:281
+msgid "на модерации"
+msgstr "модерациядә"
+
+#: .\main\templates\profile.html:287
+msgid "Вы ещё не создали ни одного сообщества."
+msgstr "Сез әле бер генә берләшмә дә булдырмадыгыз."
+
+#: .\main\templates\public_tests.html:9
+msgid "Все тесты сообщества"
+msgstr "Берләшмәнең барлык тестлары"
+
+#: .\main\templates\public_tests.html:28
+msgid "Пока нет опубликованных тестов."
+msgstr "Әле бастырылган тестлар юк."
+
+#: .\main\templates\register.html:27
+msgid "Введите ваше имя пользователя (латиница или кириллица)"
+msgstr "Кулланучы исемегезне языгыз (латиница яки кириллица)"
+
+#: .\main\templates\register.html:32
+msgid "Укажите действующий email для восстановления пароля"
+msgstr "Парольны торгызу өчен гамәлдәге email күрсәтегез"
+
+#: .\main\templates\register.html:42
+msgid "Повторите пароль, чтобы избежать ошибки"
+msgstr "Хата китереп чыгармас өчен парольне кабатлагыз"
+
+#: .\main\templates\register.html:48
+msgid "Уже есть аккаунт?"
+msgstr "Аккаунтыгыз бар инде?"
+
+#: .\main\templates\shop.html:4 .\main\templates\shop.html:8
+msgid "Магазин"
+msgstr "Кибет"
+
+#: .\main\templates\shop.html:24
+msgid "Купить"
+msgstr "Сатып алу"
+
+#: .\main\templates\shop.html:30
+msgid "Мой инвентарь"
+msgstr "Минем инвентарь"
+
+#: .\main\templates\shop.html:36
+msgid "до"
+msgstr "кадәр"
+
+#: .\main\templates\shop.html:37
+msgid "Использовать"
+msgstr "Куллану"
+
+#: .\main\templates\shop.html:41
+msgid "Пусто."
+msgstr "Буш."
+
+#: .\main\templates\take_custom_test.html:11
+msgid "За каждый правильный ответ вы получите"
+msgstr "Һәр дөрес җавап өчен сез аласыз"
+
+#: .\main\templates\take_custom_test.html:11
+msgid "монет!"
+msgstr "акча!"
+
+#: .\main\templates\take_custom_test.html:30
+msgid "Завершить тест"
+msgstr "Тестны тәмамлау"
+
+#: .\main\templates\test_duo.html:117
+msgid "Загрузка вопроса..."
+msgstr "Сорав йөкләнә..."
+
+#: .\main\templates\test_duo.html:201
+msgid "Правильно!"
+msgstr "Дөрес!"
+
+#: .\main\templates\test_duo.html:203
+msgid "Неправильно."
+msgstr "Дөрес түгел."
+
+#: .\main\templates\test_duo.html:203
+msgid "Попробуйте ещё раз."
+msgstr "Тагын бер тапкыр тырышыгыз."
+
+#: .\main\templates\test_duo.html:244
+msgid "💔 Вы проиграли! Начните тест заново."
+msgstr "💔 Син оттырдың! Тестны яңадан башла."
+
+#: .\main\templates\test_duo.html:268
+msgid "Прослушать"
+msgstr "Тыңлау"
+
+#: .\main\templates\test_duo.html:288
+msgid "Введите перевод..."
+msgstr "Тәрҗемәне языгыз..."
+
+#: .\main\templates\test_duo.html:291
+msgid "Проверить"
+msgstr "Тикшерү"
+
+#: .\main\templates\test_duo.html:371
+msgid "Время вышло!"
+msgstr "Вакыт бетте!"
+
+#: .\main\templates\test_duo.html:405
+msgid "Урок пройден!"
+msgstr "Дәрес үтелде!"
+
+#: .\main\templates\test_duo.html:405
+msgid "Попробуйте ещё раз"
+msgstr "Тагын бер тапкыр тырышыгыз"
+
+#: .\main\templates\test_duo.html:406
+msgid "Отличная работа!"
+msgstr "Күңелле эш!"
+
+#: .\main\templates\test_duo.html:406
+msgid "Не переживайте, практика делает совершенным!"
+msgstr "Борчылмагыз, практика камилләштерә!"
+
+#: .\main\templates\test_duo.html:407
+msgid "Продолжить курс"
+msgstr "Курсны дәвам итү"
+
+#: .\main\templates\test_duo.html:407 .\main\templates\test_result.html:59
+msgid "Вернуться к уроку"
+msgstr "Дәрескә кире кайту"
+
+#: .\main\templates\test_result.html:4 .\main\templates\test_result.html:9
+msgid "Результаты теста"
+msgstr "Тест нәтиҗәләре"
+
+#: .\main\templates\test_result.html:13
+msgid "Ваш результат"
+msgstr "Сезнең нәтиҗә"
+
+#: .\main\templates\test_result.html:15
+msgid "Отлично! Вы успешно прошли тест."
+msgstr "Бик яхшы! Сез тестны уңышлы үттегез."
+
+#: .\main\templates\test_result.html:17
+msgid "Рекомендуем повторить материал и попробовать снова."
+msgstr "Материалны кабатларга һәм тагын тырышырга тәкъдим итәбез."
+
+#: .\main\templates\test_result.html:21
+msgid "Детализация ответов"
+msgstr "Җаваплар детальләре"
+
+#: .\main\templates\test_result.html:34
+msgid "Ваш ответ"
+msgstr "Сезнең җавабыгыз"
+
+#: .\main\templates\test_result.html:40
+msgid "Не выбрано"
+msgstr "Сайланмаган"
+
+#: .\main\templates\test_result.html:45
+msgid "Правильный ответ"
+msgstr "Дөрес җавап"
+
+#: .\main\templates\test_result.html:60
+msgid "К списку уроков"
+msgstr "Дәресләр исемлегенә"
+
+#: .\main\templates\user_profile.html:4
+msgid "профиль"
+msgstr "профиль"
+
+#: .\main\templates\user_profile.html:24
+msgid "Удалить из друзей"
+msgstr "Дуслардан бетерү"
+
+#: .\main\templates\user_profile.html:28
+msgid "Заявка отправлена"
+msgstr "Гариза җибәрелде"
+
+#: .\main\templates\user_profile.html:33
+msgid "Принять заявку"
+msgstr "Гаризаны кабул итү"
+
+#: .\main\templates\user_profile.html:38
+msgid "Добавить в друзья"
+msgstr "Дусларга өстәү"
+
+#: .\main\templates\user_profile.html:83
+msgid "Пока нет достижений"
+msgstr "Әле казанышлар юк"
+
+#: .\main\views.py:143
+msgid "Рейтинги учеников - в разработке"
+msgstr "Укучылар рейтингы - эшләнә"
+
+#: .\main\views.py:153
+msgid "Пароли не совпадают"
+msgstr "Парольләр туры килми"
+
+#: .\main\views.py:156
+msgid "Пользователь с таким именем уже существует"
+msgstr "Мондый исемле кулланучы инде бар"
+
+#: .\main\views.py:159
+msgid "Пользователь с таким email уже существует"
+msgstr "Мондый emailлы кулланучы инде бар"
+
+#: .\main\views.py:164
+msgid "Регистрация успешно завершена!"
+msgstr "Теркәлү уңышлы тәмамланды!"
+
+#: .\main\views.py:176
+#, python-brace-format
+msgid "Добро пожаловать, {username}!"
+msgstr "Рәхим ит, {username}!"
+
+#: .\main\views.py:179
+msgid "Неверное имя пользователя или пароль"
+msgstr "Исем яки пароль дөрес түгел"
+
+#: .\main\views.py:219
+msgid "Сообщение не может быть пустым"
+msgstr "Хәбәр буш була алмый"
+
+#: .\main\views.py:297
+msgid "Этот урок ещё не доступен. Пройдите предыдущие уроки."
+msgstr "Бу дәрес әле керү өчен ачык түгел. Алдагы дәресләрне үтегез."
+
+#: .\main\views.py:314 .\main\views.py:350
+msgid "Этот урок ещё не доступен."
+msgstr "Бу дәрес әле керү өчен ачык түгел."
+
+#: .\main\views.py:318
+msgid "Для этого урока ещё нет теста."
+msgstr "Бу дәрес өчен әле тест юк."
+
+#: .\main\views.py:326 .\main\views.py:345
+msgid "Метод не поддерживается"
+msgstr "Метод кулланылмый"
+
+#: .\main\views.py:419
+msgid "❄️ Твой дракон разморозился! Продолжай заниматься, чтобы он рос! 🔥"
+msgstr "❄️ Аждаһаң туңдырылмады! Үсүе өчен дәресләрне дәвам ит! 🔥"
+
+#: .\main\views.py:434
+msgid "🎉 Урок пройден! +150 очков опыта, +50 монет."
+msgstr "🎉 Дәрес үтелде! +150 тәҗрибә очкы, +50 акча."
+
+#: .\main\views.py:436
+#, python-brace-format
+msgid "Тест пройден повторно. Результат: {percent:.0f}%"
+msgstr "Тест кабат үтелде. Нәтиҗә: {percent:.0f}%"
+
+#: .\main\views.py:472
+msgid "Вы ещё не попали в лигу. Пройдите несколько уроков."
+msgstr "Сез әле лигага эләкмәдегез. Берничә дәрес үтегез."
+
+#: .\main\views.py:511 .\main\views.py:516
+#, python-brace-format
+msgid "Вы купили {item}!"
+msgstr "Сез {item} сатып алдыгыз!"
+
+#: .\main\views.py:518
+msgid "Недостаточно средств."
+msgstr "Акчалар җитми."
+
+#: .\main\views.py:528
+msgid "Тумар защиты активирован! При пропуске дня стрик не сбросится."
+msgstr "Сақлау тумары активлашты! Көн калдырсаң, стрик бәетми."
+
+#: .\main\views.py:531
+#, python-brace-format
+msgid "Курай-ускоритель активирован на {minutes} мин!"
+msgstr "Курай-тизләткеч {minutes} минутка активлашты!"
+
+#: .\main\views.py:533
+msgid "Этот предмет пока нельзя использовать."
+msgstr "Бу предметны әле кулланып булмый."
+
+#: .\main\views.py:580
+msgid "Поздравляем! Вы стали автором. Теперь вы можете создавать тесты."
+msgstr "Котлыйбыз! Сез автор булдыгыз. Хәзер тестлар булдыра аласыз."
+
+#: .\main\views.py:582
+msgid "Вы уже являетесь автором."
+msgstr "Сез инде автор."
+
+#: .\main\views.py:584
+#, python-brace-format
+msgid "Необходимо пройти не менее 10 уроков. Вы прошли {count} из 10."
+msgstr "Ким дигәндә 10 дәрес үтәргә кирәк. Сез {count} дәрес үттегез."
+
+#: .\main\views.py:592
+msgid ""
+"Вы не можете создавать тесты. Нужно пройти минимум 10 уроков и получить "
+"статус автора."
+msgstr ""
+"Сез тестлар булдыра алмыйсыз. Ким дигәндә 10 дәрес үтеп, автор статусын "
+"алырга кирәк."
+
+#: .\main\views.py:623
+#, python-brace-format
+msgid "Тест \"{title}\" отправлен на модерацию!"
+msgstr "\"{title}\" тесты модерациягә җибәрелде!"
+
+#: .\main\views.py:663
+#, python-brace-format
+msgid ""
+"Вы ответили правильно на {score} из {total} вопросов и заработали {coins} "
+"монет!"
+msgstr ""
+"Сез {total} соравның {score} ына дөрес җавап бирдегез һәм {coins} акча "
+"эшләдегез!"
+
+#: .\main\views.py:672
+msgid "Только авторы могут создавать курсы."
+msgstr "Бары тик авторлар гына курслар булдыра ала."
+
+#: .\main\views.py:682
+#, python-brace-format
+msgid "Курс \"{title}\" создан и отправлен на модерацию!"
+msgstr "\"{title}\" курсы булдырылды һәм модерациягә җибәрелде!"
+
+#: .\main\views.py:693
+msgid "Вы не можете редактировать этот курс."
+msgstr "Сез бу курсны төзәтә алмыйсыз."
+
+#: .\main\views.py:699
+msgid "Курс успешно обновлён!"
+msgstr "Курс уңышлы яңартылды!"
+
+#: .\main\views.py:710
+msgid "Вы не можете добавлять уроки в этот курс."
+msgstr "Сез бу курсҡа дәресләр өстә алмыйсыз."
+
+#: .\main\views.py:743
+#, python-brace-format
+msgid "Урок \"{title}\" добавлен!"
+msgstr "\"{title}\" дәресе өстәлде!"
+
+#: .\main\views.py:758
+msgid "Вы не можете редактировать этот тест."
+msgstr "Сез бу тестны төзәтә алмыйсыз."
+
+#: .\main\views.py:787
+#, python-brace-format
+msgid "Тест \"{title}\" успешно обновлён!"
+msgstr "\"{title}\" тесты уңышлы яңартылды!"
+
+#: .\main\views.py:799
+msgid "Вы не можете редактировать этот урок."
+msgstr "Сез бу дәресне төзәтә алмыйсыз."
+
+#: .\main\views.py:805
+#, python-brace-format
+msgid "Урок \"{title}\" успешно обновлён!"
+msgstr "\"{title}\" дәресе уңышлы яңартылды!"
+
+#: .\main\views.py:816
+msgid "Вы не можете удалить этот тест."
+msgstr "Сез бу тестны бетерә алмыйсыз."
+
+#: .\main\views.py:820
+#, python-brace-format
+msgid "Тест \"{title}\" успешно удалён!"
+msgstr "\"{title}\" тесты уңышлы бетерелде!"
+
+#: .\main\views.py:828
+msgid "Вы не можете удалить этот курс."
+msgstr "Сез бу курсны бетерә алмыйсыз."
+
+#: .\main\views.py:832
+#, python-brace-format
+msgid "Курс \"{title}\" успешно удалён!"
+msgstr "\"{title}\" курсы уңышлы бетерелде!"
+
+#: .\main\views.py:841
+msgid "Вы не можете удалить тест этого урока."
+msgstr "Сез бу дәреснең тестын бетерә алмыйсыз."
+
+#: .\main\views.py:844
+#, python-brace-format
+msgid "Тест урока \"{title}\" успешно удалён!"
+msgstr "\"{title}\" дәресенең тесты уңышлы бетерелде!"
+
+#: .\main\views.py:852
+msgid "Вы не можете изменять тесты этого курса."
+msgstr "Сез бу курсның тестларын үзгәртә алмыйсыз."
+
+#: .\main\views.py:860
+#, python-brace-format
+msgid "Тест \"{title}\" привязан к курсу!"
+msgstr "\"{title}\" тесты курска бәйләнде!"
+
+#: .\main\views.py:870
+msgid "Вы можете оставить отзыв только после изучения курса."
+msgstr "Сез фикерне бары тик курсны өйрәнгәннән соң гына калдыра аласыз."
+
+#: .\main\views.py:874
+msgid "Вы уже оставили отзыв на этот курс."
+msgstr "Сез инде бу курска фикер калдыргансыз."
+
+#: .\main\views.py:880
+msgid "Пожалуйста, заполните все поля."
+msgstr "Зинһар, барлык кырларны тутырыгыз."
+
+#: .\main\views.py:889
+msgid "Спасибо за отзыв! Он появится после проверки модератором."
+msgstr "Фикер өчен рәхмәт! Ул модератор тикшергәннән соң пәйда булачак."
+
+#: .\main\views.py:936
+#, python-brace-format
+msgid "Сообщество \"{name}\" успешно создано!"
+msgstr "\"{name}\" берләшмәсе уңышлы булдырылды!"
+
+#: .\main\views.py:954 .\main\views.py:982
+#, python-brace-format
+msgid "Вы вступили в сообщество \"{name}\"!"
+msgstr "Сез \"{name}\" берләшмәсенә кердегез!"
+
+#: .\main\views.py:984
+msgid "Вы уже состоите в этом сообществе."
+msgstr "Сез инде бу берләшмәдә торасыз."
+
+#: .\main\views.py:996
+#, python-brace-format
+msgid "Вы покинули сообщество \"{name}\"."
+msgstr "Сез \"{name}\" берләшмәсеннән чыктыгыз."
+
+#: .\main\views.py:998
+msgid ""
+"Вы не можете покинуть сообщество, так как являетесь его владельцем или "
+"администратором."
+msgstr ""
+"Сез берләшмәдән чыга алмыйсыз, чөнки сез аның хуҗасы яки администраторы."
+
+#: .\main\views.py:1007
+msgid "Вы должны состоять в сообществе, чтобы создавать посты."
+msgstr "Постлар булдыру өчен сез берләшмәдә торырга тиеш."
+
+#: .\main\views.py:1016
+msgid "Ваш пост опубликован!"
+msgstr "Сезнең пост бастырылды!"
+
+#: .\main\views.py:1028
+msgid "У вас нет прав на редактирование этого поста."
+msgstr "Сезнең бу постны төзәтү хокукыгыз юк."
+
+#: .\main\views.py:1034
+msgid "Пост обновлён."
+msgstr "Пост яңартылды."
+
+#: .\main\views.py:1046 .\main\views.py:1089 .\main\views.py:1122
+#: .\main\views.py:1140
+msgid "Недостаточно прав."
+msgstr "Хокуклар җитми."
+
+#: .\main\views.py:1049
+msgid "Пост удалён."
+msgstr "Пост бетерелде."
+
+#: .\main\views.py:1069
+msgid "Вы должны быть участником сообщества, чтобы комментировать."
+msgstr "Комментарий язу өчен сез берләшмәнең катнашучысы булырга тиеш."
+
+#: .\main\views.py:1080
+msgid "Комментарий добавлен."
+msgstr "Комментарий өстәлде."
+
+#: .\main\views.py:1094
+msgid "Комментарий удалён."
+msgstr "Комментарий бетерелде."
+
+#: .\main\views.py:1102
+msgid "У вас нет прав на управление ссылками."
+msgstr "Сылтамалар белән идарә итү хокукыгыз юк."
+
+#: .\main\views.py:1110
+msgid "Ссылка добавлена."
+msgstr "Сылтама өстәлде."
+
+#: .\main\views.py:1128
+msgid "Ссылка обновлена."
+msgstr "Сылтама яңартылды."
+
+#: .\main\views.py:1143
+msgid "Ссылка удалена."
+msgstr "Сылтама бетерелде."
+
+#: .\main\views.py:1151
+msgid "Доступ запрещён."
+msgstr "Керү тыелган."
+
+#: .\main\views.py:1163
+msgid "Пользователь забанен."
+msgstr "Кулланучы банланды."
+
+#: .\main\views.py:1167
+msgid "Бан снят."
+msgstr "Бан алынды."
+
+#: .\main\views.py:1171
+msgid "Роль изменена."
+msgstr "Роль үзгәртелде."
+
+#: .\main\views.py:1190
+msgid "Вы должны состоять в сообществе, чтобы пользоваться чатом."
+msgstr "Чат куллану өчен сез берләшмәдә торырга тиеш."
+
+#: .\main\views.py:1237
+msgid "Нельзя добавить самого себя в друзья."
+msgstr "Үзеңне дусларга өстәп булмый."
+
+#: .\main\views.py:1253
+#, python-brace-format
+msgid "Вы стали друзьями с {username}!"
+msgstr "Сез {username} белән дуслаштыгыз!"
+
+#: .\main\views.py:1261
+msgid "Заявка уже отправлена."
+msgstr "Гариза инде җибәрелгән."
+
+#: .\main\views.py:1265
+#, python-brace-format
+msgid "Заявка в друзья отправлена пользователю {username}."
+msgstr "Дуслыкка гариза {username} кулланучысына җибәрелде."
+
+#: .\main\views.py:1273
+#, python-brace-format
+msgid "Вы приняли заявку от {username}."
+msgstr "Сез {username} гаризасын кабул иттегез."
+
+#: .\main\views.py:1288
+#, python-brace-format
+msgid "Вы удалили {username} из друзей."
+msgstr "Сез {username} ны дуслардан бетердегез."
+
+#: .\main\views.py:1290
+msgid "Дружба не найдена."
+msgstr "Дуслык табылмады."

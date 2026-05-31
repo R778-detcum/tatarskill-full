@@ -1,14 +1,14 @@
-cat > main/templates/take_custom_test.html << 'EOF'
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Пройти тест: {{ test.title }}{% endblock %}
+{% block title %}{% trans "Пройти тест" %}: {{ test.title }}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
         <h1 class="section-title">{{ test.title }}</h1>
-        <p>Автор: {{ test.author.username }} | Сложность: {{ test.get_difficulty_display }}</p>
-        <p>🏆 За каждый правильный ответ вы получите {{ test.reward_coins_per_question }} монет!</p>
+        <p>{% trans "Автор" %}: {{ test.author.username }} | {% trans "Сложность" %}: {{ test.get_difficulty_display }}</p>
+        <p>🏆 {% trans "За каждый правильный ответ вы получите" %} {{ test.reward_coins_per_question }} {% trans "монет!" %}</p>
 
         <form method="post">
             {% csrf_token %}
@@ -27,9 +27,8 @@ cat > main/templates/take_custom_test.html << 'EOF'
                 </div>
             </div>
             {% endfor %}
-            <button type="submit" class="btn-primary-custom">Завершить тест</button>
+            <button type="submit" class="btn-primary-custom">{% trans "Завершить тест" %}</button>
         </form>
     </div>
 </div>
 {% endblock %}
-EOF

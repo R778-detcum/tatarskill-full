@@ -1,12 +1,12 @@
-cat > main/templates/public_tests.html << 'EOF'
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Все тесты{% endblock %}
+{% block title %}{% trans "Все тесты" %}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title">Все тесты сообщества</h1>
+        <h1 class="section-title">{% trans "Все тесты сообщества" %}</h1>
 
         {% if tests %}
             <div class="row">
@@ -14,20 +14,19 @@ cat > main/templates/public_tests.html << 'EOF'
                 <div class="col-md-6 mb-3">
                     <div class="card-glass p-3">
                         <h3>{{ test.title }}</h3>
-                        <p>Автор: {{ test.author.username }}</p>
-                        <p>Предмет: {{ test.subject }}</p>
-                        <p>Сложность: {{ test.get_difficulty_display }}</p>
-                        <p>Вопросов: {{ test.questions.count }}</p>
-                        <p>🏆 Награда: {{ test.reward_coins_per_question }} монет за вопрос</p>
-                        <a href="{% url 'take_custom_test' test.id %}" class="btn-primary-custom mt-2">Пройти тест →</a>
+                        <p>{% trans "Автор" %}: {{ test.author.username }}</p>
+                        <p>{% trans "Предмет" %}: {{ test.subject }}</p>
+                        <p>{% trans "Сложность" %}: {{ test.get_difficulty_display }}</p>
+                        <p>{% trans "Вопросов" %}: {{ test.questions.count }}</p>
+                        <p>🏆 {% trans "Награда" %}: {{ test.reward_coins_per_question }} {% trans "монет за вопрос" %}</p>
+                        <a href="{% url 'take_custom_test' test.id %}" class="btn-primary-custom mt-2">{% trans "Пройти тест" %} →</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p>Пока нет опубликованных тестов.</p>
+            <p>{% trans "Пока нет опубликованных тестов." %}</p>
         {% endif %}
     </div>
 </div>
 {% endblock %}
-EOF

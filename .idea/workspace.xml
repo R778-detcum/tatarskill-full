@@ -5,13 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="03f8b889-f7e2-4237-898d-d59ee950a699" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main/services/dragon_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/tatarskill-full.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/services/achievement_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/services/achievement_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/services/dragon_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/services/dragon_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/services/mistral_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/services/mistral_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/achievements.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/achievements.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/clan_leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/clan_leaderboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_add_link.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_add_link.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_add_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_add_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_chat.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_edit_link.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_edit_link.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_edit_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_edit_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_private.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_private.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/community_search_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/community_search_results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/course_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/course_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/course_leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/course_leaderboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/courses.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/dragon_rating_widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/dragon_rating_widget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/education.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/education.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/league.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/league.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/lesson_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/lesson_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/my_friends.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/my_friends.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/my_tests.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/my_tests.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/public_tests.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/public_tests.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/shop.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/take_custom_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/take_custom_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/test_duo.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/test_duo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/test_result.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/test_result.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/user_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/user_profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

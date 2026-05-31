@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Достижения — TatarSkill{% endblock %}
+{% block title %}{% trans "Достижения" %} — TatarSkill{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
-    <h1 class="section-title text-center mb-4">Достижения</h1>
+    <h1 class="section-title text-center mb-4">{% trans "Достижения" %}</h1>
     <div class="row">
         {% for ach in achievements %}
         <div class="col-md-4 mb-4">
@@ -22,9 +22,9 @@
                                 {% endif %}
                             {% endwith %}
                         </div>
-                        <span class="badge bg-info">Уровень {{ progress.current_level }} / {{ ach.levels.count }}</span>
+                        <span class="badge bg-info">{% trans "Уровень" %} {{ progress.current_level }} / {{ ach.levels.count }}</span>
                     {% else %}
-                        <span class="badge bg-secondary">Не начато</span>
+                        <span class="badge bg-secondary">{% trans "Не начато" %}</span>
                     {% endif %}
                 {% endwith %}
             </div>

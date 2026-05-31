@@ -5,47 +5,48 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import timedelta
+from django.utils.translation import gettext_lazy as _
 
 
 class Course(models.Model):
     LEVEL_CHOICES = [
-        ('beginner', 'Начинающий'),
-        ('intermediate', 'Средний'),
-        ('advanced', 'Продвинутый'),
+        ('beginner', _('Начинающий')),
+        ('intermediate', _('Средний')),
+        ('advanced', _('Продвинутый')),
     ]
     STATUS_CHOICES = [
-        ('draft', 'Черновик'),
-        ('published', 'Опубликован'),
-        ('archived', 'В архиве'),
+        ('draft', _('Черновик')),
+        ('published', _('Опубликован')),
+        ('archived', _('В архиве')),
     ]
 
-    title = models.CharField('Название курса', max_length=200)
-    slug = models.SlugField('URL-идентификатор', max_length=200, unique=True, blank=True)
-    description = models.TextField('Описание курса')
-    short_description = models.CharField('Краткое описание', max_length=300, blank=True)
-    level = models.CharField('Уровень', max_length=20, choices=LEVEL_CHOICES, default='beginner')
-    duration_weeks = models.PositiveIntegerField('Длительность (недель)', default=4)
-    lessons_count = models.PositiveIntegerField('Количество уроков', default=10)
-    price = models.DecimalField('Цена (₽)', max_digits=10, decimal_places=2, default=0)
-    old_price = models.DecimalField('Старая цена (₽)', max_digits=10, decimal_places=2, blank=True, null=True)
-    is_free = models.BooleanField('Бесплатный', default=False)
-    icon_class = models.CharField('Иконка (Font Awesome)', max_length=50, default='fas fa-language')
-    badge_text = models.CharField('Текст бейджа', max_length=50, blank=True, help_text='Например: "🔥 АКЦИЯ"')
-    badge_color = models.CharField('Цвет бейджа', max_length=20, default='warning')
-    status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default='draft')
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
-    updated_at = models.DateTimeField('Обновлен', auto_now=True)
-    published_at = models.DateTimeField('Опубликован', blank=True, null=True)
-    order = models.PositiveIntegerField('Порядок', default=0)
-    is_official = models.BooleanField('Официальный курс', default=True)
+    title = models.CharField(_('Название курса'), max_length=200)
+    slug = models.SlugField(_('URL-идентификатор'), max_length=200, unique=True, blank=True)
+    description = models.TextField(_('Описание курса'))
+    short_description = models.CharField(_('Краткое описание'), max_length=300, blank=True)
+    level = models.CharField(_('Уровень'), max_length=20, choices=LEVEL_CHOICES, default='beginner')
+    duration_weeks = models.PositiveIntegerField(_('Длительность (недель)'), default=4)
+    lessons_count = models.PositiveIntegerField(_('Количество уроков'), default=10)
+    price = models.DecimalField(_('Цена (₽)'), max_digits=10, decimal_places=2, default=0)
+    old_price = models.DecimalField(_('Старая цена (₽)'), max_digits=10, decimal_places=2, blank=True, null=True)
+    is_free = models.BooleanField(_('Бесплатный'), default=False)
+    icon_class = models.CharField(_('Иконка (Font Awesome)'), max_length=50, default='fas fa-language')
+    badge_text = models.CharField(_('Текст бейджа'), max_length=50, blank=True, help_text=_('Например: "🔥 АКЦИЯ"'))
+    badge_color = models.CharField(_('Цвет бейджа'), max_length=20, default='warning')
+    status = models.CharField(_('Статус'), max_length=20, choices=STATUS_CHOICES, default='draft')
+    created_at = models.DateTimeField(_('Создан'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Обновлен'), auto_now=True)
+    published_at = models.DateTimeField(_('Опубликован'), blank=True, null=True)
+    order = models.PositiveIntegerField(_('Порядок'), default=0)
+    is_official = models.BooleanField(_('Официальный курс'), default=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='courses',
-                               verbose_name='Автор курса')
+                               verbose_name=_('Автор курса'))
     additional_tests = models.ManyToManyField('CustomTest', blank=True, related_name='attached_courses',
-                                              verbose_name='Дополнительные тесты')
+                                              verbose_name=_('Дополнительные тесты'))
 
     class Meta:
-        verbose_name = 'Курс'
-        verbose_name_plural = 'Курсы'
+        verbose_name = _('Курс')
+        verbose_name_plural = _('Курсы')
         ordering = ['order', '-created_at']
 
     def __str__(self):
@@ -62,7 +63,7 @@ class Course(models.Model):
     @property
     def display_price(self):
         if self.is_free:
-            return 'Бесплатно'
+            return _('Бесплатно')
         return f'{self.price} ₽'
 
     @property
@@ -71,20 +72,20 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
-    title = models.CharField('Название урока', max_length=200)
-    order = models.PositiveIntegerField('Порядок', default=0)
-    section = models.CharField('Раздел', max_length=100, blank=True, help_text='Например: Основы, Повседневная речь')
-    video_url = models.URLField('Ссылка на видео', blank=True)
-    content = models.TextField('Содержание урока', blank=True, help_text='HTML формат')
-    duration_minutes = models.PositiveIntegerField('Длительность (минут)', default=10)
-    is_free_preview = models.BooleanField('Бесплатный просмотр', default=False)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name=_('Курс'))
+    title = models.CharField(_('Название урока'), max_length=200)
+    order = models.PositiveIntegerField(_('Порядок'), default=0)
+    section = models.CharField(_('Раздел'), max_length=100, blank=True, help_text=_('Например: Основы, Повседневная речь'))
+    video_url = models.URLField(_('Ссылка на видео'), blank=True)
+    content = models.TextField(_('Содержание урока'), blank=True, help_text=_('HTML формат'))
+    duration_minutes = models.PositiveIntegerField(_('Длительность (минут)'), default=10)
+    is_free_preview = models.BooleanField(_('Бесплатный просмотр'), default=False)
     test = models.ForeignKey('CustomTest', on_delete=models.SET_NULL, null=True, blank=True, related_name='lessons',
-                             verbose_name='Тест к уроку')
+                             verbose_name=_('Тест к уроку'))
 
     class Meta:
-        verbose_name = 'Урок'
-        verbose_name_plural = 'Уроки'
+        verbose_name = _('Урок')
+        verbose_name_plural = _('Уроки')
         ordering = ['course', 'order']
 
     def __str__(self):
@@ -92,28 +93,28 @@ class Lesson(models.Model):
 
 
 class Community(models.Model):
-    name = models.CharField('Название сообщества', max_length=100)
-    slug = models.SlugField('URL-идентификатор', max_length=100, unique=True, blank=True)
-    icon_class = models.CharField('Иконка (Font Awesome)', max_length=50, default='fas fa-users')
-    description = models.CharField('Краткое описание', max_length=200)
-    member_count = models.PositiveIntegerField('Количество участников', default=0)
-    is_active = models.BooleanField('Активно', default=True)
-    is_approved = models.BooleanField('Одобрено модератором', default=True)
-    order = models.PositiveIntegerField('Порядок', default=0)
-    courses = models.ManyToManyField(Course, related_name='communities', blank=True, verbose_name='Связанные курсы')
+    name = models.CharField(_('Название сообщества'), max_length=100)
+    slug = models.SlugField(_('URL-идентификатор'), max_length=100, unique=True, blank=True)
+    icon_class = models.CharField(_('Иконка (Font Awesome)'), max_length=50, default='fas fa-users')
+    description = models.CharField(_('Краткое описание'), max_length=200)
+    member_count = models.PositiveIntegerField(_('Количество участников'), default=0)
+    is_active = models.BooleanField(_('Активно'), default=True)
+    is_approved = models.BooleanField(_('Одобрено модератором'), default=True)
+    order = models.PositiveIntegerField(_('Порядок'), default=0)
+    courses = models.ManyToManyField(Course, related_name='communities', blank=True, verbose_name=_('Связанные курсы'))
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='owned_communities',
-                              verbose_name='Создатель')
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
-    is_private = models.BooleanField('Закрытое сообщество', default=False)
-    join_password = models.CharField('Пароль для входа', max_length=100, blank=True, help_text='Для закрытых сообществ')
-    rules = models.TextField('Правила сообщества', blank=True)
-    cover_image = models.URLField('Ссылка на обложку', blank=True)
-    tags = models.CharField('Теги (через запятую)', max_length=200, blank=True)
-    has_chat = models.BooleanField('Чат реального времени', default=False)
+                              verbose_name=_('Создатель'))
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+    is_private = models.BooleanField(_('Закрытое сообщество'), default=False)
+    join_password = models.CharField(_('Пароль для входа'), max_length=100, blank=True, help_text=_('Для закрытых сообществ'))
+    rules = models.TextField(_('Правила сообщества'), blank=True)
+    cover_image = models.URLField(_('Ссылка на обложку'), blank=True)
+    tags = models.CharField(_('Теги (через запятую)'), max_length=200, blank=True)
+    has_chat = models.BooleanField(_('Чат реального времени'), default=False)
 
     class Meta:
-        verbose_name = 'Сообщество'
-        verbose_name_plural = 'Сообщества'
+        verbose_name = _('Сообщество')
+        verbose_name_plural = _('Сообщества')
         ordering = ['order', 'name']
 
     def __str__(self):
@@ -141,9 +142,9 @@ class Community(models.Model):
 
 class CommunityMembership(models.Model):
     ROLE_CHOICES = [
-        ('member', 'Участник'),
-        ('moderator', 'Модератор'),
-        ('admin', 'Администратор'),
+        ('member', _('Участник')),
+        ('moderator', _('Модератор')),
+        ('admin', _('Администратор')),
     ]
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='memberships')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='community_memberships')
@@ -158,11 +159,11 @@ class CommunityMembership(models.Model):
 class CommunityPost(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='posts')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='community_posts')
-    title = models.CharField('Заголовок', max_length=200)
-    content = models.TextField('Текст поста')
+    title = models.CharField(_('Заголовок'), max_length=200)
+    content = models.TextField(_('Текст поста'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_pinned = models.BooleanField('Закреплён', default=False)
+    is_pinned = models.BooleanField(_('Закреплён'), default=False)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     comments_count = models.PositiveIntegerField(default=0)
 
@@ -176,7 +177,7 @@ class CommunityPost(models.Model):
 class CommunityComment(models.Model):
     post = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='community_comments')
-    content = models.TextField('Текст комментария')
+    content = models.TextField(_('Текст комментария'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='liked_comments', blank=True)
@@ -187,23 +188,23 @@ class CommunityComment(models.Model):
 
 class CommunityExternalLink(models.Model):
     LINK_TYPES = [
-        ('vkontakte', 'ВКонтакте (группа/паблик)'),
-        ('vkontakte_video', 'ВКонтакте видео'),
-        ('rutube', 'RUTUBE (канал)'),
-        ('website', 'Веб-сайт'),
-        ('other', 'Другое'),
+        ('vkontakte', _('ВКонтакте (группа/паблик)')),
+        ('vkontakte_video', _('ВКонтакте видео')),
+        ('rutube', _('RUTUBE (канал)')),
+        ('website', _('Веб-сайт')),
+        ('other', _('Другое')),
     ]
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='external_links')
-    link_type = models.CharField(max_length=20, choices=LINK_TYPES, verbose_name='Тип ресурса')
-    url = models.URLField(verbose_name='Ссылка')
-    title = models.CharField('Название', max_length=100, blank=True)
-    icon_class = models.CharField('Иконка (Font Awesome)', max_length=50, blank=True)
-    order = models.PositiveIntegerField('Порядок', default=0)
-    is_active = models.BooleanField('Активна', default=True)
+    link_type = models.CharField(max_length=20, choices=LINK_TYPES, verbose_name=_('Тип ресурса'))
+    url = models.URLField(verbose_name=_('Ссылка'))
+    title = models.CharField(_('Название'), max_length=100, blank=True)
+    icon_class = models.CharField(_('Иконка (Font Awesome)'), max_length=50, blank=True)
+    order = models.PositiveIntegerField(_('Порядок'), default=0)
+    is_active = models.BooleanField(_('Активна'), default=True)
 
     class Meta:
-        verbose_name = 'Внешняя ссылка'
-        verbose_name_plural = 'Внешние ссылки'
+        verbose_name = _('Внешняя ссылка')
+        verbose_name_plural = _('Внешние ссылки')
         ordering = ['community', 'order', 'link_type']
 
     def __str__(self):
@@ -230,17 +231,17 @@ class ChatMessage(models.Model):
 
 
 class Achievement(models.Model):
-    name = models.CharField('Название достижения', max_length=100)
-    icon_class = models.CharField('Иконка (Font Awesome)', max_length=50, default='fas fa-medal')
-    icon_url = models.URLField('Ссылка на иконку (Imgur)', blank=True, null=True)
-    description = models.CharField('Описание', max_length=200)
-    points = models.PositiveIntegerField('Очки', default=10)
-    is_active = models.BooleanField('Активно', default=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Привязанный курс")
+    name = models.CharField(_('Название достижения'), max_length=100)
+    icon_class = models.CharField(_('Иконка (Font Awesome)'), max_length=50, default='fas fa-medal')
+    icon_url = models.URLField(_('Ссылка на иконку (Imgur)'), blank=True, null=True)
+    description = models.CharField(_('Описание'), max_length=200)
+    points = models.PositiveIntegerField(_('Очки'), default=10)
+    is_active = models.BooleanField(_('Активно'), default=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_("Привязанный курс"))
 
     class Meta:
-        verbose_name = 'Достижение'
-        verbose_name_plural = 'Достижения'
+        verbose_name = _('Достижение')
+        verbose_name_plural = _('Достижения')
 
     def __str__(self):
         return self.name
@@ -248,28 +249,28 @@ class Achievement(models.Model):
 
 class Question(models.Model):
     QUESTION_TYPES = [
-        ('choice', 'Выбор правильного варианта'),
-        ('translate', 'Перевод слова/фразы'),
-        ('audio_choice', 'Прослушать и выбрать перевод'),
-        ('match', 'Сопоставление'),
+        ('choice', _('Выбор правильного варианта')),
+        ('translate', _('Перевод слова/фразы')),
+        ('audio_choice', _('Прослушать и выбрать перевод')),
+        ('match', _('Сопоставление')),
     ]
 
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='questions', verbose_name='Урок')
-    text = models.TextField('Текст вопроса')
-    option1 = models.CharField('Вариант 1', max_length=200)
-    option2 = models.CharField('Вариант 2', max_length=200)
-    option3 = models.CharField('Вариант 3', max_length=200, blank=True)
-    option4 = models.CharField('Вариант 4', max_length=200, blank=True)
-    correct_option = models.PositiveSmallIntegerField('Номер правильного ответа (1-4)',
-                                                      choices=[(i, str(i)) for i in range(1, 5)])
-    explanation = models.TextField('Пояснение к ответу', blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='questions', verbose_name=_('Урок'))
+    text = models.TextField(_('Текст вопроса'))
+    option1 = models.CharField(_('Вариант 1'), max_length=200)
+    option2 = models.CharField(_('Вариант 2'), max_length=200)
+    option3 = models.CharField(_('Вариант 3'), max_length=200, blank=True)
+    option4 = models.CharField(_('Вариант 4'), max_length=200, blank=True)
+    correct_option = models.PositiveSmallIntegerField(_('Номер правильного ответа (1-4)'),
+                                                      choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4')])
+    explanation = models.TextField(_('Пояснение к ответу'), blank=True)
     question_type = models.CharField(max_length=20, choices=QUESTION_TYPES, default='choice',
-                                     verbose_name='Тип вопроса')
-    audio_url = models.URLField('Ссылка на аудиофайл', blank=True, help_text='Для типа "audio_choice"')
+                                     verbose_name=_('Тип вопроса'))
+    audio_url = models.URLField(_('Ссылка на аудиофайл'), blank=True, help_text=_('Для типа "audio_choice"'))
 
     class Meta:
-        verbose_name = 'Вопрос теста'
-        verbose_name_plural = 'Вопросы тестов'
+        verbose_name = _('Вопрос теста')
+        verbose_name_plural = _('Вопросы тестов')
         ordering = ['id']
 
     def __str__(self):
@@ -288,11 +289,11 @@ class LessonCompletion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='completed_lessons')
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='completions')
     completed_at = models.DateTimeField(auto_now_add=True)
-    test_score = models.PositiveSmallIntegerField('Результат теста (%)', default=0)
+    test_score = models.PositiveSmallIntegerField(_('Результат теста (%)'), default=0)
 
     class Meta:
-        verbose_name = 'Пройденный урок'
-        verbose_name_plural = 'Пройденные уроки'
+        verbose_name = _('Пройденный урок')
+        verbose_name_plural = _('Пройденные уроки')
         unique_together = ['user', 'lesson']
 
     def __str__(self):
@@ -313,7 +314,6 @@ class CourseEnrollment(models.Model):
     def __str__(self):
         return f"{self.user.username} – {self.course.title}"
 
-
 LEVEL_XP_BOUNDS = {
     1: (0, 59), 2: (60, 119), 3: (120, 199), 4: (200, 299), 5: (300, 449),
     6: (450, 749), 7: (750, 1124), 8: (1125, 1649), 9: (1650, 2249), 10: (2250, 2999),
@@ -325,31 +325,31 @@ LEVEL_XP_BOUNDS = {
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    bio = models.TextField('О себе', max_length=500, blank=True)
-    phone = models.CharField('Телефон', max_length=20, blank=True)
-    city = models.CharField('Город', max_length=100, blank=True)
-    total_points = models.PositiveIntegerField('Всего очков (XP)', default=0)
-    coins = models.PositiveIntegerField('Монеты', default=0)
-    tulips = models.PositiveIntegerField('Тюльпаны (премиум валюта)', default=0)
-    lessons_completed = models.PositiveIntegerField('Пройдено уроков', default=0)
-    level = models.PositiveIntegerField('Уровень', default=1)
-    streak_days = models.PositiveIntegerField('Дней подряд', default=0)
-    last_activity_date = models.DateField('Дата последней активности', null=True, blank=True)
-    weekly_xp = models.PositiveIntegerField('XP за текущую неделю', default=0)
-    max_xp_day = models.PositiveIntegerField('Максимум XP за день', default=0)
-    best_league_rank = models.PositiveIntegerField('Лучший результат в лиге (место)', null=True, blank=True)
-    is_author = models.BooleanField('Автор (может создавать тесты)', default=False)
-    created_at = models.DateTimeField('Дата регистрации', auto_now_add=True)
-    last_active = models.DateTimeField('Последняя активность', auto_now=True)
+    bio = models.TextField(_('О себе'), max_length=500, blank=True)
+    phone = models.CharField(_('Телефон'), max_length=20, blank=True)
+    city = models.CharField(_('Город'), max_length=100, blank=True)
+    total_points = models.PositiveIntegerField(_('Всего очков (XP)'), default=0)
+    coins = models.PositiveIntegerField(_('Монеты'), default=0)
+    tulips = models.PositiveIntegerField(_('Тюльпаны (премиум валюта)'), default=0)
+    lessons_completed = models.PositiveIntegerField(_('Пройдено уроков'), default=0)
+    level = models.PositiveIntegerField(_('Уровень'), default=1)
+    streak_days = models.PositiveIntegerField(_('Дней подряд'), default=0)
+    last_activity_date = models.DateField(_('Дата последней активности'), null=True, blank=True)
+    weekly_xp = models.PositiveIntegerField(_('XP за текущую неделю'), default=0)
+    max_xp_day = models.PositiveIntegerField(_('Максимум XP за день'), default=0)
+    best_league_rank = models.PositiveIntegerField(_('Лучший результат в лиге (место)'), null=True, blank=True)
+    is_author = models.BooleanField(_('Автор (может создавать тесты)'), default=False)
+    created_at = models.DateTimeField(_('Дата регистрации'), auto_now_add=True)
+    last_active = models.DateTimeField(_('Последняя активность'), auto_now=True)
     last_selected_course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True,
-                                             verbose_name='Последний выбранный курс')
-    # Поля для дракона и заморозки
-    dragon_frozen = models.BooleanField('Дракон заморожен', default=False)
-    frozen_since = models.DateTimeField('Заморожен с', null=True, blank=True)
-    missed_days = models.IntegerField('Пропущено дней подряд', default=0)
+                                             verbose_name=_('Последний выбранный курс'))
+    dragon_frozen = models.BooleanField(_('Дракон заморожен'), default=False)
+    frozen_since = models.DateTimeField(_('Заморожен с'), null=True, blank=True)
+    missed_days = models.IntegerField(_('Пропущено дней подряд'), default=0)
+
     class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
+        verbose_name = _('Профиль')
+        verbose_name_plural = _('Профили')
 
     def __str__(self):
         return f'Профиль {self.user.username}'
@@ -368,11 +368,11 @@ class Profile(models.Model):
 
 
 class League(models.Model):
-    name = models.CharField('Название лиги', max_length=50)
-    tatar_name = models.CharField('Название на татарском', max_length=50)
-    rank_order = models.PositiveIntegerField('Порядок (1 - низшая)', unique=True)
-    min_users = models.PositiveIntegerField('Минимум пользователей для создания', default=10)
-    max_users = models.PositiveIntegerField('Максимум пользователей', default=30)
+    name = models.CharField(_('Название лиги'), max_length=50)
+    tatar_name = models.CharField(_('Название на татарском'), max_length=50)
+    rank_order = models.PositiveIntegerField(_('Порядок (1 - низшая)'), unique=True)
+    min_users = models.PositiveIntegerField(_('Минимум пользователей для создания'), default=10)
+    max_users = models.PositiveIntegerField(_('Максимум пользователей'), default=30)
 
     class Meta:
         ordering = ['rank_order']
@@ -383,8 +383,8 @@ class League(models.Model):
 
 class LeagueInstance(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='instances')
-    instance_number = models.PositiveIntegerField('Номер копии')
-    current_week_start = models.DateField('Начало текущей недели', default=timezone.now)
+    instance_number = models.PositiveIntegerField(_('Номер копии'))
+    current_week_start = models.DateField(_('Начало текущей недели'), default=timezone.now)
 
     class Meta:
         unique_together = ['league', 'instance_number']
@@ -397,8 +397,8 @@ class UserLeagueMembership(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='league_memberships')
     league_instance = models.ForeignKey(LeagueInstance, on_delete=models.CASCADE)
     week_start = models.DateField()
-    weekly_xp = models.PositiveIntegerField('XP за неделю', default=0)
-    rank = models.PositiveIntegerField('Место в лиге', null=True, blank=True)
+    weekly_xp = models.PositiveIntegerField(_('XP за неделю'), default=0)
+    rank = models.PositiveIntegerField(_('Место в лиге'), null=True, blank=True)
     promotion_to = models.ForeignKey(LeagueInstance, on_delete=models.SET_NULL, null=True, blank=True,
                                      related_name='promoted_from')
     relegation_to = models.ForeignKey(LeagueInstance, on_delete=models.SET_NULL, null=True, blank=True,
@@ -412,13 +412,13 @@ class UserLeagueMembership(models.Model):
 
 
 class SeasonalEvent(models.Model):
-    name = models.CharField('Название', max_length=100)
-    tatar_name = models.CharField('Название на татарском', max_length=100)
+    name = models.CharField(_('Название'), max_length=100)
+    tatar_name = models.CharField(_('Название на татарском'), max_length=100)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     is_active = models.BooleanField(default=False)
-    bonus_xp = models.PositiveIntegerField('Бонус XP за урок', default=0)
-    bonus_coins = models.PositiveIntegerField('Бонус монет', default=0)
+    bonus_xp = models.PositiveIntegerField(_('Бонус XP за урок'), default=0)
+    bonus_coins = models.PositiveIntegerField(_('Бонус монет'), default=0)
 
     def __str__(self):
         return self.tatar_name
@@ -426,12 +426,12 @@ class SeasonalEvent(models.Model):
 
 class AchievementLevel(models.Model):
     achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE, related_name='levels')
-    level = models.PositiveIntegerField('Номер уровня')
-    required_value = models.PositiveIntegerField('Необходимое значение')
-    points_reward = models.PositiveIntegerField('Награда XP', default=50)
-    coin_reward = models.PositiveIntegerField('Награда монет', default=20)
-    tulip_reward = models.PositiveIntegerField('Награда тюльпанов', default=0)
-    icon_class = models.CharField('Иконка', max_length=50, blank=True)
+    level = models.PositiveIntegerField(_('Номер уровня'))
+    required_value = models.PositiveIntegerField(_('Необходимое значение'))
+    points_reward = models.PositiveIntegerField(_('Награда XP'), default=50)
+    coin_reward = models.PositiveIntegerField(_('Награда монет'), default=20)
+    tulip_reward = models.PositiveIntegerField(_('Награда тюльпанов'), default=0)
+    icon_class = models.CharField(_('Иконка'), max_length=50, blank=True)
 
     class Meta:
         ordering = ['achievement', 'level']
@@ -444,9 +444,9 @@ class AchievementLevel(models.Model):
 class AchievementProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='achievements_progress')
     achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
-    current_value = models.PositiveIntegerField('Текущее значение', default=0)
-    current_level = models.PositiveIntegerField('Достигнутый уровень', default=0)
-    achieved_at = models.DateTimeField('Дата последнего получения', null=True, blank=True)
+    current_value = models.PositiveIntegerField(_('Текущее значение'), default=0)
+    current_level = models.PositiveIntegerField(_('Достигнутый уровень'), default=0)
+    achieved_at = models.DateTimeField(_('Дата последнего получения'), null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -476,20 +476,20 @@ class AchievementProgress(models.Model):
 
 class ShopItem(models.Model):
     ITEM_TYPES = [
-        ('streak_protect', 'Тумар защиты (защита ударного темпа)'),
-        ('xp_boost', 'Курай-ускоритель (удвоение XP на 10 минут)'),
-        ('retry_boost', 'Чак-чак энергии (восстановление попыток теста)'),
-        ('golden_skullcap', 'Золотая тюбетейка (доступ к супер-тесту)'),
-        ('clan_bet', 'Спор батыра (удвоение монет за 7 дней)'),
+        ('streak_protect', _('Тумар защиты (защита ударного темпа)')),
+        ('xp_boost', _('Курай-ускоритель (удвоение XP на 10 минут)')),
+        ('retry_boost', _('Чак-чак энергии (восстановление попыток теста)')),
+        ('golden_skullcap', _('Золотая тюбетейка (доступ к супер-тесту)')),
+        ('clan_bet', _('Спор батыра (удвоение монет за 7 дней)')),
     ]
-    name = models.CharField('Название', max_length=100)
-    tatar_name = models.CharField('Название на татарском', max_length=100)
-    item_type = models.CharField('Тип', max_length=20, choices=ITEM_TYPES)
-    price_coins = models.PositiveIntegerField('Цена (монеты)', default=0)
-    price_tulips = models.PositiveIntegerField('Цена (тюльпаны)', default=0)
-    duration_minutes = models.PositiveIntegerField('Длительность эффекта (мин)', null=True, blank=True)
-    is_active = models.BooleanField('Активен', default=True)
-    icon_class = models.CharField('Иконка', max_length=50, default='fas fa-box')
+    name = models.CharField(_('Название'), max_length=100)
+    tatar_name = models.CharField(_('Название на татарском'), max_length=100)
+    item_type = models.CharField(_('Тип'), max_length=20, choices=ITEM_TYPES)
+    price_coins = models.PositiveIntegerField(_('Цена (монеты)'), default=0)
+    price_tulips = models.PositiveIntegerField(_('Цена (тюльпаны)'), default=0)
+    duration_minutes = models.PositiveIntegerField(_('Длительность эффекта (мин)'), null=True, blank=True)
+    is_active = models.BooleanField(_('Активен'), default=True)
+    icon_class = models.CharField(_('Иконка'), max_length=50, default='fas fa-box')
 
     def __str__(self):
         return self.tatar_name
@@ -498,9 +498,9 @@ class ShopItem(models.Model):
 class UserInventory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inventory')
     item = models.ForeignKey(ShopItem, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField('Количество', default=1)
-    expires_at = models.DateTimeField('Действителен до', null=True, blank=True)
-    used_at = models.DateTimeField('Активирован', null=True, blank=True)
+    quantity = models.PositiveIntegerField(_('Количество'), default=1)
+    expires_at = models.DateTimeField(_('Действителен до'), null=True, blank=True)
+    used_at = models.DateTimeField(_('Активирован'), null=True, blank=True)
 
     def is_active(self):
         return self.expires_at is None or self.expires_at > timezone.now()
@@ -508,10 +508,10 @@ class UserInventory(models.Model):
 
 class UserSubscription(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription')
-    start_date = models.DateTimeField('Дата начала')
-    end_date = models.DateTimeField('Дата окончания')
-    is_auto_renew = models.BooleanField('Автопродление', default=False)
-    is_active = models.BooleanField('Активна', default=True)
+    start_date = models.DateTimeField(_('Дата начала'))
+    end_date = models.DateTimeField(_('Дата окончания'))
+    is_auto_renew = models.BooleanField(_('Автопродление'), default=False)
+    is_active = models.BooleanField(_('Активна'), default=True)
 
     def is_valid(self):
         return self.is_active and self.end_date > timezone.now()
@@ -519,9 +519,9 @@ class UserSubscription(models.Model):
 
 class DailyRewardLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField('Дата')
-    claimed = models.BooleanField('Выдано', default=False)
-    streak_bonus = models.PositiveIntegerField('Бонус за стрик', default=5)
+    date = models.DateField(_('Дата'))
+    claimed = models.BooleanField(_('Выдано'), default=False)
+    streak_bonus = models.PositiveIntegerField(_('Бонус за стрик'), default=5)
 
     class Meta:
         unique_together = ['user', 'date']
@@ -536,17 +536,17 @@ class CourseReview(models.Model):
         (5, '★★★★★ (5)'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='course_reviews', verbose_name='Пользователь')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='reviews', verbose_name='Курс')
-    rating = models.PositiveSmallIntegerField('Оценка', choices=RATING_CHOICES)
-    comment = models.TextField('Текст отзыва', max_length=1000)
-    is_approved = models.BooleanField('Одобрен', default=False)
-    created_at = models.DateTimeField('Дата', auto_now_add=True)
-    updated_at = models.DateTimeField('Обновлён', auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='course_reviews', verbose_name=_('Пользователь'))
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='reviews', verbose_name=_('Курс'))
+    rating = models.PositiveSmallIntegerField(_('Оценка'), choices=RATING_CHOICES)
+    comment = models.TextField(_('Текст отзыва'), max_length=1000)
+    is_approved = models.BooleanField(_('Одобрен'), default=False)
+    created_at = models.DateTimeField(_('Дата'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Обновлён'), auto_now=True)
 
     class Meta:
-        verbose_name = 'Отзыв на курс'
-        verbose_name_plural = 'Отзывы на курсы'
+        verbose_name = _('Отзыв на курс')
+        verbose_name_plural = _('Отзывы на курсы')
         ordering = ['-created_at']
         unique_together = ['user', 'course']
 
@@ -556,26 +556,26 @@ class CourseReview(models.Model):
 
 class CustomTest(models.Model):
     STATUS_CHOICES = [
-        ('draft', 'Черновик'),
-        ('moderation', 'На модерации'),
-        ('approved', 'Опубликован'),
-        ('rejected', 'Отклонён'),
+        ('draft', _('Черновик')),
+        ('moderation', _('На модерации')),
+        ('approved', _('Опубликован')),
+        ('rejected', _('Отклонён')),
     ]
     DIFFICULTY_CHOICES = [
-        ('easy', 'Лёгкий'),
-        ('medium', 'Средний'),
-        ('hard', 'Сложный'),
+        ('easy', _('Лёгкий')),
+        ('medium', _('Средний')),
+        ('hard', _('Сложный')),
     ]
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='custom_tests', verbose_name='Автор')
-    title = models.CharField(max_length=200, verbose_name='Название теста')
-    subject = models.CharField(max_length=100, verbose_name='Предмет', default='Татарский язык')
-    difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES, default='medium', verbose_name='Сложность')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='custom_tests', verbose_name=_('Автор'))
+    title = models.CharField(max_length=200, verbose_name=_('Название теста'))
+    subject = models.CharField(max_length=100, verbose_name=_('Предмет'), default='Татарский язык')
+    difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES, default='medium', verbose_name=_('Сложность'))
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True,
-                               verbose_name='Привязанный курс (опционально)')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft', verbose_name='Статус')
+                               verbose_name=_('Привязанный курс (опционально)'))
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft', verbose_name=_('Статус'))
     reward_coins_per_question = models.PositiveIntegerField(default=5,
-                                                            verbose_name='Награда (монет) за 1 правильный ответ')
+                                                            verbose_name=_('Награда (монет) за 1 правильный ответ'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -583,21 +583,21 @@ class CustomTest(models.Model):
         return f'{self.title} — {self.author.username}'
 
     class Meta:
-        verbose_name = 'Пользовательский тест'
-        verbose_name_plural = 'Пользовательские тесты'
+        verbose_name = _('Пользовательский тест')
+        verbose_name_plural = _('Пользовательские тесты')
         ordering = ['-created_at']
 
 
 class CustomQuestion(models.Model):
-    test = models.ForeignKey(CustomTest, on_delete=models.CASCADE, related_name='questions', verbose_name='Тест')
-    text = models.TextField(verbose_name='Текст вопроса')
+    test = models.ForeignKey(CustomTest, on_delete=models.CASCADE, related_name='questions', verbose_name=_('Тест'))
+    text = models.TextField(verbose_name=_('Текст вопроса'))
     option1 = models.CharField(max_length=200)
     option2 = models.CharField(max_length=200)
     option3 = models.CharField(max_length=200, blank=True)
     option4 = models.CharField(max_length=200, blank=True)
     correct_option = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4')],
-                                                      verbose_name='Правильный ответ (1-4)')
-    explanation = models.TextField(blank=True, verbose_name='Пояснение')
+                                                      verbose_name=_('Правильный ответ (1-4)'))
+    explanation = models.TextField(blank=True, verbose_name=_('Пояснение'))
 
     def __str__(self):
         return f'{self.test.title} — вопрос {self.id}'
@@ -606,17 +606,17 @@ class CustomQuestion(models.Model):
 class CustomTestResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='custom_test_results')
     test = models.ForeignKey(CustomTest, on_delete=models.CASCADE, related_name='results')
-    score = models.PositiveIntegerField(verbose_name='Правильных ответов')
-    total_questions = models.PositiveIntegerField(verbose_name='Всего вопросов')
-    earned_coins = models.PositiveIntegerField(verbose_name='Заработано монет', default=0)
+    score = models.PositiveIntegerField(verbose_name=_('Правильных ответов'))
+    total_questions = models.PositiveIntegerField(verbose_name=_('Всего вопросов'))
+    earned_coins = models.PositiveIntegerField(verbose_name=_('Заработано монет'), default=0)
     completed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.user.username} — {self.test.title}: {self.score}/{self.total_questions}'
 
     class Meta:
-        verbose_name = 'Результат теста'
-        verbose_name_plural = 'Результаты тестов'
+        verbose_name = _('Результат теста')
+        verbose_name_plural = _('Результаты тестов')
         ordering = ['-completed_at']
 
 
@@ -631,36 +631,34 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-# ========== СИСТЕМА ДРУЗЕЙ ==========
 class Friendship(models.Model):
-    """Модель дружбы между пользователями"""
     STATUS_CHOICES = [
-        ('pending', 'Ожидает подтверждения'),
-        ('accepted', 'Друзья'),
-        ('rejected', 'Отклонена'),
-        ('blocked', 'Заблокирован'),
+        ('pending', _('Ожидает подтверждения')),
+        ('accepted', _('Друзья')),
+        ('rejected', _('Отклонена')),
+        ('blocked', _('Заблокирован')),
     ]
 
     from_user = models.ForeignKey(
         User, on_delete=models.CASCADE,
         related_name='friend_requests_sent',
-        verbose_name='Отправитель'
+        verbose_name=_('Отправитель')
     )
     to_user = models.ForeignKey(
         User, on_delete=models.CASCADE,
         related_name='friend_requests_received',
-        verbose_name='Получатель'
+        verbose_name=_('Получатель')
     )
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES,
-        default='pending', verbose_name='Статус'
+        default='pending', verbose_name=_('Статус')
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата создания'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Дата обновления'))
 
     class Meta:
-        verbose_name = 'Дружба'
-        verbose_name_plural = 'Дружбы'
+        verbose_name = _('Дружба')
+        verbose_name_plural = _('Дружбы')
         unique_together = ['from_user', 'to_user']
         ordering = ['-created_at']
 
@@ -668,18 +666,15 @@ class Friendship(models.Model):
         return f'{self.from_user.username} → {self.to_user.username} ({self.status})'
 
     def accept(self):
-        """Принять заявку в друзья"""
         self.status = 'accepted'
         self.save()
 
     def reject(self):
-        """Отклонить заявку"""
         self.status = 'rejected'
         self.save()
 
     @staticmethod
     def are_friends(user1, user2):
-        """Проверить, являются ли пользователи друзьями"""
         if user1 == user2:
             return False
         return Friendship.objects.filter(

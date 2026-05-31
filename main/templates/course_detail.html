@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ course.title }} — TatarSkill{% endblock %}
 
@@ -14,7 +14,7 @@
         <!-- ПРОГРЕСС ПРОХОЖДЕНИЯ КУРСА -->
         <div class="mb-4">
             <div class="d-flex justify-content-between mb-1">
-                <span class="text-dark fw-semibold">Прогресс курса</span>
+                <span class="text-dark fw-semibold">{% trans "Прогресс курса" %}</span>
                 <span class="text-dark">{{ progress_percent|floatformat:0 }}%</span>
             </div>
             <div class="progress" style="height: 12px; border-radius: 10px;">
@@ -25,7 +25,7 @@
             </div>
             <div class="mt-2 text-center">
                 <small class="text-muted">
-                    Пройдено {{ completed_lessons|length }} из {{ course.lessons_count }} уроков
+                    {% trans "Пройдено" %} {{ completed_lessons|length }} {% trans "из" %} {{ course.lessons_count }} {% trans "уроков" %}
                 </small>
             </div>
         </div>
@@ -50,16 +50,16 @@
                                 <i class="far fa-circle text-secondary me-2"></i>
                             {% endif %}
                             <span class="fw-bold">{{ lesson.title }}</span>
-                            <span class="badge bg-light text-dark ms-2">{{ lesson.duration_minutes }} мин</span>
+                            <span class="badge bg-light text-dark ms-2">{{ lesson.duration_minutes }} {% trans "мин" %}</span>
                         </div>
                         {% if user.is_authenticated %}
                             {% if lesson.id in unlocked_lessons %}
-                                <a href="{% url 'lesson_detail' course.slug lesson.order %}" class="btn-primary-custom btn-sm py-1 px-3">Начать</a>
+                                <a href="{% url 'lesson_detail' course.slug lesson.order %}" class="btn-primary-custom btn-sm py-1 px-3">{% trans "Начать" %}</a>
                             {% else %}
-                                <button class="btn-secondary btn-sm py-1 px-3" disabled style="background:#ccc; border:none; border-radius:12px;">Заблокировано</button>
+                                <button class="btn-secondary btn-sm py-1 px-3" disabled style="background:#ccc; border:none; border-radius:12px;">{% trans "Заблокировано" %}</button>
                             {% endif %}
                         {% else %}
-                            <button class="btn-primary-custom btn-sm py-1 px-3" data-bs-toggle="modal" data-bs-target="#registerModal">Начать</button>
+                            <button class="btn-primary-custom btn-sm py-1 px-3" data-bs-toggle="modal" data-bs-target="#registerModal">{% trans "Начать" %}</button>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -68,36 +68,36 @@
             </div>
             <div class="col-lg-4">
                 <div class="bg-light p-4 rounded-4">
-                    <h5 class="text-success">О курсе</h5>
+                    <h5 class="text-success">{% trans "О курсе" %}</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="fas fa-signal me-2"></i> Уровень: {{ course.get_level_display }}</li>
-                        <li class="mb-2"><i class="fas fa-clock me-2"></i> Длительность: {{ course.duration_weeks }} нед.</li>
-                        <li class="mb-2"><i class="fas fa-video me-2"></i> Уроков: {{ course.lessons_count }}</li>
-                        <li class="mb-2"><i class="fas fa-tag me-2"></i> Цена: {% if course.is_free %}<span class="text-success fw-bold">Бесплатно</span>{% else %}{{ course.price }} ₽{% endif %}</li>
+                        <li class="mb-2"><i class="fas fa-signal me-2"></i> {% trans "Уровень" %}: {{ course.get_level_display }}</li>
+                        <li class="mb-2"><i class="fas fa-clock me-2"></i> {% trans "Длительность" %}: {{ course.duration_weeks }} {% trans "нед" %}.</li>
+                        <li class="mb-2"><i class="fas fa-video me-2"></i> {% trans "Уроков" %}: {{ course.lessons_count }}</li>
+                        <li class="mb-2"><i class="fas fa-tag me-2"></i> {% trans "Цена" %}: {% if course.is_free %}<span class="text-success fw-bold">{% trans "Бесплатно" %}</span>{% else %}{{ course.price }} ₽{% endif %}</li>
                     </ul>
 
                     <!-- Кнопка рейтинга курса -->
                     <a href="{% url 'course_leaderboard' course.slug %}" class="btn-outline-custom w-100 mt-3 text-center d-block">
-                        🏆 Рейтинг курса
+                        🏆 {% trans "Рейтинг курса" %}
                     </a>
 
                     <!-- Кнопки для автора курса -->
                     {% if user.is_authenticated and course.author == user %}
-                        <a href="{% url 'add_lesson' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">➕ Добавить урок</a>
-                        <a href="{% url 'edit_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">✏️ Редактировать курс</a>
-                        <a href="{% url 'delete_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block" onclick="return confirm('Вы уверены, что хотите удалить курс «{{ course.title }}»? Все уроки и тесты будут удалены безвозвратно.');">🗑️ Удалить курс</a>
-                        <a href="{% url 'attach_test_to_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">📎 Привязать тест к курсу</a>
+                        <a href="{% url 'add_lesson' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">➕ {% trans "Добавить урок" %}</a>
+                        <a href="{% url 'edit_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">✏️ {% trans "Редактировать курс" %}</a>
+                        <a href="{% url 'delete_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block" onclick="return confirm('{% trans "Вы уверены, что хотите удалить курс" %} «{{ course.title }}»? {% trans "Все уроки и тесты будут удалены безвозвратно." %}');">🗑️ {% trans "Удалить курс" %}</a>
+                        <a href="{% url 'attach_test_to_course' course.id %}" class="btn-outline-custom w-100 mt-3 text-center d-block">📎 {% trans "Привязать тест к курсу" %}</a>
                     {% endif %}
                     <!-- Блок отзывов -->
                     <div class="mt-4">
-                        <h5 class="text-success">💬 Отзывы</h5>
+                        <h5 class="text-success">💬 {% trans "Отзывы" %}</h5>
                         <div class="mb-2">
-                            <span class="fw-bold">Средняя оценка:</span>
+                            <span class="fw-bold">{% trans "Средняя оценка:" %}</span>
                             <span class="text-warning">
                                 {% if avg_rating > 0 %}
                                     {{ avg_rating }} ★
                                 {% else %}
-                                    Нет оценок
+                                    {% trans "Нет оценок" %}
                                 {% endif %}
                             </span>
                         </div>
@@ -118,28 +118,28 @@
                                     </div>
                                 {% endfor %}
                                 {% if course.reviews.count > 3 %}
-                                    <a href="#" class="small">Показать все {{ course.reviews.count }} отзыва</a>
+                                    <a href="#" class="small">{% trans "Показать все" %} {{ course.reviews.count }} {% trans "отзыва" %}</a>
                                 {% endif %}
                             {% else %}
-                                <p class="text-muted small">Пока нет отзывов. Будьте первым!</p>
+                                <p class="text-muted small">{% trans "Пока нет отзывов. Будьте первым!" %}</p>
                             {% endif %}
                         {% endwith %}
                     </div>
-                                        <!-- Кнопка оставить отзыв -->
+                    <!-- Кнопка оставить отзыв -->
                     {% if user.is_authenticated %}
-                        <a href="{% url 'add_course_review' course.slug %}" class="btn-outline-custom w-100 mt-3 text-center d-block">✍️ Оставить отзыв</a>
+                        <a href="{% url 'add_course_review' course.slug %}" class="btn-outline-custom w-100 mt-3 text-center d-block">✍️ {% trans "Оставить отзыв" %}</a>
                     {% endif %}
 
                     <!-- Блок дополнительных тестов -->
                     {% if course.additional_tests.exists %}
                     <div class="mt-4">
-                        <h5 class="text-success">📋 Тесты к курсу</h5>
+                        <h5 class="text-success">📋 {% trans "Тесты к курсу" %}</h5>
                         <ul class="list-unstyled">
                             {% for test in course.additional_tests.all %}
                                 <li class="mb-2">
                                     <a href="{% url 'take_custom_test' test.id %}" class="text-dark">{{ test.title }}</a>
                                     <span class="badge bg-info ms-2">{{ test.get_difficulty_display }}</span>
-                                    <span class="badge bg-warning ms-2">{{ test.reward_coins_per_question }} монет/вопрос</span>
+                                    <span class="badge bg-warning ms-2">{{ test.reward_coins_per_question }} {% trans "монет/вопрос" %}</span>
                                 </li>
                             {% endfor %}
                         </ul>

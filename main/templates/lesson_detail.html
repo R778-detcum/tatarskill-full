@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ lesson.title }} — {{ course.title }}{% endblock %}
 
@@ -312,7 +312,7 @@
   <div class="lesson-container">
     <!-- Хлебные крошки -->
     <div class="breadcrumb-modern">
-      <a href="{% url 'home' %}">Главная</a>
+      <a href="{% url 'home' %}">{% trans "Главная" %}</a>
       <span>/</span>
       <a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
       <span>/</span>
@@ -327,10 +327,10 @@
         </div>
         <h1 class="lesson-title">{{ lesson.title }}</h1>
         <div class="lesson-meta">
-          <span><i class="fas fa-clock"></i> {{ lesson.duration_minutes }} мин</span>
+          <span><i class="fas fa-clock"></i> {{ lesson.duration_minutes }} {% trans "мин" %}</span>
           <span><i class="fas fa-layer-group"></i> {{ lesson.section|default:"Основной раздел" }}</span>
           {% if is_completed %}
-            <span class="completed-badge"><i class="fas fa-check-circle"></i> Пройдено (можно пересдать)</span>
+            <span class="completed-badge"><i class="fas fa-check-circle"></i> {% trans "Пройдено (можно пересдать)" %}</span>
           {% endif %}
         </div>
       </div>
@@ -345,9 +345,9 @@
             <iframe src="{{ lesson.video_url }}" allowfullscreen></iframe>
           </div>
           <div class="text-center mt-3">
-            <p class="small text-muted mb-2">Если видео не загружается, нажмите на кнопку ниже:</p>
+            <p class="small text-muted mb-2">{% trans "Если видео не загружается, нажмите на кнопку ниже:" %}</p>
             <a href="{{ lesson.video_url }}" target="_blank" class="btn-youtube-alt" rel="noopener noreferrer">
-              <i class="fab fa-youtube me-2"></i> Смотреть видео на YouTube
+              <i class="fab fa-youtube me-2"></i> {% trans "Смотреть видео на YouTube" %}
             </a>
           </div>
         </div>
@@ -357,38 +357,38 @@
       <!-- Прогресс прохождения (для наглядности) -->
       <div class="progress-section">
         <div class="progress-label">
-          <i class="fas fa-chart-line"></i> Прогресс урока
+          <i class="fas fa-chart-line"></i> {% trans "Прогресс урока" %}
         </div>
         <div class="progress-bar-container">
           <div class="progress-bar-fill" style="width: {% if is_completed %}100%{% else %}0%{% endif %};"></div>
         </div>
-        <span class="progress-value">{% if is_completed %}Пройдено{% else %}Не начат{% endif %}</span>
+        <span class="progress-value">{% if is_completed %}{% trans "Пройдено" %}{% else %}{% trans "Не начат" %}{% endif %}</span>
       </div>
 
       <div class="lesson-footer">
         <div class="nav-buttons">
           {% if lesson.order > 1 %}
             <a href="{% url 'lesson_detail' course.slug lesson.order|add:'-1' %}" class="btn-nav">
-              <i class="fas fa-arrow-left"></i> Предыдущий урок
+              <i class="fas fa-arrow-left"></i> {% trans "Предыдущий урок" %}
             </a>
           {% endif %}
         </div>
         <div>
           {% if has_test %}
             <a href="{% url 'take_test' lesson.id %}" class="btn-test">
-              Пройти тест <i class="fas fa-arrow-right"></i>
+              {% trans "Пройти тест" %} <i class="fas fa-arrow-right"></i>
             </a>
           {% else %}
-            <span class="btn-test" style="background: #cbd5e1; box-shadow: none; cursor: default;">Тест отсутствует</span>
+            <span class="btn-test" style="background: #cbd5e1; box-shadow: none; cursor: default;">{% trans "Тест отсутствует" %}</span>
           {% endif %}
         </div>
       </div>
 
       <!-- Кнопка редактирования урока (только для автора) -->
-        {% if user.is_authenticated and lesson.course.author == user %}
+      {% if user.is_authenticated and lesson.course.author == user %}
       <div class="text-center pb-4">
-        <a href="{% url 'edit_lesson' lesson.id %}" class="btn-outline-custom">✏️ Редактировать урок</a>
-        <a href="{% url 'delete_lesson_test' lesson.id %}" class="btn-outline-custom ms-2" onclick="return confirm('Вы уверены, что хотите удалить тест этого урока? Все вопросы будут удалены.');">🗑️ Удалить тест</a>
+        <a href="{% url 'edit_lesson' lesson.id %}" class="btn-outline-custom">✏️ {% trans "Редактировать урок" %}</a>
+        <a href="{% url 'delete_lesson_test' lesson.id %}" class="btn-outline-custom ms-2" onclick="return confirm('{% trans "Вы уверены, что хотите удалить тест этого урока? Все вопросы будут удалены." %}');">🗑️ {% trans "Удалить тест" %}</a>
       </div>
       {% endif %}
     </div>

@@ -1,61 +1,62 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Управление сообществом — {{ community.name }}{% endblock %}
+{% block title %}{% trans "Управление сообществом" %} — {{ community.name }}{% endblock %}
 
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title">Управление сообществом «{{ community.name }}»</h1>
+        <h1 class="section-title">{% trans "Управление сообществом" %} «{{ community.name }}»</h1>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Пользователь</th>
-                        <th>Роль</th>
-                        <th>Дата вступления</th>
-                        <th>Действия</th>
+                        <th>{% trans "Пользователь" %}</th>
+                        <th>{% trans "Роль" %}</th>
+                        <th>{% trans "Дата вступления" %}</th>
+                        <th>{% trans "Действия" %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for membership in members %}
                     <tr>
-                        <td>{{ membership.user.username }}</td>
+                        <td>{{ membership.user.username }}</a>
                         <td>
                             <form method="post" style="display:inline-block;">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ membership.user.id }}">
                                 <select name="role" class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                                    <option value="member" {% if membership.role == 'member' %}selected{% endif %}>Участник</option>
-                                    <option value="moderator" {% if membership.role == 'moderator' %}selected{% endif %}>Модератор</option>
-                                    <option value="admin" {% if membership.role == 'admin' %}selected{% endif %}>Администратор</option>
+                                    <option value="member" {% if membership.role == 'member' %}selected{% endif %}>{% trans "Участник" %}</option>
+                                    <option value="moderator" {% if membership.role == 'moderator' %}selected{% endif %}>{% trans "Модератор" %}</option>
+                                    <option value="admin" {% if membership.role == 'admin' %}selected{% endif %}>{% trans "Администратор" %}</option>
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-outline-secondary">Сохранить</button>
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">{% trans "Сохранить" %}</button>
                             </form>
-                         </td>
-                        <td>{{ membership.joined_at|date:"d.m.Y" }}</td>
+                          </a>
+                        <td>{{ membership.joined_at|date:"d.m.Y" }}</a>
                         <td>
                             {% if not membership.is_banned %}
                                 <form method="post" style="display:inline-block;">
                                     {% csrf_token %}
                                     <input type="hidden" name="user_id" value="{{ membership.user.id }}">
                                     <input type="hidden" name="action" value="ban">
-                                    <button type="submit" class="btn btn-sm btn-danger">Забанить</button>
+                                    <button type="submit" class="btn btn-sm btn-danger">{% trans "Забанить" %}</button>
                                 </form>
                             {% else %}
                                 <form method="post" style="display:inline-block;">
                                     {% csrf_token %}
                                     <input type="hidden" name="user_id" value="{{ membership.user.id }}">
                                     <input type="hidden" name="action" value="unban">
-                                    <button type="submit" class="btn btn-sm btn-success">Разбанить</button>
+                                    <button type="submit" class="btn btn-sm btn-success">{% trans "Разбанить" %}</button>
                                 </form>
                             {% endif %}
-                         </td>
-                     </tr>
+                          </a>
+                    </a>
                     {% endfor %}
                 </tbody>
-            </table>
+             </a>
         </div>
-        <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">Назад</a>
+        <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">{% trans "Назад" %}</a>
     </div>
 </div>
 {% endblock %}

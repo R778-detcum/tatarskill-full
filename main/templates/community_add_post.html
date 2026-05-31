@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}Создать пост в {{ community.name }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Создать пост в" %} {{ community.name }}{% endblock %}
+
 {% block content %}
 <div class="container-custom py-5" style="margin-top: 100px;">
     <div class="card-glass p-5">
-        <h1 class="section-title">Новый пост в «{{ community.name }}»</h1>
+        <h1 class="section-title">{% trans "Новый пост в" %} «{{ community.name }}»</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn-primary-custom">Опубликовать</button>
-            <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">Отмена</a>
+            <button type="submit" class="btn-primary-custom">{% trans "Опубликовать" %}</button>
+            <a href="{% url 'community_detail' community.slug %}" class="btn-outline-custom">{% trans "Отмена" %}</a>
         </form>
     </div>
 </div>
